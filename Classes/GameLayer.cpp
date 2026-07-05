@@ -364,7 +364,7 @@ void GameLayer::initHeros(){
 	_isOugis2Game=true;
 	//4v4
 
-	if(Cheats>10){
+	if(IS_FOUR_VS_FOUR_MODE){
 
 		CCARRAY_FOREACH(Heros,pObject){
 
@@ -733,7 +733,7 @@ void GameLayer::initTower(){
 
 		if(i==1 || i==4 ){
 			//4v4
-			if(Cheats>10){
+			if(IS_FOUR_VS_FOUR_MODE){
 				tower->setMaxHP(CCString::createWithFormat("%d",80000));
 			}else{
 				tower->setMaxHP(CCString::createWithFormat("%d",50000));

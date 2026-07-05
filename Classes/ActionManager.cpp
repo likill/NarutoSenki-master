@@ -1466,7 +1466,7 @@ void ActionManager::setDamage(CCString* effectType,unsigned int attackValue,bool
 		}
 		
 		//4v4
-		if(Cheats>10){
+		if(IS_FOUR_VS_FOUR_MODE){
 			boundValue=boundValue/2;
 		}
 		
@@ -1537,7 +1537,7 @@ void ActionManager::setDamage(CCString* effectType,unsigned int attackValue,bool
 		boundValue+=realValue*gearCKRValue/100;
 
 		//4v4
-		if(Cheats>10){
+		if(IS_FOUR_VS_FOUR_MODE){
 			boundValue=boundValue/2;
 		}
 

@@ -85,6 +85,9 @@ public:
 
 	bool				init();
 	void				onTrainingCallBack();
+	void				onFourVsFourCallBack(CCObject* sender);
+	void				onCloneModeCallBack(CCObject* sender);
+	void				startFourVsFourBattle(bool isCloneMode);
 	void				onHardCoreOn(CCObject* sender);
 	void				onHardCoreOff(CCObject* sender);
 	void				onHardLayerCallBack();
