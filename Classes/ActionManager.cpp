@@ -2,9 +2,32 @@
 #include "Characters.h"
 #include "HudLayer.h"
 #include "MyUtils/CCShake.h"
+#include <stdio.h>
+#include <stdarg.h>
 
 
 using namespace CocosDenshion;
+
+static void NSDebugLog(const char* format, ...)
+{
+	char buffer[1024];
+	va_list args;
+	va_start(args, format);
+#if defined(_MSC_VER)
+	_vsnprintf_s(buffer, sizeof(buffer), _TRUNCATE, format, args);
+#else
+	vsnprintf(buffer, sizeof(buffer), format, args);
+#endif
+	va_end(args);
+	CCLOG("%s", buffer);
+#if (CC_TARGET_PLATFORM==CC_PLATFORM_WIN32)
+	FILE* fp=fopen("NarutoSenki_debug.log", "a");
+	if(fp){
+		fprintf(fp, "%s\n", buffer);
+		fclose(fp);
+	}
+#endif
+}
 
 ActionManager::ActionManager(void)
 {
@@ -1421,13 +1444,17 @@ void ActionManager::setDamage(CCString* effectType,unsigned int attackValue,bool
 					jianshang+=0.25; 
 				}
 
-				if(strcmp(this->_character->getCString(),"Chiyo")==0){
+				if(strcmp(this->_character->getCString(),"Chiyo")==0 && this->getMonsterArray() && this->getMonsterArray()->count()>0){
 					CCObject* pObject;
 					CCARRAY_FOREACH(this->getMonsterArray(),pObject){
-						Monster* mo=(Monster*) pObject;
+						ActionManager* mo=(ActionManager*) pObject;
+						if(!mo || !mo->getParent() || mo->getActionState()==ACTION_STATE_DEAD || !mo->getCharacter()){
+							NSDebugLog("[Chiyo::ParentsGuard] skip invalid Parents pointer=%p",mo);
+							continue;
+						}
 						if(strcmp(mo->getCharacter()->getCString(),"Parents")==0 && !mo->_skillChangeBuffValue && mo->getActionState()!=ACTION_STATE_SATTACK){
 							CCPoint	sp=ccpSub(mo->getPosition(),this->getPosition());
-							if(sp.x<=48){
+							if(sp.x<=48 && sp.x>=-48){
 								jianshang+=0.25;
 							}
 						}
@@ -1872,7 +1899,11 @@ void ActionManager::setItem(abType type){
 		) && this->getMonsterArray() && getMonsterArray()->count()>0){
 		CCObject* pObject;
 		CCARRAY_FOREACH(this->getMonsterArray(),pObject){
-			Monster* mo=(Monster*) pObject;
+			ActionManager* mo=(ActionManager*) pObject;
+			if(!mo || !mo->getParent() || mo->getActionState()==ACTION_STATE_DEAD || !mo->getCharacter()){
+				NSDebugLog("[Chiyo::ParentsGuard] skip invalid Parents pointer=%p",mo);
+				continue;
+			}
 			if(strcmp(mo->getCharacter()->getCString(),"Traps")!=0){
 				mo->setItem(Item1);
 			}
@@ -3266,77 +3297,121 @@ void ActionManager::healBuff(float dt){
 
 	}else if(strcmp(_character->getCString(),"Chiyo")==0){
 
+		NSDebugLog("[Chiyo::healBuff] begin this=%p characterArray=%p count=%u state=%d",this,_delegate ? _delegate->_CharacterArray : NULL,_delegate && _delegate->_CharacterArray ? _delegate->_CharacterArray->count() : 0,_actionState);
+
+		if(!_delegate || !_delegate->_CharacterArray || !this->_group){
+			NSDebugLog("[Chiyo::healBuff] skip: invalid delegate/characterArray/group");
+			return;
+		}
+
+		CCArray* healTargets=CCArray::create();
 		CCObject* pObject;
 		CCARRAY_FOREACH(_delegate->_CharacterArray,pObject){
-			Hero* tempHero=(Hero*) pObject;
+			ActionManager* tempHero=(ActionManager*) pObject;
+			if(!tempHero){
+				continue;
+			}
+
+#if (CC_TARGET_PLATFORM==CC_PLATFORM_WIN32)
+			if((unsigned long)tempHero<0x10000 || (unsigned long)tempHero==0xcdcdcdcd || (unsigned long)tempHero==0xdddddddd){
+				NSDebugLog("[Chiyo::healBuff][ERROR] invalid target pointer=%p",tempHero);
+				continue;
+			}
+#endif
+
+			if(tempHero==this ||
+				!tempHero->_group ||
+				!tempHero->_role ||
+				!tempHero->_character ||
+				tempHero->getActionState()==ACTION_STATE_DEAD ||
+				!tempHero->getParent()){
+					continue;
+			}
+
 			if(strcmp(this->_group->getCString(),tempHero->_group->getCString())==0
 				&& (strcmp(tempHero->_role->getCString(),"Player")==0 || strcmp(tempHero->_role->getCString(),"Com")==0)
 				&& strcmp(tempHero->_character->getCString(),"Chiyo")!=0
 				){
-					CCPoint	sp=ccpSub(tempHero->getPosition(),this->getPosition());
-					if(abs(sp.x)<=winSize.width/2){
+					healTargets->addObject(tempHero);
+			}
+		}
+
+		CCARRAY_FOREACH(healTargets,pObject){
+			ActionManager* tempHero=(ActionManager*) pObject;
+			if(!tempHero ||
+				!_delegate ||
+				!_delegate->_CharacterArray ||
+				!_delegate->_CharacterArray->containsObject(tempHero) ||
+				!tempHero->_group ||
+				!tempHero->_role ||
+				!tempHero->_character ||
+				!tempHero->getParent() ||
+				tempHero->getActionState()==ACTION_STATE_DEAD){
+					continue;
+			}
+
+			CCPoint	sp=ccpSub(tempHero->getPosition(),this->getPosition());
+			if(sp.x<=winSize.width/2 && sp.x>=-winSize.width/2){
 
 
-						if(tempHero->_level>=2){
-							if(45000-atof(tempHero->getCKR()->getCString())>=_healBuffValue){
-								float newValue=atof(tempHero->getCKR()->getCString())+_healBuffValue;
-								tempHero->setCKR(CCString::createWithFormat("%f",newValue));
-							}else{
-								tempHero->setCKR(CCString::create("45000"));
-
-							}	
-
-							if(atof(tempHero->getCKR()->getCString())>=15000){
-								tempHero->_isCanOugis1=true;
-
-							}
-
-							if(strcmp(tempHero->_role->getCString(),"Player")==0){
-								_delegate->setCKRLose(false);
-							}
-
-
-						}
-
-						if(tempHero->_level>=4 ){
-
-							if(50000-atof(tempHero->getCKR2()->getCString())>=_healBuffValue){
-								float newValue=atof(tempHero->getCKR2()->getCString())+_healBuffValue;
-								tempHero->setCKR2(CCString::createWithFormat("%f",newValue));
-
-							}else{
-								tempHero->setCKR2(CCString::create("50000"));
-
-							}	
-
-							if(atof(tempHero->getCKR2()->getCString())>=25000){
-								tempHero->_isCanOugis2=true;
-
-							}
-
-							if(strcmp(tempHero->_role->getCString(),"Player")==0){
-								tempHero->_delegate->setCKRLose(true);
-							}
-
-						}
-
-						//群补特效
-
-						if(tempHero->_isVisable){
-							Effect* tmpEffect=Effect::create("Hupo",tempHero);
-							if(strcmp(tempHero->getRole()->getCString(),"Player")==0){
-								tmpEffect->setOpacity(150);
-							}
-							tmpEffect->setPosition(ccp(tempHero->getContentSize().width/2,tempHero->getContentSize().height/2+6));
-							tempHero->addChild(tmpEffect);
-						}
+				if(tempHero->getCKR()){
+					if(45000-atof(tempHero->getCKR()->getCString())>=_healBuffValue){
+						float newValue=atof(tempHero->getCKR()->getCString())+_healBuffValue;
+						tempHero->setCKR(CCString::createWithFormat("%f",newValue));
+					}else{
+						tempHero->setCKR(CCString::create("45000"));
 
 					}
 
+					if(tempHero->_level>=2 && atof(tempHero->getCKR()->getCString())>=15000){
+						tempHero->_isCanOugis1=true;
+
+					}
+
+					if(strcmp(tempHero->_role->getCString(),"Player")==0 && _delegate && _delegate->getHudLayer()){
+						_delegate->setCKRLose(false);
+					}
+
+
+				}
+
+				if(tempHero->getCKR2()){
+
+					if(50000-atof(tempHero->getCKR2()->getCString())>=_healBuffValue){
+						float newValue=atof(tempHero->getCKR2()->getCString())+_healBuffValue;
+						tempHero->setCKR2(CCString::createWithFormat("%f",newValue));
+
+					}else{
+						tempHero->setCKR2(CCString::create("50000"));
+
+					}
+
+					if(tempHero->_level>=4 && atof(tempHero->getCKR2()->getCString())>=25000){
+						tempHero->_isCanOugis2=true;
+
+					}
+
+					if(strcmp(tempHero->_role->getCString(),"Player")==0 && tempHero->_delegate && tempHero->_delegate->getHudLayer()){
+						tempHero->_delegate->setCKRLose(true);
+					}
+
+				}
+
+				//群补特效
+
+				if(tempHero->_isVisable && tempHero->getParent()){
+					Effect* tmpEffect=Effect::create("Hupo",tempHero);
+					if(tmpEffect){
+						if(strcmp(tempHero->getRole()->getCString(),"Player")==0){
+							tmpEffect->setOpacity(150);
+						}
+						tmpEffect->setPosition(ccp(tempHero->getContentSize().width/2,tempHero->getContentSize().height/2+6));
+						tempHero->addChild(tmpEffect);
+					}
+				}
 
 			}
 		};
-
 	}else if(strcmp(_character->getCString(),"Slug")==0){
 
 		CCObject* pObject;
@@ -6432,10 +6507,25 @@ void ActionManager::removeSelf(float dt){
 
 void ActionManager::setMonAttack(CCNode* sender,void* date){
 	int skillNum=(int) date;
-	if(this->getMonsterArray()){
+	NSDebugLog("[setMonAttack] this=%p character=%s skillNum=%d monsterArray=%p count=%u",this,this->getCharacter() ? this->getCharacter()->getCString() : "NULL",skillNum,this->getMonsterArray(),this->getMonsterArray() ? this->getMonsterArray()->count() : 0);
+	if(this->getMonsterArray() && this->getMonsterArray()->count()>0){
+		CCArray* attackTargets=CCArray::create();
 		CCObject* pObject;
 		CCARRAY_FOREACH(this->getMonsterArray(),pObject){
-			Monster* mo=(Monster*) pObject;
+			ActionManager* mo=(ActionManager*) pObject;
+			if(!mo || !mo->getParent() || mo->getActionState()==ACTION_STATE_DEAD || !mo->getCharacter()){
+				NSDebugLog("[setMonAttack] skip invalid monster=%p",mo);
+				continue;
+			}
+			attackTargets->addObject(mo);
+		};
+
+		CCARRAY_FOREACH(attackTargets,pObject){
+			ActionManager* mo=(ActionManager*) pObject;
+			if(!mo || !this->getMonsterArray() || !this->getMonsterArray()->containsObject(mo) || !mo->getParent() || mo->getActionState()==ACTION_STATE_DEAD || !mo->getCharacter()){
+				NSDebugLog("[setMonAttack] skip stale target=%p",mo);
+				continue;
+			}
 			if(strcmp(mo->getCharacter()->getCString(),"Traps")!=0){
 
 					if(strcmp(this->getCharacter()->getCString(),"Kiba")==0){
@@ -6454,6 +6544,7 @@ void ActionManager::setMonAttack(CCNode* sender,void* date){
 					}else if (strcmp(this->getCharacter()->getCString(),"Chiyo")==0){
 
 						if (strcmp(mo->getCharacter()->getCString(),"Parents")==0){
+							NSDebugLog("[Chiyo::setMonAttack] Parents=%p skillNum=%d state=%d skillChange=%u",mo,skillNum,mo->getActionState(),mo->_skillChangeBuffValue);
 							if (skillNum==1 && !mo->_skillChangeBuffValue){
 								mo->attack(SKILL1);
 							}else if(skillNum==2){				
@@ -6474,12 +6565,12 @@ void ActionManager::setMonAttack(CCNode* sender,void* date){
 		};
 
 	}else{
+		NSDebugLog("[setMonAttack] no monster array for this=%p",this);
 		return;
 	}
 
 
 };
-
 void ActionManager::setTransform(){
 
 	CCNotificationCenter::sharedNotificationCenter()->removeObserver(this,"acceptAttack");
@@ -6604,6 +6695,9 @@ float ActionManager::getHpPercent(){
 
 
 void ActionManager::attack(abType type){
+	if(this->getCharacter() && strcmp(this->getCharacter()->getCString(),"Chiyo")==0){
+		NSDebugLog("[Chiyo::attack] this=%p type=%d state=%d skillFinish=%d monsterArray=%p count=%u",this,type,this->getActionState(),_delegate ? _delegate->getSkillFinish() : -1,this->getMonsterArray(),this->getMonsterArray() ? this->getMonsterArray()->count() : 0);
+	}
 	//防止普通攻击刷新 技能类型导致可以攻击塔
 
 	if(strcmp(_role->getCString(),"Player")==0 && type==NAttack){
@@ -6792,6 +6886,9 @@ void ActionManager::sAttack(abType type){
 
 
 void ActionManager::oAttack(abType type){
+	if(this->getCharacter() && strcmp(this->getCharacter()->getCString(),"Chiyo")==0){
+		NSDebugLog("[Chiyo::oAttack] this=%p type=%d state=%d skill4=%p skill5=%p",this,type,_actionState,_skill4Action,_skill5Action);
+	}
 	if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
 
 		if(strcmp(_role->getCString(),"Player")==0){
@@ -6935,7 +7032,11 @@ void ActionManager::walk(CCPoint direction){
 			if(this->getMonsterArray() && getMonsterArray()->count()>0){
 				CCObject* pObject;
 				CCARRAY_FOREACH(this->getMonsterArray(),pObject){
-					Monster* mo=(Monster*) pObject;
+					ActionManager* mo=(ActionManager*) pObject;
+					if(!mo || !mo->getParent() || mo->getActionState()==ACTION_STATE_DEAD || !mo->getCharacter()){
+						NSDebugLog("[Chiyo::ParentsGuard] skip invalid Parents pointer=%p",mo);
+						continue;
+					}
 					if(strcmp(mo->getCharacter()->getCString(),"ItachiSusano")==0||
 						strcmp(mo->getCharacter()->getCString(),"SasukeSusano")==0){
 						mo->setFlipX(_isFlipped);
@@ -6983,18 +7084,22 @@ bool ActionManager::hurt(){
 				){
 
 				CCPoint	sp=ccpSub(tempHero->getPosition(),this->getPosition());
-				if(abs(sp.x)<=winSize.width/2){
+				if(sp.x<=winSize.width/2 && sp.x>=-winSize.width/2){
 					return false;
 				}		
 			}
 		}
-		if(strcmp(this->_character->getCString(),"Chiyo")==0){
+		if(strcmp(this->_character->getCString(),"Chiyo")==0 && this->getMonsterArray() && this->getMonsterArray()->count()>0){
 			CCObject* pObject;
 			CCARRAY_FOREACH(this->getMonsterArray(),pObject){
-				Monster* mo=(Monster*) pObject;
+				ActionManager* mo=(ActionManager*) pObject;
+				if(!mo || !mo->getParent() || mo->getActionState()==ACTION_STATE_DEAD || !mo->getCharacter()){
+					NSDebugLog("[Chiyo::ParentsGuard] skip invalid Parents pointer=%p",mo);
+					continue;
+				}
 				if(strcmp(mo->getCharacter()->getCString(),"Parents")==0 && !mo->_skillChangeBuffValue && mo->getActionState()!=ACTION_STATE_SATTACK  && mo->getActionState()!=ACTION_STATE_DEAD){
 					CCPoint	sp=ccpSub(mo->getPosition(),this->getPosition());
-					if(sp.x<=48){
+					if(sp.x<=48 && sp.x>=-48){
 					
 						return false;
 					}
@@ -7055,20 +7160,24 @@ bool ActionManager::hardHurt(int delayTime,bool isHurtAction,bool isCatch,bool i
 					tempHero->_buffStartTime
 					){
 						CCPoint	sp=ccpSub(tempHero->getPosition(),this->getPosition());
-						if(abs(sp.x)<=winSize.width/2){
+						if(sp.x<=winSize.width/2 && sp.x>=-winSize.width/2){
 							return false;
 						}
 
 				}
 			}
 
-			if(strcmp(this->_character->getCString(),"Chiyo")==0){
+			if(strcmp(this->_character->getCString(),"Chiyo")==0 && this->getMonsterArray() && this->getMonsterArray()->count()>0){
 				CCObject* pObject;
 				CCARRAY_FOREACH(this->getMonsterArray(),pObject){
-					Monster* mo=(Monster*) pObject;
+					ActionManager* mo=(ActionManager*) pObject;
+					if(!mo || !mo->getParent() || mo->getActionState()==ACTION_STATE_DEAD || !mo->getCharacter()){
+						NSDebugLog("[Chiyo::ParentsGuard] skip invalid Parents pointer=%p",mo);
+						continue;
+					}
 					if(strcmp(mo->getCharacter()->getCString(),"Parents")==0 && !mo->_skillChangeBuffValue && mo->getActionState()!=ACTION_STATE_SATTACK  && mo->getActionState()!=ACTION_STATE_DEAD){
 						CCPoint	sp=ccpSub(mo->getPosition(),this->getPosition());
-						if(sp.x<=48){
+						if(sp.x<=48 && sp.x>=-48){
 							if(mo->_isCanSkill3){						
 								mo->attack(SKILL3);
 							}
@@ -7240,20 +7349,24 @@ void ActionManager::floatUP(float floatHeight, bool isCancelSkill){
 					tempHero->_buffStartTime
 					){
 						CCPoint	sp=ccpSub(tempHero->getPosition(),this->getPosition());
-						if(abs(sp.x)<=winSize.width/2){
+						if(sp.x<=winSize.width/2 && sp.x>=-winSize.width/2){
 							return ;
 						}
 
 				}
 			}
 
-			if(strcmp(this->_character->getCString(),"Chiyo")==0){
+			if(strcmp(this->_character->getCString(),"Chiyo")==0 && this->getMonsterArray() && this->getMonsterArray()->count()>0){
 				CCObject* pObject;
 				CCARRAY_FOREACH(this->getMonsterArray(),pObject){
-					Monster* mo=(Monster*) pObject;
+					ActionManager* mo=(ActionManager*) pObject;
+					if(!mo || !mo->getParent() || mo->getActionState()==ACTION_STATE_DEAD || !mo->getCharacter()){
+						NSDebugLog("[Chiyo::ParentsGuard] skip invalid Parents pointer=%p",mo);
+						continue;
+					}
 					if(strcmp(mo->getCharacter()->getCString(),"Parents")==0 && !mo->_skillChangeBuffValue && mo->getActionState()!=ACTION_STATE_SATTACK  && mo->getActionState()!=ACTION_STATE_DEAD){
 						CCPoint	sp=ccpSub(mo->getPosition(),this->getPosition());
-						if(sp.x<=48){
+						if(sp.x<=48 && sp.x>=-48){
 							if(mo->_isCanSkill3){						
 								mo->attack(SKILL3);
 							}

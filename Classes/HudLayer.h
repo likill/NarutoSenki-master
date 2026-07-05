@@ -114,6 +114,7 @@ public:
 	void    setBuffDisplay(const char* buffName,float buffStayTime);
 	void	clearSPCReport();
 	void	clearBuffDisplay(CCNode* sender);
+	void	clearBuffDisplay(const char* buffName);
 	
 	void	updateBuffDisplay(float dt);
 	void	updateBuffDisplay2(float dt);

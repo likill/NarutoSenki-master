@@ -1,6 +1,29 @@
 #include "Characters.h"
 #include "HudLayer.h"
+#include <stdio.h>
+#include <stdarg.h>
 USING_NS_CC;
+
+static void NSDebugLog(const char* format, ...)
+{
+    char buffer[1024];
+    va_list args;
+    va_start(args, format);
+#if defined(_MSC_VER)
+    _vsnprintf_s(buffer, sizeof(buffer), _TRUNCATE, format, args);
+#else
+    vsnprintf(buffer, sizeof(buffer), format, args);
+#endif
+    va_end(args);
+    CCLOG("%s", buffer);
+#if (CC_TARGET_PLATFORM==CC_PLATFORM_WIN32)
+    FILE* fp=fopen("NarutoSenki_debug.log", "a");
+    if(fp){
+        fprintf(fp, "%s\n", buffer);
+        fclose(fp);
+    }
+#endif
+}
 
 
 HeroElement::HeroElement(void)
@@ -597,6 +620,7 @@ void HeroElement::neicun(float dt){
 
 void HeroElement::dealloc(){
 
+    NSDebugLog("[HeroElement::dealloc] this=%p character=%s role=%s master=%p delegate=%p",this,this->getCharacter() ? this->getCharacter()->getCString() : "NULL",this->getRole() ? this->getRole()->getCString() : "NULL",_master,_delegate);
 	this->stopAllActions();
 	_actionState=ACTION_STATE_DEAD;	
 	
@@ -637,16 +661,20 @@ void HeroElement::dealloc(){
 			CCNotificationCenter::sharedNotificationCenter()->removeObserver(this,"acceptAttack");
 				
 			//ÒÆ³ý³ö½ÇÉ«±í
-			int index=_delegate->_CharacterArray->indexOfObject(this);
-			if(index>=0){
-				_delegate->_CharacterArray->removeObjectAtIndex(index);
+			if(_delegate && _delegate->_CharacterArray){
+			    int index=_delegate->_CharacterArray->indexOfObject(this);
+			    if(index>=0){
+			        NSDebugLog("[HeroElement::dealloc] remove from CharacterArray this=%p index=%d",this,index);
+			        _delegate->_CharacterArray->removeObjectAtIndex(index);
+			    }
 			}
 			
 			if(_master &&  this->_master->getMonsterArray()){
-				int index=_master->getMonsterArray()->indexOfObject(this);
-				if(index>=0){
-					_master->getMonsterArray()->removeObjectAtIndex(index);
-				}
+			    int index=_master->getMonsterArray()->indexOfObject(this);
+			    if(index>=0){
+			        NSDebugLog("[HeroElement::dealloc] remove from master monsterArray this=%p index=%d master=%p",this,index,_master);
+			        _master->getMonsterArray()->removeObjectAtIndex(index);
+			    }
 			}
 			
 
@@ -665,7 +693,13 @@ void HeroElement::dealloc(){
 				strcmp(this->getCharacter()->getCString(),"Karasu")==0||
 				strcmp(this->getCharacter()->getCString(),"Parents")==0
 				){
-				_master->setActionResume();
+				if(strcmp(this->getCharacter()->getCString(),"Parents")==0 && _master && strcmp(_master->getRole()->getCString(),"Player")==0 && _delegate && _delegate->getHudLayer()){
+				    _delegate->getHudLayer()->clearBuffDisplay("cBuff");
+				}
+				if(_master && _master->getActionState()!=ACTION_STATE_DEAD){
+				    NSDebugLog("[HeroElement::dealloc] resume master after puppet death this=%p master=%p",this,_master);
+				    _master->setActionResume();
+				}
 
 			}else if(strcmp(this->getCharacter()->getCString(),"Sanshouuo")==0){
 

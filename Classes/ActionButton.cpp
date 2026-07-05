@@ -16,12 +16,15 @@ ActionButton::ActionButton(void)
 	_isColdChanged=false;
 	_gearType=None;
 
+	ougismarkSprite=NULL;
 	proressblinkSprite=NULL;
 	proressmarkSprite=NULL;
-	proressblinkSprite=NULL;
 	progressPointSprite=NULL;
 	proressblinkMask=NULL;
+	clipper=NULL;
 	gearSign =NULL;
+	lockLabel1=NULL;
+	lockLabel2=NULL;
 }
 
 
@@ -256,6 +259,12 @@ void ActionButton::updateCDLabel(float dt){
 };
 
 void ActionButton::setMarkSprite(const char* mark){
+	if(markSprite){
+		markSprite->stopAllActions();
+		markSprite->removeFromParentAndCleanup(true);
+		markSprite=NULL;
+	}
+
 	CCSprite* tmpSprite =CCSprite::createWithSpriteFrameName(mark);
 	markSprite=CCProgressTimer::create(tmpSprite);
 	markSprite->setType(kCCProgressTimerTypeRadial);
@@ -277,6 +286,15 @@ void ActionButton::setMarkSprite(const char* mark){
 };
 
 void ActionButton::setOugisMark(){
+	if(ougismarkSprite){
+		ougismarkSprite->removeFromParentAndCleanup(true);
+		ougismarkSprite=NULL;
+	}
+	if(lockLabel1){
+		lockLabel1->removeFromParentAndCleanup(true);
+		lockLabel1=NULL;
+	}
+
 	ougismarkSprite =CCSprite::createWithSpriteFrameName("skill_freeze.png");
 	ougismarkSprite->setPosition(this->getPosition());
 	ougismarkSprite->setAnchorPoint(ccp(0,0));
@@ -293,6 +311,10 @@ void ActionButton::setOugisMark(){
 }
 
 void ActionButton::setProgressMark(){
+	if(clipper || progressPointSprite || proressblinkMask){
+		this->updateProgressMark();
+		return;
+	}
 
 	clipper = CCClippingNode::create();
 	CCNode *stencil = CCSprite::createWithSpriteFrameName("icon_bg1.png");
@@ -362,6 +384,10 @@ void ActionButton::setProgressMark(){
 }
 
 void ActionButton::updateProgressMark(){
+	if(!_delegate || !_delegate->_delegate || !_delegate->_delegate->currentPlayer){
+		return;
+	}
+
 	float ckr=atof(_delegate->_delegate->currentPlayer->getCKR()->getCString());
 	float ckr2=atof(_delegate->_delegate->currentPlayer->getCKR2()->getCString());
 	if (this->getABType()== OUGIS1){
@@ -540,17 +566,27 @@ void ActionButton::clearClick(){
 
 void ActionButton::clearOugisMark(){
 	if(this->ougismarkSprite){
-		this->ougismarkSprite->removeAllChildrenWithCleanup(true);
+		this->ougismarkSprite->removeFromParentAndCleanup(true);
+		this->ougismarkSprite=NULL;
+	}
+	if(this->lockLabel1){
+		this->lockLabel1->removeFromParentAndCleanup(true);
+		this->lockLabel1=NULL;
 	}
 	
 	if(this->clipper){
 		this->clipper->removeFromParentAndCleanup(true);
+		this->clipper=NULL;
+		this->proressmarkSprite=NULL;
+		this->proressblinkSprite=NULL;
 	}
 	if(this->progressPointSprite){
-		this->progressPointSprite->removeFromParent();
+		this->progressPointSprite->removeFromParentAndCleanup(true);
+		this->progressPointSprite=NULL;
 	}
 	if(this->proressblinkMask){
-		this->proressblinkMask->removeFromParent();
+		this->proressblinkMask->removeFromParentAndCleanup(true);
+		this->proressblinkMask=NULL;
 	}
 	
 
