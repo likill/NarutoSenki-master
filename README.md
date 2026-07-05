@@ -26,3 +26,17 @@ cd /d D:\gampalace\narokuto\cocos2d-x-2.2.2\projects\NarutoSenki-master\Resource
 ..\proj.win32\Debug.win32\NarutoSenki.exe
 
 
+W/A/S/D = 移动
+J       = 普攻
+K       = 技能1
+L       = 技能2
+U       = 技能3
+I       = OUGIS1，要求等级 >= 2 且 CKR 足够
+O       = OUGIS2，要求等级 >= 4 且 CKR2 足够
+
+E       = 拉面回血，原 item1Button，金币/冷却不足不会生效
+F       = 替身木，gear06，没购买不会生效
+R       = gear00，隐身/加速类装备，没购买不会生效
+T       = gear03，陷阱装备，没购买不会生效
+G       = 打开装备界面，沿用原 onGear 逻辑
+P       = 暂停

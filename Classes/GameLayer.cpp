@@ -49,6 +49,11 @@ GameLayer::GameLayer(void)
 	_keySkill2=false;
 	_keySkill3=false;
 	_keySkill4=false;
+	_keySkill5=false;
+	_keyItem1=false;
+	_keyGear06=false;
+	_keyGear00=false;
+	_keyGear03=false;
 
 }
 
@@ -1044,7 +1049,7 @@ bool GameLayer::handleKeyboard(unsigned int keyCode,bool isPressed){
 			_keySkill1=false;
 		}
 		return true;
-	case 'U':
+	case 'L':
 		if(isPressed){
 			if(!_keySkill2){
 				_keySkill2=true;
@@ -1054,7 +1059,7 @@ bool GameLayer::handleKeyboard(unsigned int keyCode,bool isPressed){
 			_keySkill2=false;
 		}
 		return true;
-	case 'I':
+	case 'U':
 		if(isPressed){
 			if(!_keySkill3){
 				_keySkill3=true;
@@ -1064,7 +1069,7 @@ bool GameLayer::handleKeyboard(unsigned int keyCode,bool isPressed){
 			_keySkill3=false;
 		}
 		return true;
-	case 'O':
+	case 'I':
 		if(isPressed){
 			if(!_keySkill4){
 				_keySkill4=true;
@@ -1072,6 +1077,66 @@ bool GameLayer::handleKeyboard(unsigned int keyCode,bool isPressed){
 			}
 		}else{
 			_keySkill4=false;
+		}
+		return true;
+	case 'O':
+		if(isPressed){
+			if(!_keySkill5){
+				_keySkill5=true;
+				this->clickKeyboardButton(_hudLayer ? _hudLayer->skill5Button : NULL);
+			}
+		}else{
+			_keySkill5=false;
+		}
+		return true;
+	case 'E':
+		if(isPressed){
+			if(!_keyItem1){
+				_keyItem1=true;
+				this->clickKeyboardButton(_hudLayer ? _hudLayer->item1Button : NULL);
+			}
+		}else{
+			_keyItem1=false;
+		}
+		return true;
+	case 'F':
+		if(isPressed){
+			if(!_keyGear06){
+				_keyGear06=true;
+				this->clickKeyboardButton(_hudLayer ? _hudLayer->getItem2Button() : NULL);
+			}
+		}else{
+			_keyGear06=false;
+		}
+		return true;
+	case 'R':
+		if(isPressed){
+			if(!_keyGear00){
+				_keyGear00=true;
+				this->clickKeyboardButton(_hudLayer ? _hudLayer->getItem3Button() : NULL);
+			}
+		}else{
+			_keyGear00=false;
+		}
+		return true;
+	case 'T':
+		if(isPressed){
+			if(!_keyGear03){
+				_keyGear03=true;
+				this->clickKeyboardButton(_hudLayer ? _hudLayer->getItem4Button() : NULL);
+			}
+		}else{
+			_keyGear03=false;
+		}
+		return true;
+	case 'G':
+		if(isPressed && _hudLayer && !_hudLayer->_isAllButtonLocked){
+			this->onGear();
+		}
+		return true;
+	case 'P':
+		if(isPressed){
+			this->onPause();
 		}
 		return true;
 	default:
@@ -1089,11 +1154,15 @@ void GameLayer::resetKeyboardControl(){
 	_keySkill2=false;
 	_keySkill3=false;
 	_keySkill4=false;
+	_keySkill5=false;
+	_keyItem1=false;
+	_keyGear06=false;
+	_keyGear00=false;
+	_keyGear03=false;
 
 	this->attackButtonRelease();
 	this->JoyStickRelease();
 }
-
 void GameLayer::updateKeyboardMove(){
 	if(!_hudLayer || _hudLayer->_isAllButtonLocked || !currentPlayer){
 		this->JoyStickRelease();

@@ -155,5 +155,10 @@ protected:
 	bool	_keySkill2;
 	bool	_keySkill3;
 	bool	_keySkill4;
+	bool	_keySkill5;
+	bool	_keyItem1;
+	bool	_keyGear06;
+	bool	_keyGear00;
+	bool	_keyGear03;
 
 };
