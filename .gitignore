@@ -1,0 +1,64 @@
+# Visual Studio user/workspace files
+*.suo
+*.user
+*.sdf
+*.opensdf
+*.VC.db
+*.VC.opendb
+*.ncb
+*.aps
+*.idb
+*.ipch
+ipch/
+.vs/
+
+Resources
+
+# Build output directories
+[Dd]ebug/
+[Rr]elease/
+[Dd]ebug.win32/
+[Rr]elease.win32/
+proj.win32/Debug.win32/
+proj.win32/Release.win32/
+proj.win32/ipch/
+
+# C/C++ build artifacts
+*.obj
+*.cod
+*.pch
+*.pdb
+*.ilk
+*.map
+*.exp
+*.lib
+*.dll
+*.exe
+
+# MSBuild / Visual Studio generated files
+*.tlog
+*.lastbuildstate
+*.manifest
+*.intermediate.manifest
+*.vcxprojResolveAssemblyReference.cache
+*.Build.CppClean.log
+UpgradeLog*.XML
+_UpgradeReport_Files/
+
+# Runtime/generated local data
+*.log
+*.cache
+*.tmp
+*.db
+UserDefault.xml
+sql.db
+CheckMD5_*.xml
+
+# Local Codex/agent workspace files
+.agents/
+.codex/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
