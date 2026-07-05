@@ -18,6 +18,7 @@
 
 
 extern int Cheats;
+extern bool IsFourVsFourMode;
 extern int CError;
 extern int adResult;
 extern int MemberID;
@@ -25,6 +26,8 @@ extern int GroupID;
 extern std::string CValue;
 extern std::string PWord;
 extern bool isPlayed;
+
+#define IS_FOUR_VS_FOUR_MODE (IsFourVsFourMode || Cheats > 10)
 
 
 #define SERVER "http://localhost/" 

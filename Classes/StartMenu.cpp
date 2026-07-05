@@ -4,6 +4,7 @@ USING_NS_CC_EXT;
 
 
 int Cheats=0;
+bool IsFourVsFourMode=false;
 int MemberID=NULL;
 int GroupID=NULL;
 std::string PWord="";
@@ -232,6 +233,8 @@ init StartMenu layer;
 
 StartMenu::StartMenu(void)
 {
+	// StartMenu mode reset.
+	IsFourVsFourMode=false;
 	_menu_array=NULL;
 	isClockwise=false;
 	isDrag=false;
@@ -405,6 +408,18 @@ bool StartMenu::init()
 		menuText->setPosition(ccp(10,2));
 		this->addChild(menuText,5);
 
+		CCLabelTTF* fourVsFourLabel=CCLabelTTF::create("4V4",FONT_TYPE,14);
+		fourVsFourLabel->setColor(ccc3(255,224,120));
+		CCMenuItemLabel* fourVsFourBtn=CCMenuItemLabel::create(fourVsFourLabel,this,menu_selector(StartMenu::onFourVsFourCallBack));
+
+		CCLabelTTF* cloneLabel=CCLabelTTF::create("CLONE",FONT_TYPE,14);
+		cloneLabel->setColor(ccc3(160,220,255));
+		CCMenuItemLabel* cloneBtn=CCMenuItemLabel::create(cloneLabel,this,menu_selector(StartMenu::onCloneModeCallBack));
+
+		CCMenu* modeMenu=CCMenu::create(fourVsFourBtn,cloneBtn,NULL);
+		modeMenu->alignItemsVerticallyWithPadding(8);
+		modeMenu->setPosition(ccp(winSize.width-54,126));
+		this->addChild(modeMenu,6);
 		CCObject* pObject=NULL;
 		CCARRAY_FOREACH(_menu_array,pObject){
 			MenuButton* menu=(MenuButton *)pObject;
@@ -3359,6 +3374,8 @@ void StartMenu::onHardCoreCallBack(){
 
 void StartMenu::onNormalCallBack(CCObject* sender){
 
+	IsFourVsFourMode=false;
+
 	//¼ÓÔØÐòÁÐ¼¯
 	CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("Select.plist");	
 	CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("UI.plist");
@@ -3383,12 +3400,105 @@ void StartMenu::onNormalCallBack(CCObject* sender){
 	CCDirector::sharedDirector()->replaceScene(CCTransitionFade::create(1.5f,selectScene));	*/
 }
 
+void StartMenu::startFourVsFourBattle(bool isCloneMode){
+
+	if(input_layer || profile_layer || group_layer) {
+		return;
+	}
+
+	IsFourVsFourMode=true;
+	Cheats=0;
+	SimpleAudioEngine::sharedEngine()->stopBackgroundMusic();
+	CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("Select.plist");
+	CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("UI.plist");
+	CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("Report.plist");
+	CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("Ougis.plist");
+	CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("Ougis2.plist");
+	CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("Map.plist");
+	CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("Gears.plist");
+
+	char* heroList[]={"Konan","Sakura","Naruto","Sai","Deidara",
+		"Kakashi","Itachi","Tenten","Jiraiya","Suigetsu",
+		"Tsunade","Tobirama","Neji","Ino","Asuma","Gaara",
+		"Karin","Sasuke","Hidan","Choji","Kankuro",
+		"Shino","Minato","Tobi","Kakuzu","Hinata",
+		"Shikamaru","Chiyo","Kisame",
+		"Hiruzen","Kiba","Jugo","Lee"
+	};
+
+	srand((int)time(0));
+	int heroCount=sizeof(heroList)/sizeof(char*);
+	const char* playerName=isCloneMode?"Naruto":heroList[random(heroCount)];
+
+	CCDictionary* dic=CCDictionary::create();
+	CCString* tmpChar=CCString::create(playerName);
+	CCString* tmpRole=CCString::create("Player");
+	CCString* tmpGroup=CCString::create("Konoha");
+	dic->setObject(tmpChar,"character");
+	dic->setObject(tmpRole,"role");
+	dic->setObject(tmpGroup,"group");
+
+	CCArray* tempHeros=CCArray::createWithObject(dic);
+	CCArray* realHero=CCArray::create();
+
+	for(int i=0;i<heroCount;i++){
+		if(strcmp(playerName,heroList[i])==0){
+			continue;
+		}
+		realHero->addObject(CCString::create(heroList[i]));
+	}
+
+	for(int i=0;i<7;i++){
+		CCString* hero;
+		if(isCloneMode){
+			hero=CCString::create(playerName);
+		}else{
+			int length=realHero->count();
+			int index=random(length);
+			if(index==(int)realHero->count()){
+				index=realHero->count()-1;
+			}
+			hero=(CCString*) realHero->objectAtIndex(index);
+			realHero->removeObjectAtIndex(index);
+		}
+
+		dic=CCDictionary::create();
+		tmpChar=CCString::create(hero->getCString());
+		tmpRole=CCString::create("Com");
+		tmpGroup=CCString::create(i<3?"Konoha":"Akatsuki");
+
+		dic->setObject(tmpChar,"character");
+		dic->setObject(tmpRole,"role");
+		dic->setObject(tmpGroup,"group");
+		tempHeros->addObject(dic);
+	}
+
+	CCScene* loadScene=CCScene::create();
+	LoadLayer* loadLayer=LoadLayer::create();
+	loadLayer->tempHeros=tempHeros;
+	loadScene->addChild(loadLayer);
+	loadLayer->preloadAudio();
+	CCDirector::sharedDirector()->replaceScene(CCTransitionFade::create(1.5f,loadScene));
+}
+
+void StartMenu::onFourVsFourCallBack(CCObject* sender){
+	this->startFourVsFourBattle(false);
+}
+
+void StartMenu::onCloneModeCallBack(CCObject* sender){
+	this->startFourVsFourBattle(true);
+}
+
 void StartMenu::onTrainingCallBack(){
 
 	if(input_layer || profile_layer || group_layer) {
 		return;
 	}
 
+	if(Cheats>10){
+		this->onFourVsFourCallBack(NULL);
+		return;
+	}
 
 	SimpleAudioEngine::sharedEngine()->stopBackgroundMusic();
 	CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("Select.plist");	
@@ -3397,11 +3507,7 @@ void StartMenu::onTrainingCallBack(){
 	int i=0;
 
 	if(adResult!=1){
-	Cheats=0;
-	}
-	
-	if(Cheats>10){
-		i=2;
+		Cheats=0;
 	}
 
 	if(i==0){

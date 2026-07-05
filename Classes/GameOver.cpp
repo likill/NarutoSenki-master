@@ -205,7 +205,7 @@ void GameOver::listResult(){
 		}
 
 		//4v4
-		if(Cheats>10){
+		if(IS_FOUR_VS_FOUR_MODE){
 			if(strcmp(hero->getRole()->getCString(),"Player")!=0){
 				continue;
 			}
@@ -300,7 +300,7 @@ void GameOver::listResult(){
 		}
 	}
 	
-	if(Cheats<=10){
+	if(!IS_FOUR_VS_FOUR_MODE){
 
 		if(akatsukiKill+konohaKill !=atoi(_delegate->getTotalKills()->getCString())){
 			SimpleAudioEngine::sharedEngine()->stopBackgroundMusic();
@@ -438,7 +438,7 @@ void GameOver::listResult(){
 		}
 
 		//记录 最速获胜时间
-		if(Cheats<=10){
+		if(!IS_FOUR_VS_FOUR_MODE){
 
 			resultChar=_delegate->currentPlayer->getCharacter();
 
@@ -586,7 +586,7 @@ void GameOver::listResult(){
 
 	
 
-	if(Cheats<=10){
+	if(!IS_FOUR_VS_FOUR_MODE){
 		CCLabelBMFont* version=CCLabelBMFont::create("The Last Fixed","Fonts/1.fnt");
 		version->setPosition(ccp(winSize.width/2+94,result_bg->getPositionY()-result_bg->getContentSize().height/2+6));
 		version->setScale(0.3f);
