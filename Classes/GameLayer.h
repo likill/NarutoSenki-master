@@ -22,6 +22,7 @@ USING_NS_CC;
 class Hero;
 class BGLayer;
 class HudLayer;
+class ActionButton;
 
 class GameLayer :public CCLayer{
 public:
@@ -89,6 +90,8 @@ public:
 	void attackButtonClick(abType type);
 	void gearButtonClick(gearType type);	
 	void attackButtonRelease();
+	bool handleKeyboard(unsigned int keyCode,bool isPressed);
+	void resetKeyboardControl();
 	
 
 	void JoyStickRelease();
@@ -140,6 +143,17 @@ protected:
 	void onHttpRequestCompleted(CCNode *sender ,void *data);
 	virtual void	onEnter();
 	virtual void	onExit();
+	void	updateKeyboardMove();
+	void	clickKeyboardButton(ActionButton* button);
+
+	bool	_keyMoveUp;
+	bool	_keyMoveDown;
+	bool	_keyMoveLeft;
+	bool	_keyMoveRight;
+	bool	_keyAttack;
+	bool	_keySkill1;
+	bool	_keySkill2;
+	bool	_keySkill3;
+	bool	_keySkill4;
 
 };
-

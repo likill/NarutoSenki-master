@@ -40,6 +40,16 @@ GameLayer::GameLayer(void)
 	isPosting=false;
 	postTime=0;
 
+	_keyMoveUp=false;
+	_keyMoveDown=false;
+	_keyMoveLeft=false;
+	_keyMoveRight=false;
+	_keyAttack=false;
+	_keySkill1=false;
+	_keySkill2=false;
+	_keySkill3=false;
+	_keySkill4=false;
+
 }
 
 
@@ -975,6 +985,9 @@ void GameLayer::clearDoubleClick(){
 }
 
 void GameLayer::JoyStickRelease(){
+	if(!currentPlayer){
+		return;
+	}
 
 	if (currentPlayer->getActionState()==ACTION_STATE_WALK){
 		currentPlayer->idle();
@@ -982,10 +995,140 @@ void GameLayer::JoyStickRelease(){
 }
 
 void GameLayer::JoyStickUpdate(CCPoint direction){
+	if(!currentPlayer){
+		return;
+	}
+
 	if(!ougisChar){
 		//CCLOG("x:%f,y:%f",direction.x,direction.y);
 		currentPlayer->walk(direction);
 	}
+}
+
+bool GameLayer::handleKeyboard(unsigned int keyCode,bool isPressed){
+	switch(keyCode){
+	case 'W':
+		_keyMoveUp=isPressed;
+		this->updateKeyboardMove();
+		return true;
+	case 'S':
+		_keyMoveDown=isPressed;
+		this->updateKeyboardMove();
+		return true;
+	case 'A':
+		_keyMoveLeft=isPressed;
+		this->updateKeyboardMove();
+		return true;
+	case 'D':
+		_keyMoveRight=isPressed;
+		this->updateKeyboardMove();
+		return true;
+	case 'J':
+		if(isPressed){
+			if(!_keyAttack){
+				_keyAttack=true;
+				this->clickKeyboardButton(_hudLayer ? _hudLayer->nAttackButton : NULL);
+			}
+		}else{
+			_keyAttack=false;
+			this->attackButtonRelease();
+		}
+		return true;
+	case 'K':
+		if(isPressed){
+			if(!_keySkill1){
+				_keySkill1=true;
+				this->clickKeyboardButton(_hudLayer ? _hudLayer->skill1Button : NULL);
+			}
+		}else{
+			_keySkill1=false;
+		}
+		return true;
+	case 'U':
+		if(isPressed){
+			if(!_keySkill2){
+				_keySkill2=true;
+				this->clickKeyboardButton(_hudLayer ? _hudLayer->skill2Button : NULL);
+			}
+		}else{
+			_keySkill2=false;
+		}
+		return true;
+	case 'I':
+		if(isPressed){
+			if(!_keySkill3){
+				_keySkill3=true;
+				this->clickKeyboardButton(_hudLayer ? _hudLayer->skill3Button : NULL);
+			}
+		}else{
+			_keySkill3=false;
+		}
+		return true;
+	case 'O':
+		if(isPressed){
+			if(!_keySkill4){
+				_keySkill4=true;
+				this->clickKeyboardButton(_hudLayer ? _hudLayer->skill4Button : NULL);
+			}
+		}else{
+			_keySkill4=false;
+		}
+		return true;
+	default:
+		return false;
+	}
+}
+
+void GameLayer::resetKeyboardControl(){
+	_keyMoveUp=false;
+	_keyMoveDown=false;
+	_keyMoveLeft=false;
+	_keyMoveRight=false;
+	_keyAttack=false;
+	_keySkill1=false;
+	_keySkill2=false;
+	_keySkill3=false;
+	_keySkill4=false;
+
+	this->attackButtonRelease();
+	this->JoyStickRelease();
+}
+
+void GameLayer::updateKeyboardMove(){
+	if(!_hudLayer || _hudLayer->_isAllButtonLocked || !currentPlayer){
+		this->JoyStickRelease();
+		return;
+	}
+
+	float x=0.0f;
+	float y=0.0f;
+
+	if(_keyMoveLeft){
+		x-=1.0f;
+	}
+	if(_keyMoveRight){
+		x+=1.0f;
+	}
+	if(_keyMoveUp){
+		y+=1.0f;
+	}
+	if(_keyMoveDown){
+		y-=1.0f;
+	}
+
+	if(x==0.0f && y==0.0f){
+		this->JoyStickRelease();
+	}else{
+		this->JoyStickUpdate(ccp(x,y));
+	}
+}
+
+void GameLayer::clickKeyboardButton(ActionButton* button){
+	if(!button || !_hudLayer || _hudLayer->_isAllButtonLocked){
+		return;
+	}
+
+	button->click();
 }
 
 void GameLayer::attackButtonClick(abType type){
