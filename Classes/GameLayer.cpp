@@ -37,6 +37,7 @@ GameLayer::GameLayer(void)
 	_isRandomChar=false;
 	zhenying=1;
 	currentPlayer=NULL;
+	_hudLayer=NULL;
 	isPosting=false;
 	postTime=0;
 
@@ -267,7 +268,7 @@ void GameLayer::onExit(){
 
 
 void GameLayer::initTileMap(){
-	//Ëæ»úµØÍ¼
+	// random map
 	
 
 	if(_isHardCoreGame){
@@ -523,7 +524,6 @@ void GameLayer::initHeros(){
 	_CharacterArray->retain();
 	
 	this->initTower();
-
 
 
 	this->schedule(schedule_selector(GameLayer::updateViewPoint),0.0f);
@@ -990,15 +990,33 @@ void GameLayer::clearDoubleClick(){
 }
 
 void GameLayer::JoyStickRelease(){
+	CCLOG("[JoyStickRelease] this=%p currentPlayer=%p characterArray=%p hudLayer=%p exiting=%d ougisChar=%p",this,currentPlayer,_CharacterArray,_hudLayer,_isExiting,ougisChar);
+
 	if(!currentPlayer){
+		CCLOG("[JoyStickRelease] skip: currentPlayer is NULL");
 		return;
 	}
 
-	if (currentPlayer->getActionState()==ACTION_STATE_WALK){
+#if (CC_TARGET_PLATFORM==CC_PLATFORM_WIN32)
+	if((unsigned long)currentPlayer<0x10000){
+		CCLOG("[JoyStickRelease][ERROR] invalid currentPlayer pointer=%p, reset to NULL and skip getActionState",currentPlayer);
+		currentPlayer=NULL;
+		return;
+	}
+#endif
+
+	if(_CharacterArray && !_CharacterArray->containsObject(currentPlayer)){
+		CCLOG("[JoyStickRelease][ERROR] currentPlayer=%p is not in _CharacterArray=%p, count=%u, skip getActionState",currentPlayer,_CharacterArray,_CharacterArray->count());
+		return;
+	}
+
+	int actionState=currentPlayer->getActionState();
+	CCLOG("[JoyStickRelease] currentPlayer=%p actionState=%d",currentPlayer,actionState);
+
+	if (actionState==ACTION_STATE_WALK){
 		currentPlayer->idle();
 	}
 }
-
 void GameLayer::JoyStickUpdate(CCPoint direction){
 	if(!currentPlayer){
 		return;
@@ -1163,6 +1181,10 @@ void GameLayer::resetKeyboardControl(){
 	this->attackButtonRelease();
 	this->JoyStickRelease();
 }
+void GameLayer::resumeKeyboardMove(){
+	this->updateKeyboardMove();
+}
+
 void GameLayer::updateKeyboardMove(){
 	if(!_hudLayer || _hudLayer->_isAllButtonLocked || !currentPlayer){
 		this->JoyStickRelease();
@@ -1389,7 +1411,6 @@ void GameLayer::onLeft(){
 
 
 	_TowerArray->removeAllObjects();
-	_TowerArray=NULL;
 	_KonohaFlogArray->removeAllObjects();
 	_KonohaFlogArray=NULL;
 	_AkatsukiFlogArray->removeAllObjects();
@@ -1497,6 +1518,10 @@ void GameLayer::checkBackgroundMusic(float dt){
 
 void GameLayer::setOugis(CCNode* sender){
 
+	if(!_hudLayer || !sender){
+		return;
+	}
+
 	if(!this->_hudLayer->ougisLayer){
 		CCArray* childArray=this->getChildren();
 		ougisChar=sender;
@@ -1514,8 +1539,10 @@ void GameLayer::setOugis(CCNode* sender){
 		this->updateViewPoint(0.0);
 
 		blend=CCLayerColor::create(ccc4(0, 0, 0, 200),winSize.width,winSize.height);
-		blend->setPosition(ccp(-this->getPositionX(),0));
-		this->addChild(blend,1000);
+		if(blend){
+			blend->setPosition(ccp(-this->getPositionX(),0));
+			this->addChild(blend,1000);
+		}
 		sender->setZOrder(2000);
 
 		if(CCUserDefault::sharedUserDefault()->getBoolForKey("isVoice")!=false){
@@ -1530,7 +1557,9 @@ void GameLayer::setOugis(CCNode* sender){
 }
 
 void GameLayer::removeOugis(){
-	ougisChar->setZOrder(-ougisChar->getPositionY());
+	if(ougisChar){
+		ougisChar->setZOrder(-ougisChar->getPositionY());
+	}
 	CCArray* childArray=this->getChildren();
 	CCObject* pObject;
 	CCARRAY_FOREACH(childArray,pObject){
@@ -1539,6 +1568,9 @@ void GameLayer::removeOugis(){
 	}
 	this->resumeSchedulerAndActions();
 
-	blend->removeFromParent();
+	if(blend){
+		blend->removeFromParent();
+		blend=NULL;
+	}
 	ougisChar=NULL;
 }

@@ -3,9 +3,6 @@
 
 using namespace CocosDenshion;
 
-
-
-
 MiniIcon::MiniIcon(void)
 {
 	
@@ -199,6 +196,7 @@ void HudLayer::initGearButton(){
 
 
 void HudLayer::onKaichang(){
+
 
 	CCArray* tempArray= CCArray::create();
 
@@ -445,7 +443,6 @@ void HudLayer::initHeroInterface(){
 	skill5Button->setABType(OUGIS2);
 	skill5Button->setOugisMark();	
 	uiBatch->addChild(skill5Button);
-
 
 
 
@@ -847,8 +844,23 @@ void HudLayer::setReport(const char* name1, const char* name2,CCString* killNum)
 
 void HudLayer::setBuffDisplay(const char* buffName, float buffStayTime){
 
-	
-	CCSprite* buffSprite=CCSprite::createWithSpriteFrameName(CCString::createWithFormat("%s_%s.png",_delegate->currentPlayer->getCharacter()->getCString(),buffName)->getCString());
+	if(!_delegate || !_delegate->currentPlayer || !buffName){
+		CCLOG("[HudLayer::setBuffDisplay] skip invalid buff display request, buffName=%s",buffName ? buffName : "NULL");
+		return;
+	}
+
+	CCString* buffFrameName=CCString::createWithFormat("%s_%s.png",_delegate->currentPlayer->getCharacter()->getCString(),buffName);
+	CCSpriteFrame* buffFrame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(buffFrameName->getCString());
+	if(!buffFrame){
+		CCLOG("[HudLayer::setBuffDisplay] missing buff icon: %s",buffFrameName->getCString());
+		return;
+	}
+
+	CCSprite* buffSprite=CCSprite::createWithSpriteFrame(buffFrame);
+	if(!buffSprite){
+		CCLOG("[HudLayer::setBuffDisplay] create buff sprite failed: %s",buffFrameName->getCString());
+		return;
+	}
 	buffSprite->setAnchorPoint(ccp(0,0));
 	buffSprite->setPosition(ccp(8,item1Button->getPositionY()+76-28*_buffCount));
 	if(buffStayTime !=0){
@@ -1385,16 +1397,18 @@ void HudLayer::setOugis(CCString* character,CCString* group){
 
 
 		CCSprite* CutIn=CCSprite::createWithSpriteFrameName(CCString::createWithFormat("%s_CutIn.png",character->getCString())->getCString());
-		if(strcmp(group->getCString(),"Konoha")==0){
-			CutIn->setAnchorPoint(ccp(0,0));
-			CutIn->setPosition(ccp(-200,10));
-			CutIn->runAction(CCMoveTo::create(0.3f,ccp(0,10)));
-		}else{
-			CutIn->setAnchorPoint(ccp(1,0));
-			CutIn->setPosition(ccp(winSize.width+200,winSize.height/2+10-CutBg->getContentSize().height/2));
-			CutIn->runAction(CCMoveTo::create(0.3f,ccp(winSize.width,winSize.height/2+10-CutBg->getContentSize().height/2)));
+		if(CutIn){
+			if(strcmp(group->getCString(),"Konoha")==0){
+				CutIn->setAnchorPoint(ccp(0,0));
+				CutIn->setPosition(ccp(-200,10));
+				CutIn->runAction(CCMoveTo::create(0.3f,ccp(0,10)));
+			}else{
+				CutIn->setAnchorPoint(ccp(1,0));
+				CutIn->setPosition(ccp(winSize.width+200,winSize.height/2+10-CutBg->getContentSize().height/2));
+				CutIn->runAction(CCMoveTo::create(0.3f,ccp(winSize.width,winSize.height/2+10-CutBg->getContentSize().height/2)));
+			}
+			ougisLayer->addChild(CutIn);
 		}
-		ougisLayer->addChild(CutIn);
 
 
 

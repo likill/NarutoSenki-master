@@ -92,6 +92,7 @@ public:
 	void attackButtonRelease();
 	bool handleKeyboard(unsigned int keyCode,bool isPressed);
 	void resetKeyboardControl();
+	void resumeKeyboardMove();
 	
 
 	void JoyStickRelease();

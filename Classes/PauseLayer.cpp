@@ -134,6 +134,10 @@ void PauseLayer::onResume(CCObject* sender){
 	
 };
 
+void PauseLayer::resumeByKeyboard(){
+	this->onResume(NULL);
+}
+
 void PauseLayer::onBackToMenu(CCObject* sender){
 
 	pauseMenu->setVisible(false);

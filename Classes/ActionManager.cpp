@@ -6824,10 +6824,24 @@ void ActionManager::oAttack(abType type){
 		this->stopAllActions();
 		switch(type){
 		case OUGIS1:
+			if(!_skill4Action){
+				if(strcmp(_role->getCString(),"Player")==0){
+					_delegate->setSkillFinish(true);
+				}
+				this->idle();
+				return;
+			}
 			_actionState = ACTION_STATE_OATTACK;
 			this->runAction(_skill4Action);
 			break;
 		case OUGIS2:
+			if(!_skill5Action){
+				if(strcmp(_role->getCString(),"Player")==0){
+					_delegate->setSkillFinish(true);
+				}
+				this->idle();
+				return;
+			}
 			_actionState = ACTION_STATE_O2ATTACK;
 			this->runAction(_skill5Action);
 			break;
@@ -6873,6 +6887,9 @@ void ActionManager::idle(){
 			this->attack(NAttack);
 		}else{
 			this->runAction(_idleAction);
+			if(strcmp(_role->getCString(),"Player")==0){
+				_delegate->resumeKeyboardMove();
+			}
 		};
 
 	}

@@ -361,6 +361,11 @@ void GearLayer::onResume(CCObject* sender){
 };
 
 
+void GearLayer::resumeByKeyboard(){
+	this->onResume(NULL);
+}
+
+
 void GearLayer::onGearBuy(CCObject* sender){
 
 	if(CCUserDefault::sharedUserDefault()->getBoolForKey("isVoice")!=false){

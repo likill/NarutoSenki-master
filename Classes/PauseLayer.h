@@ -17,6 +17,7 @@ public:
 
 	bool	init(CCRenderTexture* snapshoot);
 	static PauseLayer*	create(CCRenderTexture* snapshoot);
+	void	resumeByKeyboard();
 	CCMenu* pauseMenu;
 	CCMenu* soundMenu;
 	CCMenu* preMenu;
@@ -38,4 +39,3 @@ private:
 
 
 };
-

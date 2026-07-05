@@ -23,6 +23,7 @@ public:
 
 	bool	init(CCRenderTexture* snapshoot);
 	static GearLayer*	create(CCRenderTexture* snapshoot);
+	void	resumeByKeyboard();
 	
 	CCLayer* gears_layer;
 	CCLayer* currentGear_layer;

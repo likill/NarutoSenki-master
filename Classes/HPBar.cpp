@@ -128,15 +128,16 @@ void HPBar::loseHP(float percent){
 
 			if(currentSlayer->getLV()!=6){
 
-				if(strcmp(currentSlayer->getCharacter()->getCString(),"Naruto")==0||
-					strcmp(currentSlayer->getCharacter()->getCString(),"SageNaruto")==0
-					){
-						currentSlayer->setEXP(currentSlayer->getEXP()+12);
-						currentSlayer->changeHPbar();
+				const int kTestFlogDeathEXP=2500;
+				currentSlayer->setEXP(currentSlayer->getEXP()+kTestFlogDeathEXP);
+				CCLOG("[TestEXP] Flog death grants %d EXP to %s",kTestFlogDeathEXP,currentSlayer->getCharacter()->getCString());
 
-				}else{
-					currentSlayer->setEXP(currentSlayer->getEXP()+10);
+				for(int i=0;i<5 && currentSlayer->getLV()!=6;i++){
+					int oldLevel=currentSlayer->getLV();
 					currentSlayer->changeHPbar();
+					if(currentSlayer->getLV()==oldLevel){
+						break;
+					}
 				}
 				
 			}

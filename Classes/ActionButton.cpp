@@ -154,13 +154,13 @@ bool ActionButton::isCanClick(){
 			 }
 			 //ougis click solution
 			 else if(this->_abType==OUGIS1){
-				 if(_delegate->getSkillFinish() && _delegate->getOugisEnable(false) && !_isLock && !_delegate->ougisLayer && _delegate->_delegate->currentPlayer->getLV()>=2 ){
+				 if(_delegate->_delegate->currentPlayer && _delegate->_delegate->currentPlayer->getSkill4Action() && _delegate->getSkillFinish() && _delegate->getOugisEnable(false) && !_isLock && !_delegate->ougisLayer && _delegate->_delegate->currentPlayer->getLV()>=2 ){
 					 _delegate->costCKR(15000,false);	
 					 return true;
 				 }
 			 }else if(this->_abType==OUGIS2){
 
-				 if(_delegate->getSkillFinish() && _delegate->getOugisEnable(true) && !_isLock && !_delegate->ougisLayer && _delegate->_delegate->currentPlayer->getLV()>=4){
+				 if(_delegate->_delegate->currentPlayer && _delegate->_delegate->currentPlayer->getSkill5Action() && _delegate->getSkillFinish() && _delegate->getOugisEnable(true) && !_isLock && !_delegate->ougisLayer && _delegate->_delegate->currentPlayer->getLV()>=4){
 					 _delegate->costCKR(25000,true);	
 					 return true;
 				 }
