@@ -12,7 +12,6 @@
 ipch/
 .vs/
 
-Resources
 
 # Build output directories
 [Dd]ebug/
