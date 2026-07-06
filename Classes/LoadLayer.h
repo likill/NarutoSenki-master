@@ -45,6 +45,7 @@ public:
 	CC_SYNTHESIZE_RETAIN(HudLayer*,_hudLayer,HudLayer);
 	bool _isHardCoreMode;
 	bool _isRandomChar;
+	bool _isLocalPvP;
 
 	void preloadAudio();
 	void preloadIMG();

@@ -87,18 +87,28 @@ MiniIcon*  MiniIcon::create( const char *szImage,bool isNotification ){
 HudLayer::HudLayer(void)
 {
 	_joyStick=NULL;
+	_delegate=NULL;
+	status_bar=NULL;
+	status_hpbar=NULL;
+	status_hpMark=NULL;
+	status_expbar=NULL;
 
+	nAttackButton=NULL;
+	skill1Button=NULL;
+	skill2Button=NULL;
+	skill3Button=NULL;
+	skill4Button=NULL;
+	skill5Button=NULL;
 
 	_reportListArray=NULL;
 	_buffCount=0;
 	_towerIconArray=NULL;
 	reportSPCSprite=NULL;
+	reportSprite=NULL;
 
 	_isAllButtonLocked=false;
 
 	isOpenSQL=false;
-	skill4Button=NULL;
-	skill5Button=NULL;
 	ougisLayer=NULL;
 
 	gear1Button=NULL;
@@ -111,11 +121,22 @@ HudLayer::HudLayer(void)
 	item3Button=NULL;
 	item4Button=NULL;
 	Kaichang=NULL;
+	hpLabel=NULL;
+	expLabel=NULL;
+	coinLabel=NULL;
+	killLabel=NULL;
+	deadLabel=NULL;
+	KonoLabel=NULL;
+	AkaLabel=NULL;
+	gameClock=NULL;
+	pauseNenu=NULL;
+	miniLayer=NULL;
+	texUI=NULL;
+	uiBatch=NULL;
 
 	bcdLabel1=NULL;
 	bcdLabel2=NULL;
 }
-
 
 HudLayer::~HudLayer(void)
 {
@@ -579,6 +600,71 @@ void HudLayer::initHeroInterface(){
 
 }
 
+void HudLayer::applyLocalP2Layout(){
+	float right=winSize.width;
+
+	if(status_bar){
+		status_bar->setAnchorPoint(ccp(1,0));
+		status_bar->setPosition(ccp(right,winSize.height-status_bar->getContentSize().height));
+		status_bar->setFlipX(true);
+	}
+	if(status_hpbar){
+		status_hpbar->setPosition(ccp(right-53,winSize.height-54));
+	}
+	if(status_hpMark){
+		status_hpMark->setAnchorPoint(ccp(1,0));
+		status_hpMark->setPosition(ccp(right-54,winSize.height-105));
+		status_hpMark->setFlipX(true);
+	}
+	if(status_expbar){
+		status_expbar->setPosition(ccp(right-54,winSize.height-54));
+	}
+	if(hpLabel){
+		hpLabel->setAnchorPoint(ccp(1,0));
+		hpLabel->setPosition(ccp(right,winSize.height-54));
+	}
+	if(expLabel){
+		expLabel->setPosition(ccp(right-94,winSize.height-54));
+	}
+	if(coinLabel){
+		coinLabel->setAnchorPoint(ccp(1,0));
+		coinLabel->setPosition(ccp(right-121,winSize.height-61));
+	}
+	if(gearMenu){
+		gearMenu->setPosition(ccp(right-40,winSize.height-40));
+	}
+	if(gear1Button){
+		gear1Button->setPosition(ccp(right-105,winSize.height-92));
+	}
+	if(gear2Button){
+		gear2Button->setPosition(ccp(right-70,winSize.height-112));
+	}
+	if(gear3Button){
+		gear3Button->setPosition(ccp(right-35,winSize.height-92));
+	}
+
+	if(_joyStick){ _joyStick->setVisible(false); _joyStick->setPosition(ccp(-1000,-1000)); }
+	if(pauseNenu){ pauseNenu->setVisible(false); }
+	if(miniLayer){ miniLayer->setVisible(false); miniLayer->setPosition(ccp(-1000,-1000)); }
+	if(gameClock){ gameClock->setVisible(false); }
+	if(killLabel){ killLabel->setVisible(false); }
+	if(deadLabel){ deadLabel->setVisible(false); }
+	if(KonoLabel){ KonoLabel->setVisible(false); }
+	if(AkaLabel){ AkaLabel->setVisible(false); }
+
+#define HIDE_LOCAL_P2_BUTTON(button) if(button){ button->setVisible(false); button->setPosition(ccp(-1000,-1000)); }
+	HIDE_LOCAL_P2_BUTTON(nAttackButton);
+	HIDE_LOCAL_P2_BUTTON(skill1Button);
+	HIDE_LOCAL_P2_BUTTON(skill2Button);
+	HIDE_LOCAL_P2_BUTTON(skill3Button);
+	HIDE_LOCAL_P2_BUTTON(skill4Button);
+	HIDE_LOCAL_P2_BUTTON(skill5Button);
+	HIDE_LOCAL_P2_BUTTON(item1Button);
+	HIDE_LOCAL_P2_BUTTON(getItem2Button());
+	HIDE_LOCAL_P2_BUTTON(getItem3Button());
+	HIDE_LOCAL_P2_BUTTON(getItem4Button());
+#undef HIDE_LOCAL_P2_BUTTON
+}
 void HudLayer::addMapIcon(){
 
 	CCObject* pObject;

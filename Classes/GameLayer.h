@@ -31,6 +31,8 @@ public:
 
 	CCTMXTiledMap*		currentMap;
 	Hero*				currentPlayer;
+	Hero*				player1;
+	Hero*				player2;
 	CCPoint				spawnPoint;
 	
 	unsigned int _second;
@@ -93,6 +95,12 @@ public:
 	bool handleKeyboard(unsigned int keyCode,bool isPressed);
 	void resetKeyboardControl();
 	void resumeKeyboardMove();
+	bool handleKeyboardP2(unsigned int keyCode,bool isPressed);
+	void resetKeyboardControlP2();
+	void setLocalPvPHudLayers(HudLayer* p1Hud,HudLayer* p2Hud);
+	void activatePlayerControl(Hero* player,HudLayer* hud);
+	void restoreDefaultControl();
+	void syncLocalPvPHuds(float dt);
 	
 
 	void JoyStickRelease();
@@ -133,6 +141,9 @@ public:
 	bool _isOugis2Game;
 	bool _isHardCoreGame;
 	bool _isRandomChar;
+	bool _isLocalPvP;
+	HudLayer* _p1HudLayer;
+	HudLayer* _p2HudLayer;
 
 
 	int zhenying;
@@ -146,6 +157,10 @@ protected:
 	virtual void	onExit();
 	void	updateKeyboardMove();
 	void	clickKeyboardButton(ActionButton* button);
+	void	updateKeyboardMoveP2();
+	void	clickKeyboardButtonP2(ActionButton* button);
+	void	JoyStickReleaseP2();
+	void	JoyStickUpdateP2(CCPoint direction);
 
 	bool	_keyMoveUp;
 	bool	_keyMoveDown;
@@ -161,5 +176,20 @@ protected:
 	bool	_keyGear06;
 	bool	_keyGear00;
 	bool	_keyGear03;
+
+	bool	_p2_keyMoveUp;
+	bool	_p2_keyMoveDown;
+	bool	_p2_keyMoveLeft;
+	bool	_p2_keyMoveRight;
+	bool	_p2_keyAttack;
+	bool	_p2_keySkill1;
+	bool	_p2_keySkill2;
+	bool	_p2_keySkill3;
+	bool	_p2_keySkill4;
+	bool	_p2_keySkill5;
+	bool	_p2_keyItem1;
+	bool	_p2_keyGear06;
+	bool	_p2_keyGear00;
+	bool	_p2_keyGear03;
 
 };

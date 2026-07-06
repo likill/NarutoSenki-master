@@ -104,6 +104,7 @@ public:
 
 	void	setDelegate(GameLayer* layer);
 	void	initHeroInterface();
+	void	applyLocalP2Layout();
 	void	attackButtonClick(abType type);
 	void	gearButtonClick(gearType type);
 	void	attackButtonRelease();

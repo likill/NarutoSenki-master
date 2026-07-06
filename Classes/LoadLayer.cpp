@@ -1,4 +1,5 @@
 #include "LoadLayer.h"
+#include "DualGameLayer.h"
 
 
 #include<time.h>
@@ -22,6 +23,7 @@ LoadLayer::LoadLayer(void)
 	_hudLayer=NULL;
 	_isHardCoreMode=false;
 	_isRandomChar=false;
+	_isLocalPvP=false;
 	isPosting=false;
 	DLCArray=NULL;
 }
@@ -424,6 +426,16 @@ void LoadLayer::onLoadFinish(float dt){
 
 	
 
+	if(_isLocalPvP){
+		CCScene* gameScene=CCScene::create();
+		DualGameLayer* dualLayer=DualGameLayer::create();
+		dualLayer->tempHeros=tempHeros;
+		dualLayer->_isHardCoreMode=_isHardCoreMode;
+		dualLayer->initGame();
+		gameScene->addChild(dualLayer,GlTag);
+		CCDirector::sharedDirector()->replaceScene(CCTransitionFade::create(0.5f,gameScene));
+		return;
+	}
 	CCScene* gameScene=CCScene::create();
 
 	_gameLayer=GameLayer::create();

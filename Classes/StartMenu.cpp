@@ -1,4 +1,5 @@
 #include "StartMenu.h"
+#include "DualSelectLayer.h"
 using namespace CocosDenshion;
 USING_NS_CC_EXT;
 
@@ -157,6 +158,10 @@ void MenuButton::ccTouchEnded(CCTouch* touch,CCEvent* event){
 			SimpleAudioEngine::sharedEngine()->playEffect("Audio/Menu/confirm.ogg");
 			_delegate->onHardCoreCallBack();
 			break;;
+		case LocalPvP:
+			SimpleAudioEngine::sharedEngine()->playEffect("Audio/Menu/confirm.ogg");
+			_delegate->onLocalPvPCallBack();
+			break;
 		case HardCore:
 			/*SimpleAudioEngine::sharedEngine()->playEffect(SELECT_SOUND);
 			CCSpriteFrame *frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("menu05_text.png"); 
@@ -390,6 +395,17 @@ bool StartMenu::init()
 
 
 
+		MenuButton* localPvP_btn=MenuButton::create("menu02.png");
+		localPvP_btn->setDelegate(this);
+		localPvP_btn->setBtnType(LocalPvP);
+		localPvP_btn->_isTop=true;
+		localPvP_btn->setScale(0.45f);
+		localPvP_btn->setPosition(ccp(winSize.width-78,58));
+		this->addChild(localPvP_btn,6);
+
+		CCLabelTTF* localPvPLabel=CCLabelTTF::create("本地联机",FONT_TYPE,12);
+		localPvPLabel->setPosition(ccp(localPvP_btn->getContentSize().width/2,localPvP_btn->getContentSize().height/2));
+		localPvP_btn->addChild(localPvPLabel,10);
 		MenuButton* exit_btn=MenuButton::create("menu03.png");
 		exit_btn->setDelegate(this);
 		exit_btn->setBtnType(Exit);
@@ -3690,6 +3706,20 @@ void StartMenu::onTrainingCallBack(){
 
 }
 
+void StartMenu::onLocalPvPCallBack(){
+
+	if(input_layer || profile_layer || group_layer) {
+		return;
+	}
+
+	SimpleAudioEngine::sharedEngine()->stopBackgroundMusic();
+	CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("Select.plist");
+
+	CCScene* selectScene=CCScene::create();
+	DualSelectLayer* selectLayer=DualSelectLayer::create();
+	selectScene->addChild(selectLayer);
+	CCDirector::sharedDirector()->replaceScene(CCTransitionFade::create(1.5f,selectScene));
+}
 void StartMenu::onCreditsCallBack(){
 
 	if(input_layer || profile_layer || group_layer) {

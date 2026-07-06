@@ -92,4 +92,21 @@ enum gearType{
 	gear08,
 	None
 };
+// Local PvP - P2 keyboard codes (Windows virtual key codes).
+#define P2_VK_UP             0x26
+#define P2_VK_DOWN           0x28
+#define P2_VK_LEFT           0x25
+#define P2_VK_RIGHT          0x27
+#define P2_VK_NUMPAD0        0x60
+#define P2_VK_NUMPAD1        0x61
+#define P2_VK_NUMPAD2        0x62
+#define P2_VK_NUMPAD3        0x63
+#define P2_VK_NUMPAD4        0x64
+#define P2_VK_NUMPAD5        0x65
+#define P2_VK_NUMPAD6        0x66
+#define P2_VK_NUMPAD7        0x67
+#define P2_VK_NUMPAD8        0x68
+#define P2_VK_NUMPAD9        0x69
+#define P2_VK_ADD            0x6B
+#define P2_VK_OEM_PLUS       0xBB
 

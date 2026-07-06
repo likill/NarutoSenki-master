@@ -102,6 +102,12 @@
     <ClCompile Include="..\Classes\NetworkLayer.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\DualGameLayer.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\DualSelectLayer.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -198,6 +204,12 @@
       <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\NetworkLayer.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\DualGameLayer.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\DualSelectLayer.h">
       <Filter>Include</Filter>
     </ClInclude>
   </ItemGroup>

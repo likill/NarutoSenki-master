@@ -22,7 +22,8 @@ enum btnType{
 	Training,
 	Exit,
 	Credits,
-	HardCore
+	HardCore,
+	LocalPvP
 };
 
 class StartMenu;
@@ -85,6 +86,7 @@ public:
 
 	bool				init();
 	void				onTrainingCallBack();
+	void				onLocalPvPCallBack();
 	void				onHardCoreOn(CCObject* sender);
 	void				onHardCoreOff(CCObject* sender);
 	void				onHardLayerCallBack();

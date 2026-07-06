@@ -17,6 +17,7 @@ enum sbtnType{
 };
 class SelectLayer;
 class NetworkLayer;
+class DualSelectLayer;
 class SkillLayer : public CCLayer{
 
 public:
@@ -92,6 +93,7 @@ public:
 	CC_SYNTHESIZE(SelectLayer*,_delegate1,Delegate1);
 	CC_SYNTHESIZE(NetworkLayer*,_delegate2,Delegate2);
 	CC_SYNTHESIZE(SkillLayer*,_delegate3,Delegate3);
+	CC_SYNTHESIZE(DualSelectLayer*,_delegate4,Delegate4);
 
 	void    spriteToGrey();
 protected:

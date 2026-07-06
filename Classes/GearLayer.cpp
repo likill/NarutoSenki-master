@@ -356,6 +356,9 @@ bool GearLayer::init(CCRenderTexture* snapshoot){
 void GearLayer::onResume(CCObject* sender){
 	
 	this->getDelegate()->getHudLayer()->updateGears();
+	if(this->getDelegate()->_isLocalPvP && this->getDelegate()->getHudLayer()==this->getDelegate()->_p2HudLayer){
+		this->getDelegate()->getHudLayer()->applyLocalP2Layout();
+	}
 	CCDirector::sharedDirector()->popScene();
 	
 };

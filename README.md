@@ -9,8 +9,18 @@ vs2010
 
 Farewell,Good Luck.
 
+## 编译
 
-最简单运行方式：
+我用的是 VS2010 的 MSBuild.exe，命令如下：
+& 'C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe' proj.win32\NarutoSenki.sln /p:Configuration=Debug /p:Platform=Win32 /m
+这个是完整构建解决方案，会一起编译 cocos2d、CocosDenshion、extensions 等依赖，最后生成：
+proj.win32\Debug.win32\NarutoSenki.exe
+如果只是检查 C++ 源码能不能编过、不生成 exe，我用的是：
+& 'C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe' proj.win32\NarutoSenki.vcxproj /t:ClCompile /p:Configuration=Debug /p:Platform=Win32 /p:BuildProjectReferences=false /m
+你要真正拿到新 exe，就用第一条 NarutoSenki.sln 的完整构建命令。
+
+
+## 最简单运行方式：
 NarutoSenki.exe路径在\cocos2d-x-2.2.2\projects\NarutoSenki-master\proj.win32\Debug.win32\NarutoSenki.exe
 
 右键 NarutoSenki.exe，创建快捷方式

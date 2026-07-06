@@ -143,6 +143,8 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\BGLayer.cpp" />
     <ClCompile Include="..\Classes\Characters.cpp" />
     <ClCompile Include="..\Classes\CreditsLayer.cpp" />
+    <ClCompile Include="..\Classes\DualGameLayer.cpp" />
+    <ClCompile Include="..\Classes\DualSelectLayer.cpp" />
     <ClCompile Include="..\Classes\Effect.cpp" />
     <ClCompile Include="..\Classes\Element.cpp" />
     <ClCompile Include="..\Classes\GameLayer.cpp" />
@@ -175,6 +177,8 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\Characters.h" />
     <ClInclude Include="..\Classes\CreditsLayer.h" />
     <ClInclude Include="..\Classes\Defines.h" />
+    <ClInclude Include="..\Classes\DualGameLayer.h" />
+    <ClInclude Include="..\Classes\DualSelectLayer.h" />
     <ClInclude Include="..\Classes\Effect.h" />
     <ClInclude Include="..\Classes\Element.h" />
     <ClInclude Include="..\Classes\GameLayer.h" />

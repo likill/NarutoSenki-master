@@ -1,6 +1,7 @@
 #include "SkillLayer.h"
 #include "SelectLayer.h"
 #include "NetworkLayer.h"
+#include "DualSelectLayer.h"
 USING_NS_CC_EXT;
 using namespace CocosDenshion;
 
@@ -20,6 +21,7 @@ SelectButton::SelectButton(void)
 	_delegate1=NULL;
 	_delegate2=NULL;
 	_delegate3=NULL;
+	_delegate4=NULL;
 	_charName=NULL;
 }
 
@@ -82,6 +84,20 @@ void SelectButton::ccTouchEnded(CCTouch* touch,CCEvent* event){
 void SelectButton::click(){
 
 	if(this->getBtnType()==Menu){
+		if(_delegate4){
+			const char* charName=_charName->getCString();
+			if(strcmp(charName,"None")==0 || strcmp(charName,"None2")==0){
+				return;
+			}
+			if(strcmp(charName,"Pain")==0 || strcmp(charName,"Orochimaru")==0){
+				CCTips *tip=CCTips::create("LimitedChar");
+				_delegate4->addChild(tip,5000);
+				return;
+			}
+			SimpleAudioEngine::sharedEngine()->playEffect(SELECT_SOUND);
+			_delegate4->setSelected(this);
+			return;
+		}
 			if(strcmp(_charName->getCString(),"None2")==0 ){
 				CCTips *tip=CCTips::create("LimitedChar");
 				this->_delegate2->addChild(tip,5000);

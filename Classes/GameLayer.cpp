@@ -35,8 +35,13 @@ GameLayer::GameLayer(void)
 	_isOugis2Game=false;
 	_isHardCoreGame=false;
 	_isRandomChar=false;
+	_isLocalPvP=false;
+	_p1HudLayer=NULL;
+	_p2HudLayer=NULL;
 	zhenying=1;
 	currentPlayer=NULL;
+	player1=NULL;
+	player2=NULL;
 	_hudLayer=NULL;
 	isPosting=false;
 	postTime=0;
@@ -55,6 +60,21 @@ GameLayer::GameLayer(void)
 	_keyGear06=false;
 	_keyGear00=false;
 	_keyGear03=false;
+
+	_p2_keyMoveUp=false;
+	_p2_keyMoveDown=false;
+	_p2_keyMoveLeft=false;
+	_p2_keyMoveRight=false;
+	_p2_keyAttack=false;
+	_p2_keySkill1=false;
+	_p2_keySkill2=false;
+	_p2_keySkill3=false;
+	_p2_keySkill4=false;
+	_p2_keySkill5=false;
+	_p2_keyItem1=false;
+	_p2_keyGear06=false;
+	_p2_keyGear00=false;
+	_p2_keyGear03=false;
 
 }
 
@@ -421,6 +441,7 @@ void GameLayer::initHeros(){
 				currentPlayer->idle();
 				currentPlayer->setCharNO(i+1);
 				currentPlayer->schedule(schedule_selector(ActionManager::setRestore2),1.0f);
+				player1=currentPlayer;
 				_CharacterArray->addObject(currentPlayer);
 
 			}else{
@@ -436,6 +457,9 @@ void GameLayer::initHeros(){
 				Com->idle();
 				Com->setCharNO(i+1);
 				Com->schedule(schedule_selector(ActionManager::setRestore2),1.0f);
+				if(_isLocalPvP && strcmp(role->getCString(),"Player")==0){
+					player2=Com;
+				}
 				_CharacterArray->addObject(Com);
 			}
 			i++;
@@ -492,6 +516,7 @@ void GameLayer::initHeros(){
 				}
 				currentPlayer->setCharNO(i+1);
 				currentPlayer->schedule(schedule_selector(ActionManager::setRestore2),1.0f);
+				player1=currentPlayer;
 				_CharacterArray->addObject(currentPlayer);
 
 			}else{
@@ -512,6 +537,9 @@ void GameLayer::initHeros(){
 
 				Com->setCharNO(i+1);
 				Com->schedule(schedule_selector(ActionManager::setRestore2),1.0f);
+				if(_isLocalPvP && strcmp(role->getCString(),"Player")==0){
+					player2=Com;
+				}
 				_CharacterArray->addObject(Com);
 			}
 			i++;
@@ -526,7 +554,9 @@ void GameLayer::initHeros(){
 	this->initTower();
 
 
-	this->schedule(schedule_selector(GameLayer::updateViewPoint),0.0f);
+	if(!_isLocalPvP){
+		this->schedule(schedule_selector(GameLayer::updateViewPoint),0.0f);
+	}
 
 
 	
@@ -545,6 +575,9 @@ void GameLayer::initHeros(){
 
 void GameLayer::onKaichang(float dt){
 	this->getHudLayer()->onKaichang();
+	if(_isLocalPvP && _p2HudLayer){
+		_p2HudLayer->onKaichang();
+	}
 
 	if(_isHardCoreGame){
 		SimpleAudioEngine::sharedEngine()->playEffect("Audio/Menu/battle_start1.ogg");
@@ -561,6 +594,21 @@ void GameLayer::onGameStart(float dt){
 	this->getHudLayer()->Kaichang->removeFromParent();
 	this->getHudLayer()->Kaichang=NULL;
 	this->getHudLayer()->initHeroInterface();
+	if(_isLocalPvP && _p2HudLayer && player2){
+		if(_p2HudLayer->Kaichang){
+			_p2HudLayer->Kaichang->removeFromParent();
+			_p2HudLayer->Kaichang=NULL;
+		}
+		Hero* oldPlayer=currentPlayer;
+		HudLayer* oldHud=_hudLayer;
+		currentPlayer=player2;
+		_hudLayer=_p2HudLayer;
+		_p2HudLayer->initHeroInterface();
+		_p2HudLayer->applyLocalP2Layout();
+		currentPlayer=oldPlayer;
+		_hudLayer=oldHud;
+	}
+	this->restoreDefaultControl();
 	this->schedule(schedule_selector(GameLayer::updateGameTime),1.0f);
 	this->schedule(schedule_selector(GameLayer::checkBackgroundMusic),2.0f);
 	this->schedule(schedule_selector(GameLayer::addFlog),15.0f);
@@ -1029,6 +1077,10 @@ void GameLayer::JoyStickUpdate(CCPoint direction){
 }
 
 bool GameLayer::handleKeyboard(unsigned int keyCode,bool isPressed){
+	if(_isLocalPvP && player1 && _p1HudLayer){
+		this->activatePlayerControl(player1,_p1HudLayer);
+	}
+
 	switch(keyCode){
 	case 'W':
 		_keyMoveUp=isPressed;
@@ -1178,13 +1230,222 @@ void GameLayer::resetKeyboardControl(){
 	_keyGear00=false;
 	_keyGear03=false;
 
+	_p2_keyMoveUp=false;
+	_p2_keyMoveDown=false;
+	_p2_keyMoveLeft=false;
+	_p2_keyMoveRight=false;
+	_p2_keyAttack=false;
+	_p2_keySkill1=false;
+	_p2_keySkill2=false;
+	_p2_keySkill3=false;
+	_p2_keySkill4=false;
+	_p2_keySkill5=false;
+	_p2_keyItem1=false;
+	_p2_keyGear06=false;
+	_p2_keyGear00=false;
+	_p2_keyGear03=false;
+
 	this->attackButtonRelease();
-	this->JoyStickRelease();
+	if(_isLocalPvP && player1){
+		Hero* oldPlayer=currentPlayer;
+		HudLayer* oldHud=_hudLayer;
+		this->activatePlayerControl(player1,_p1HudLayer);
+		this->JoyStickRelease();
+		currentPlayer=oldPlayer;
+		_hudLayer=oldHud;
+	}else{
+		this->JoyStickRelease();
+	}
 }
 void GameLayer::resumeKeyboardMove(){
 	this->updateKeyboardMove();
 }
 
+void GameLayer::setLocalPvPHudLayers(HudLayer* p1Hud,HudLayer* p2Hud){
+	_p1HudLayer=p1Hud;
+	_p2HudLayer=p2Hud;
+	if(p1Hud){
+		_hudLayer=p1Hud;
+	}
+}
+
+void GameLayer::activatePlayerControl(Hero* player,HudLayer* hud){
+	if(player){
+		currentPlayer=player;
+	}
+	if(hud){
+		_hudLayer=hud;
+	}
+}
+
+void GameLayer::restoreDefaultControl(){
+	if(_isLocalPvP){
+		if(player1){
+			currentPlayer=player1;
+		}
+		if(_p1HudLayer){
+			_hudLayer=_p1HudLayer;
+		}
+	}
+}
+
+bool GameLayer::handleKeyboardP2(unsigned int keyCode,bool isPressed){
+	if(!_isLocalPvP || !player2){
+		return false;
+	}
+
+	switch(keyCode){
+	case P2_VK_UP:
+		_p2_keyMoveUp=isPressed;
+		this->updateKeyboardMoveP2();
+		return true;
+	case P2_VK_DOWN:
+		_p2_keyMoveDown=isPressed;
+		this->updateKeyboardMoveP2();
+		return true;
+	case P2_VK_LEFT:
+		_p2_keyMoveLeft=isPressed;
+		this->updateKeyboardMoveP2();
+		return true;
+	case P2_VK_RIGHT:
+		_p2_keyMoveRight=isPressed;
+		this->updateKeyboardMoveP2();
+		return true;
+	case '0':
+	case P2_VK_NUMPAD0:
+		if(isPressed){
+			if(!_p2_keyAttack){
+				_p2_keyAttack=true;
+				this->clickKeyboardButtonP2(_p2HudLayer ? _p2HudLayer->nAttackButton : NULL);
+			}
+		}else{
+			_p2_keyAttack=false;
+			this->activatePlayerControl(player2,_p2HudLayer);
+			this->attackButtonRelease();
+		}
+		return true;
+	case '1':
+	case P2_VK_NUMPAD1:
+		if(isPressed && !_p2_keySkill1){
+			_p2_keySkill1=true;
+			this->clickKeyboardButtonP2(_p2HudLayer ? _p2HudLayer->skill1Button : NULL);
+		}else if(!isPressed){
+			_p2_keySkill1=false;
+		}
+		return true;
+	case '2':
+	case P2_VK_NUMPAD2:
+		if(isPressed && !_p2_keySkill2){
+			_p2_keySkill2=true;
+			this->clickKeyboardButtonP2(_p2HudLayer ? _p2HudLayer->skill2Button : NULL);
+		}else if(!isPressed){
+			_p2_keySkill2=false;
+		}
+		return true;
+	case '3':
+	case P2_VK_NUMPAD3:
+		if(isPressed && !_p2_keySkill3){
+			_p2_keySkill3=true;
+			this->clickKeyboardButtonP2(_p2HudLayer ? _p2HudLayer->skill3Button : NULL);
+		}else if(!isPressed){
+			_p2_keySkill3=false;
+		}
+		return true;
+	case '4':
+	case P2_VK_NUMPAD4:
+		if(isPressed && !_p2_keySkill4){
+			_p2_keySkill4=true;
+			this->clickKeyboardButtonP2(_p2HudLayer ? _p2HudLayer->skill4Button : NULL);
+		}else if(!isPressed){
+			_p2_keySkill4=false;
+		}
+		return true;
+	case '5':
+	case P2_VK_NUMPAD5:
+		if(isPressed && !_p2_keySkill5){
+			_p2_keySkill5=true;
+			this->clickKeyboardButtonP2(_p2HudLayer ? _p2HudLayer->skill5Button : NULL);
+		}else if(!isPressed){
+			_p2_keySkill5=false;
+		}
+		return true;
+	case '6':
+	case P2_VK_NUMPAD6:
+		if(isPressed && !_p2_keyItem1){
+			_p2_keyItem1=true;
+			this->clickKeyboardButtonP2(_p2HudLayer ? _p2HudLayer->item1Button : NULL);
+		}else if(!isPressed){
+			_p2_keyItem1=false;
+		}
+		return true;
+	case '7':
+	case P2_VK_NUMPAD7:
+		if(isPressed && !_p2_keyGear06){
+			_p2_keyGear06=true;
+			this->clickKeyboardButtonP2(_p2HudLayer ? _p2HudLayer->getItem2Button() : NULL);
+		}else if(!isPressed){
+			_p2_keyGear06=false;
+		}
+		return true;
+	case '8':
+	case P2_VK_NUMPAD8:
+		if(isPressed && !_p2_keyGear00){
+			_p2_keyGear00=true;
+			this->clickKeyboardButtonP2(_p2HudLayer ? _p2HudLayer->getItem3Button() : NULL);
+		}else if(!isPressed){
+			_p2_keyGear00=false;
+		}
+		return true;
+	case '9':
+	case P2_VK_NUMPAD9:
+		if(isPressed && !_p2_keyGear03){
+			_p2_keyGear03=true;
+			this->clickKeyboardButtonP2(_p2HudLayer ? _p2HudLayer->getItem4Button() : NULL);
+		}else if(!isPressed){
+			_p2_keyGear03=false;
+		}
+		return true;
+	case P2_VK_ADD:
+	case P2_VK_OEM_PLUS:
+		if(isPressed && _p2HudLayer && !_p2HudLayer->_isAllButtonLocked){
+			this->activatePlayerControl(player2,_p2HudLayer);
+			this->onGear();
+			if(!_isHardCoreGame){
+				this->restoreDefaultControl();
+			}
+		}
+		return true;
+	default:
+		return false;
+	}
+}
+
+void GameLayer::resetKeyboardControlP2(){
+	_p2_keyMoveUp=false;
+	_p2_keyMoveDown=false;
+	_p2_keyMoveLeft=false;
+	_p2_keyMoveRight=false;
+	_p2_keyAttack=false;
+	_p2_keySkill1=false;
+	_p2_keySkill2=false;
+	_p2_keySkill3=false;
+	_p2_keySkill4=false;
+	_p2_keySkill5=false;
+	_p2_keyItem1=false;
+	_p2_keyGear06=false;
+	_p2_keyGear00=false;
+	_p2_keyGear03=false;
+
+	if(player2){
+		Hero* oldPlayer=currentPlayer;
+		HudLayer* oldHud=_hudLayer;
+		this->activatePlayerControl(player2,_p2HudLayer);
+		this->attackButtonRelease();
+		this->JoyStickReleaseP2();
+		currentPlayer=oldPlayer;
+		_hudLayer=oldHud;
+	}
+}
 void GameLayer::updateKeyboardMove(){
 	if(!_hudLayer || _hudLayer->_isAllButtonLocked || !currentPlayer){
 		this->JoyStickRelease();
@@ -1222,6 +1483,127 @@ void GameLayer::clickKeyboardButton(ActionButton* button){
 	button->click();
 }
 
+void GameLayer::JoyStickReleaseP2(){
+	if(!player2){
+		return;
+	}
+	if(player2->getActionState()==ACTION_STATE_WALK){
+		player2->idle();
+	}
+}
+
+void GameLayer::JoyStickUpdateP2(CCPoint direction){
+	if(!player2){
+		return;
+	}
+	if(!ougisChar){
+		player2->walk(direction);
+	}
+}
+
+void GameLayer::updateKeyboardMoveP2(){
+	if(!_p2HudLayer || _p2HudLayer->_isAllButtonLocked || !player2){
+		this->JoyStickReleaseP2();
+		return;
+	}
+
+	float x=0.0f;
+	float y=0.0f;
+
+	if(_p2_keyMoveLeft){
+		x-=1.0f;
+	}
+	if(_p2_keyMoveRight){
+		x+=1.0f;
+	}
+	if(_p2_keyMoveUp){
+		y+=1.0f;
+	}
+	if(_p2_keyMoveDown){
+		y-=1.0f;
+	}
+
+	if(x==0.0f && y==0.0f){
+		this->JoyStickReleaseP2();
+	}else{
+		this->JoyStickUpdateP2(ccp(x,y));
+	}
+}
+
+void GameLayer::clickKeyboardButtonP2(ActionButton* button){
+	if(!button || !_p2HudLayer || _p2HudLayer->_isAllButtonLocked || !player2){
+		return;
+	}
+
+	this->activatePlayerControl(player2,_p2HudLayer);
+	button->click();
+}
+
+void GameLayer::syncLocalPvPHuds(float dt){
+	if(!_isLocalPvP){
+		return;
+	}
+
+	static bool loggedMissingHud[2]={false,false};
+	Hero* oldPlayer=currentPlayer;
+	HudLayer* oldHud=_hudLayer;
+	Hero* players[2]={player1,player2};
+	HudLayer* huds[2]={_p1HudLayer,_p2HudLayer};
+
+	for(int i=0;i<2;i++){
+		Hero* hero=players[i];
+		HudLayer* hud=huds[i];
+		if(!hero || !hud){
+			if(!loggedMissingHud[i]){
+				CCLOG("[LocalPvP][HUD] skip sync p%d: hero=%p hud=%p",i+1,hero,hud);
+				loggedMissingHud[i]=true;
+			}
+			continue;
+		}
+
+		if(!hud->hpLabel || !hud->status_hpbar || !hud->status_expbar || !hud->expLabel || !hud->coinLabel){
+			if(!loggedMissingHud[i]){
+				const char* charName=hero->getCharacter() ? hero->getCharacter()->getCString() : "unknown";
+				CCLOG("[LocalPvP][HUD] skip sync p%d (%s): hpLabel=%p hpbar=%p expbar=%p expLabel=%p coinLabel=%p",
+					i+1,charName,hud->hpLabel,hud->status_hpbar,hud->status_expbar,hud->expLabel,hud->coinLabel);
+				loggedMissingHud[i]=true;
+			}
+			continue;
+		}
+
+		loggedMissingHud[i]=false;
+		currentPlayer=hero;
+		_hudLayer=hud;
+		float percent=hero->getHpPercent();
+		if(percent<0){
+			percent=0;
+		}else if(percent>1){
+			percent=1;
+		}
+		hud->status_hpbar->setRotation(-((1-percent)*180));
+		hud->hpLabel->setString(CCString::createWithFormat("%d",atoi(hero->getHP()->getCString()))->getCString());
+		hud->coinLabel->setString(hero->getCoin()->getCString());
+
+		int exp=hero->getEXP();
+		int lvExp=(hero->getLV()-1)*500;
+		float expPercent=(exp-lvExp)/500.0f*100;
+		if(expPercent<0){
+			expPercent=0;
+		}else if(expPercent>100){
+			expPercent=100;
+		}
+		hud->status_expbar->setPercentage((1+expPercent/100)*50);
+		if(exp>=2500){
+			hud->status_expbar->setPercentage(100);
+			hud->expLabel->setString("Max");
+		}else{
+			hud->expLabel->setString(CCString::createWithFormat("%d%%",int(expPercent))->getCString());
+		}
+	}
+
+	currentPlayer=oldPlayer;
+	_hudLayer=oldHud;
+}
 void GameLayer::attackButtonClick(abType type){
 	if(type==NAttack){
 		_isAttackButtonRelease=false;
@@ -1247,15 +1629,22 @@ void GameLayer::attackButtonRelease(){
 void GameLayer::onPause(){
 
 	CCRenderTexture* snapshoot=CCRenderTexture::create(winSize.width,winSize.height);
-	CCScene* f = CCDirector::sharedDirector()->getRunningScene();
-	CCObject* pObject= f->getChildren()->objectAtIndex(0);
-	BGLayer* bg=(BGLayer*) pObject;
 	snapshoot->begin();
-	bg->visit();
-
-	this->visit();
+	if(_isLocalPvP){
+		CCScene* f=CCDirector::sharedDirector()->getRunningScene();
+		if(f){
+			f->visit();
+		}
+	}else{
+		CCScene* f = CCDirector::sharedDirector()->getRunningScene();
+		if(f && f->getChildren() && f->getChildren()->count()>0){
+			CCObject* pObject= f->getChildren()->objectAtIndex(0);
+			BGLayer* bg=(BGLayer*) pObject;
+			bg->visit();
+		}
+		this->visit();
+	}
 	snapshoot->end();
-
 
 	CCScene* pscene =CCScene::create();
 	PauseLayer* layer=PauseLayer::create(snapshoot);
@@ -1265,19 +1654,26 @@ void GameLayer::onPause(){
 	CCDirector::sharedDirector()->pushScene(pscene);
 
 }
-
 void GameLayer::onGear(){
 
 	if(this->_isHardCoreGame){
 
 		CCRenderTexture* snapshoot=CCRenderTexture::create(winSize.width,winSize.height);
-		CCScene* f = CCDirector::sharedDirector()->getRunningScene();
-		CCObject* pObject= f->getChildren()->objectAtIndex(0);
-		BGLayer* bg=(BGLayer*) pObject;
 		snapshoot->begin();
-		bg->visit();
-
-		this->visit();
+		if(_isLocalPvP){
+			CCScene* f=CCDirector::sharedDirector()->getRunningScene();
+			if(f){
+				f->visit();
+			}
+		}else{
+			CCScene* f = CCDirector::sharedDirector()->getRunningScene();
+			if(f && f->getChildren() && f->getChildren()->count()>0){
+				CCObject* pObject= f->getChildren()->objectAtIndex(0);
+				BGLayer* bg=(BGLayer*) pObject;
+				bg->visit();
+			}
+			this->visit();
+		}
 		snapshoot->end();
 
 		CCScene* pscene =CCScene::create();
@@ -1292,18 +1688,26 @@ void GameLayer::onGear(){
 
 
 }
-
 void GameLayer::onGameOver(bool isWin){
 
 
 	if(CError!=1){
 		CCRenderTexture* snapshoot=CCRenderTexture::create(winSize.width,winSize.height);
-		CCScene* f = CCDirector::sharedDirector()->getRunningScene();
-		CCObject* pObject= f->getChildren()->objectAtIndex(0);
-		BGLayer* bg=(BGLayer*) pObject;
 		snapshoot->begin();
-		bg->visit();
-		this->visit();
+		if(_isLocalPvP){
+			CCScene* f=CCDirector::sharedDirector()->getRunningScene();
+			if(f){
+				f->visit();
+			}
+		}else{
+			CCScene* f = CCDirector::sharedDirector()->getRunningScene();
+			if(f && f->getChildren() && f->getChildren()->count()>0){
+				CCObject* pObject= f->getChildren()->objectAtIndex(0);
+				BGLayer* bg=(BGLayer*) pObject;
+				bg->visit();
+			}
+			this->visit();
+		}
 		snapshoot->end();
 
 		CCScene* pscene =CCScene::create();

@@ -2,6 +2,7 @@
 #include "AppDelegate.h"
 #include "CCEGLView.h"
 #include "GameLayer.h"
+#include "DualGameLayer.h"
 #include "GearLayer.h"
 #include "PauseLayer.h"
 
@@ -29,7 +30,13 @@ static GameLayer* getRunningGameLayer()
         CCNode* node = (CCNode*)object;
         if (node && node->getZOrder() == GlTag)
         {
-            return (GameLayer*)node;
+            DualGameLayer* dualLayer = dynamic_cast<DualGameLayer*>(node);
+            if (dualLayer)
+            {
+                return dualLayer->getGameLayer();
+            }
+
+            return dynamic_cast<GameLayer*>(node);
         }
     }
 
@@ -44,6 +51,7 @@ static void syncMovementKeys(GameLayer* gameLayer)
     }
 
     gameLayer->resetKeyboardControl();
+    gameLayer->resetKeyboardControlP2();
 
     const unsigned int moveKeys[] = { 'W', 'S', 'A', 'D' };
     for (int i = 0; i < 4; ++i)
@@ -52,6 +60,16 @@ static void syncMovementKeys(GameLayer* gameLayer)
         if (s_keyDown[keyCode])
         {
             gameLayer->handleKeyboard(keyCode, true);
+        }
+    }
+
+    const unsigned int p2MoveKeys[] = { P2_VK_UP, P2_VK_DOWN, P2_VK_LEFT, P2_VK_RIGHT };
+    for (int i = 0; i < 4; ++i)
+    {
+        unsigned int keyCode = p2MoveKeys[i];
+        if (s_keyDown[keyCode])
+        {
+            gameLayer->handleKeyboardP2(keyCode, true);
         }
     }
 }
@@ -108,7 +126,7 @@ static bool handlePushedLayerHotkey(unsigned int keyCode)
     CCARRAY_FOREACH(children, object)
     {
         CCNode* node = (CCNode*)object;
-        if (keyCode == 'G')
+        if (keyCode == 'G' || keyCode == P2_VK_ADD || keyCode == P2_VK_OEM_PLUS)
         {
             GearLayer* gearLayer = dynamic_cast<GearLayer*>(node);
             if (gearLayer)
@@ -151,7 +169,8 @@ static LRESULT gameWindowProc(UINT message, WPARAM wParam, LPARAM lParam, BOOL* 
 
         if (isPressed)
         {
-            if (wasDown && (keyCode == 'G' || keyCode == 'P'))
+            bool isGearHotkey = (keyCode == 'G' || keyCode == P2_VK_ADD || keyCode == P2_VK_OEM_PLUS);
+            if (wasDown && (isGearHotkey || keyCode == 'P'))
             {
                 *pProcessed = TRUE;
                 return 0;
@@ -170,7 +189,7 @@ static LRESULT gameWindowProc(UINT message, WPARAM wParam, LPARAM lParam, BOOL* 
             return 0;
         }
 
-        if (gameLayer->handleKeyboard(keyCode, isPressed))
+        if (gameLayer->handleKeyboardP2(keyCode, isPressed) || gameLayer->handleKeyboard(keyCode, isPressed))
         {
             *pProcessed = TRUE;
         }
@@ -187,6 +206,7 @@ static LRESULT gameWindowProc(UINT message, WPARAM wParam, LPARAM lParam, BOOL* 
         if (gameLayer)
         {
             gameLayer->resetKeyboardControl();
+            gameLayer->resetKeyboardControlP2();
         }
     }
 
