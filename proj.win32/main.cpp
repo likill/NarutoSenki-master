@@ -225,7 +225,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     AppDelegate app;
     CCEGLView* eglView = CCEGLView::sharedOpenGLView();
     eglView->setViewName("NarutoSenki");
-    eglView->setFrameSize(480, 320);
+    eglView->setFrameSize(960,640);
     eglView->setWndProc(gameWindowProc);
     return CCApplication::sharedApplication()->run();
 }
