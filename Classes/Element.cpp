@@ -26,6 +26,44 @@ static void NSDebugLog(const char* format, ...)
 }
 
 
+static const char* getLocalPvPHeroHPBarFrame(GameLayer* delegate,ActionManager* actor)
+{
+	if(delegate && delegate->_isLocalPvP && delegate->player1 && delegate->player2 && actor && actor->getGroup()){
+		if(delegate->player1->getGroup() && strcmp(actor->getGroup()->getCString(),delegate->player1->getGroup()->getCString())==0){
+			return "hp_bar_b.png";
+		}
+		if(delegate->player2->getGroup() && strcmp(actor->getGroup()->getCString(),delegate->player2->getGroup()->getCString())==0){
+			return "hp_bar_r.png";
+		}
+	}
+	return NULL;
+}
+
+static const char* getLocalPvPFlogHPBarFrame(GameLayer* delegate,ActionManager* actor)
+{
+	if(delegate && delegate->_isLocalPvP && delegate->player1 && delegate->player2 && actor && actor->getGroup()){
+		if(delegate->player1->getGroup() && strcmp(actor->getGroup()->getCString(),delegate->player1->getGroup()->getCString())==0){
+			return "flog_bar.png";
+		}
+		if(delegate->player2->getGroup() && strcmp(actor->getGroup()->getCString(),delegate->player2->getGroup()->getCString())==0){
+			return "flog_bar_r.png";
+		}
+	}
+	return NULL;
+}
+
+static const char* getLocalPvPTowerHPBarFrame(GameLayer* delegate,ActionManager* actor)
+{
+	if(delegate && delegate->_isLocalPvP && delegate->player1 && delegate->player2 && actor && actor->getGroup()){
+		if(delegate->player1->getGroup() && strcmp(actor->getGroup()->getCString(),delegate->player1->getGroup()->getCString())==0){
+			return "hp_bar.png";
+		}
+		if(delegate->player2->getGroup() && strcmp(actor->getGroup()->getCString(),delegate->player2->getGroup()->getCString())==0){
+			return "hp_bar_r.png";
+		}
+	}
+	return NULL;
+}
 HeroElement::HeroElement(void)
 {
 	rebornSprite=NULL;
@@ -497,7 +535,10 @@ void HeroElement::setHPbar(){
 
 	
 
-	if(strcmp(getGroup()->getCString(),_delegate->currentPlayer->getGroup()->getCString())!=0){
+	const char* localPvPBar=getLocalPvPHeroHPBarFrame(_delegate,this);
+	if(localPvPBar){
+		_hpBar=HPBar::create(localPvPBar);
+	}else if(strcmp(getGroup()->getCString(),_delegate->currentPlayer->getGroup()->getCString())!=0){
 		_hpBar=HPBar::create("hp_bar_r.png");
 	} else if((strcmp(getRole()->getCString(),"Com")==0 || 
 		strcmp(getRole()->getCString(),"Clone")==0 || 
@@ -1070,7 +1111,10 @@ void Flog::initAction(){
 
 
 void Flog::setHPbar(){
-	if(strcmp(getGroup()->getCString(),_delegate->currentPlayer->getGroup()->getCString())!=0){
+	const char* localPvPBar=getLocalPvPFlogHPBarFrame(_delegate,this);
+	if(localPvPBar){
+		_hpBar=HPBar::create(localPvPBar);
+	}else if(strcmp(getGroup()->getCString(),_delegate->currentPlayer->getGroup()->getCString())!=0){
 		_hpBar=HPBar::create("flog_bar_r.png");
 	} else{
 		_hpBar=HPBar::create("flog_bar.png");
@@ -1290,7 +1334,10 @@ void Tower::initAction(){
 
 void Tower::setHPbar(){
 	
-	if(strcmp(getGroup()->getCString(),_delegate->currentPlayer->getGroup()->getCString())!=0){
+	const char* localPvPBar=getLocalPvPTowerHPBarFrame(_delegate,this);
+	if(localPvPBar){
+		_hpBar=HPBar::create(localPvPBar);
+	}else if(strcmp(getGroup()->getCString(),_delegate->currentPlayer->getGroup()->getCString())!=0){
 		_hpBar=HPBar::create("hp_bar_r.png");
 	}else{
 		_hpBar=HPBar::create("hp_bar.png");
@@ -1464,7 +1511,10 @@ void Monster::initAction(){
 
 void Monster::setHPbar(){
 
-	if(strcmp(getGroup()->getCString(),_delegate->currentPlayer->getGroup()->getCString())!=0){
+	const char* localPvPBar=getLocalPvPHeroHPBarFrame(_delegate,this);
+	if(localPvPBar){
+		_hpBar=HPBar::create(localPvPBar);
+	}else if(strcmp(getGroup()->getCString(),_delegate->currentPlayer->getGroup()->getCString())!=0){
 		_hpBar=HPBar::create("hp_bar_r.png");
 	} else {
 		_hpBar=HPBar::create("hp_bar_b.png");

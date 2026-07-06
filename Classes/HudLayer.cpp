@@ -432,7 +432,7 @@ void HudLayer::initHeroInterface(){
 	scoreSplitLabel=CCLabelBMFont::create(":","Fonts/1.fnt");
 	scoreSplitLabel->setScale(0.5f);
 	scoreSplitLabel->setAnchorPoint(ccp(0.5f,1));
-	scoreSplitLabel->setPosition(ccp(winSize.width-114,KonoLabel->getPositionY()+2));
+	scoreSplitLabel->setPosition(ccp(winSize.width-37,KonoLabel->getPositionY()+2));
 	this->addChild(scoreSplitLabel,5000);
 
 	this->initGearButton();
@@ -708,17 +708,17 @@ void HudLayer::applyLocalP1Layout(){
 
 	if(pauseNenu){
 		pauseNenu->setVisible(true);
-		pauseNenu->setPosition(ccp(mapRight,winSize.height));
+		pauseNenu->setPosition(ccp(mapRight+10,winSize.height));
 	}
 	if(miniLayer){
 		miniLayer->setVisible(true);
-		miniLayer->setPosition(ccp(mapLeft,winSize.height-38));
+		miniLayer->setPosition(ccp(mapLeft+10,winSize.height-38));
 	}
 	if(killIcon){
 		killIcon->setVisible(true);
 		killIcon->setScale(0.75f);
 		killIcon->setAnchorPoint(ccp(0,1));
-		killIcon->setPosition(ccp(winSize.width/2-94, winSize.height-46));
+		killIcon->setPosition(ccp(winSize.width/2-84, winSize.height-46));
 	}
 	if(killLabel){
 		killLabel->setVisible(true);
@@ -730,7 +730,7 @@ void HudLayer::applyLocalP1Layout(){
 		deadIcon->setVisible(true);
 		deadIcon->setScale(0.75f);
 		deadIcon->setAnchorPoint(ccp(0,1));
-		deadIcon->setPosition(ccp(winSize.width/2-94+26, winSize.height-47));
+		deadIcon->setPosition(ccp(winSize.width/2-84+26, winSize.height-47));
 	}
 	if(deadLabel){
 		deadLabel->setVisible(true);

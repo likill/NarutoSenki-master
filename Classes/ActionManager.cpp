@@ -8218,12 +8218,68 @@ void ActionManager::changeSide(CCPoint sp){
 
 }
 
+static const char* getLocalPvPHPBarFrame(GameLayer* delegate,ActionManager* target)
+{
+	if(!delegate || !delegate->_isLocalPvP || !delegate->player1 || !delegate->player2 || !target || !target->getGroup()){
+		return NULL;
+	}
+
+	bool isPlayer1Team=delegate->player1->getGroup() && strcmp(target->getGroup()->getCString(),delegate->player1->getGroup()->getCString())==0;
+	bool isPlayer2Team=delegate->player2->getGroup() && strcmp(target->getGroup()->getCString(),delegate->player2->getGroup()->getCString())==0;
+	if(!isPlayer1Team && !isPlayer2Team){
+		return NULL;
+	}
+
+	if(strcmp(target->getRole()->getCString(),"Flog")==0){
+		return isPlayer1Team ? "flog_bar.png" : "flog_bar_r.png";
+	}
+	if(strcmp(target->getRole()->getCString(),"Tower")==0){
+		return isPlayer1Team ? "hp_bar.png" : "hp_bar_r.png";
+	}
+	return isPlayer1Team ? "hp_bar_b.png" : "hp_bar_r.png";
+}
+
+static void applyLocalPvPHPBarFrame(GameLayer* delegate,ActionManager* target)
+{
+	if(!target || !target->_hpBar){
+		return;
+	}
+
+	const char* frameName=getLocalPvPHPBarFrame(delegate,target);
+	if(frameName){
+		target->_hpBar->changeBar(frameName);
+	}
+}
+
+static void refreshLocalPvPHPBarFrames(GameLayer* delegate)
+{
+	if(!delegate || !delegate->_isLocalPvP || !delegate->player1 || !delegate->player2){
+		return;
+	}
+
+	CCArray* lists[4]={delegate->_CharacterArray,delegate->_TowerArray,delegate->_AkatsukiFlogArray,delegate->_KonohaFlogArray};
+	for(int i=0;i<4;i++){
+		CCArray* list=lists[i];
+		if(!list){
+			continue;
+		}
+		CCObject* pObject=NULL;
+		CCARRAY_FOREACH(list,pObject){
+			applyLocalPvPHPBarFrame(delegate,(ActionManager*)pObject);
+		}
+	}
+}
 void ActionManager::changeGroup(){
 
 	if(strcmp(this->getGroup()->getCString(),"Konoha")==0){
 		this->setGroup(CCString::create("Akatsuki"));
 	}else{
 		this->setGroup(CCString::create("Konoha"));
+	}
+
+	if(_delegate && _delegate->_isLocalPvP && _delegate->player1 && _delegate->player2){
+		refreshLocalPvPHPBarFrames(_delegate);
+		return;
 	}
 
 	if(this->_hpBar && strcmp(this->getRole()->getCString(),"Player")!=0){
