@@ -23,6 +23,7 @@ class Hero;
 class BGLayer;
 class HudLayer;
 class ActionButton;
+class ActionManager;
 
 class GameLayer :public CCLayer{
 public:
@@ -59,7 +60,12 @@ public:
 	void checkBackgroundMusic(float dt);
 
 
-	CC_SYNTHESIZE(HudLayer*,_hudLayer,HudLayer);
+	HudLayer* _hudLayer;
+
+	HudLayer* getHudLayer();
+	void setHudLayer(HudLayer* hudLayer);
+	HudLayer* getHudLayerForAction(ActionManager* actor);
+	Hero* getPlayerForHud(HudLayer* hud);
 
 	CC_SYNTHESIZE_RETAIN(CCString*,totalKills,TotalKills);
 	CC_SYNTHESIZE_RETAIN(CCString*,totalTM,TotalTM);

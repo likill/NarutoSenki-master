@@ -31,7 +31,7 @@ static void NSDebugLog(const char* format, ...)
 
 ActionManager::ActionManager(void)
 {
-	
+
 	_actionState=ACTION_STATE_WALK;
 
 	_idleAction = NULL;
@@ -47,7 +47,7 @@ ActionManager::ActionManager(void)
 	_skill3Action=NULL;
 	_skill4Action=NULL;
 	_skill5Action=NULL;
-	
+
 	gearCKRValue=0;
 	gearRecoverValue=0;
 	isAttackGainCKR=false;
@@ -76,7 +76,7 @@ ActionManager::ActionManager(void)
 	_moveAction=NULL;
 	_jumpUPAction=NULL;
 	_floatUPAction=NULL;
-	
+
 	_hurtFromLeft=false;
 	_hurtFromRight=false;
 	_isFlipped=false;
@@ -128,7 +128,7 @@ ActionManager::ActionManager(void)
 
 	_deadNum=0;
 	_flogNum=0;
-	
+
 	_knockLength=NULL;
 	_knockDiretion=NULL;
 
@@ -138,7 +138,7 @@ ActionManager::ActionManager(void)
 	_monsterArray=NULL;
 
 	_originY=NULL;
-	
+
 	_nattackValue=NULL;
 	_sattackValue1=NULL;
 	_sattackValue2=NULL;
@@ -149,7 +149,7 @@ ActionManager::ActionManager(void)
 	_spcattackValue2=NULL;
 	_spcattackValue3=NULL;
 	_tempAttackValue1=NULL;
-	
+
 
 	_healBuffEffect=NULL;
 	_powerBuffEffect=NULL;
@@ -185,7 +185,7 @@ ActionManager::ActionManager(void)
 	_isBati=false;
 
 	_rebornTime=5;
-	
+
 
 	_markPoint=ccp(0,0);
 	_startPoint=ccp(0,0);
@@ -203,7 +203,7 @@ ActionManager::ActionManager(void)
 
 ActionManager::~ActionManager(void)
 {
-	
+
 }
 
 
@@ -215,9 +215,9 @@ void ActionManager::changeHPbar(){}
 
 
 void ActionManager::readDate(CCArray* tmpDate,CCString* &attackType,CCString* &attackValue,int &attackRangeX,int &attackRangeY,unsigned int &coldDown,int &combatPoint){
-	
+
 	CCDictionary* tmpDict;
-	
+
 	for(unsigned int i=0;i<tmpDate->count();++i){
 		tmpDict=(CCDictionary * )(tmpDate->objectAtIndex(i));
 		switch(i){
@@ -246,12 +246,12 @@ void ActionManager::readDate(CCArray* tmpDate,CCString* &attackType,CCString* &a
 
 void ActionManager::onEnter(){
 	CCSprite::onEnter();
-	
+
 }
 
 void ActionManager::onExit(){
 	CCSprite::onExit();
-	
+
 };
 
 
@@ -260,10 +260,10 @@ void ActionManager::update(float dt){
 
 	if(_healBuffEffect){
 		_healBuffEffect->setPositionX(this->getContentSize().width/2+(_isFlipped?2:-2));
-	} 
+	}
 	if(_powerBuffEffect){
 		_powerBuffEffect->setPositionX(this->getContentSize().width/2+(_isFlipped?2:-2));
-	} 
+	}
 	if(_skillBuffEffect){
 		_skillBuffEffect->setPositionX(this->getContentSize().width/2);
 	}
@@ -282,12 +282,12 @@ void ActionManager::update(float dt){
 	this->_height));
 	}*/
 
-	
+
 	/*if(_kaguraEffect){
 		_kaguraEffect->setPosition(ccp(this->getPositionX(),this->getPositionY()+this->getContentSize().height/2));
 	}*/
 
-	if(_dehealBuffEffect){		
+	if(_dehealBuffEffect){
 		_dehealBuffEffect->setPositionX(this->getContentSize().width/2);
 	}
 
@@ -300,10 +300,10 @@ void ActionManager::update(float dt){
 		_shadow->setPosition(ccp(this->getPositionX(),_originY?_originY:this->getPositionY()));
 	}
 
-	
-	
-	
-	
+
+
+
+
 	if(!_isControled && _actionState!=ACTION_STATE_DEAD){
 		if(strcmp(this->_role->getCString(),"Player")==0 || strcmp(this->_role->getCString(),"Com")==0){
 
@@ -314,12 +314,12 @@ void ActionManager::update(float dt){
 					if(strcmp(this->_group->getCString(),"Konoha")==0 && this->getPositionX()<=11*32){
 					    _isHealling=true;
 						if(this->getHpPercent()<1.0f){
-							this->scheduleOnce(schedule_selector(ActionManager::setRestore),1.0f);							
+							this->scheduleOnce(schedule_selector(ActionManager::setRestore),1.0f);
 						}
 					}else if(strcmp(this->_group->getCString(),"Akatsuki")==0 && this->getPositionX()>=85*32){
 						_isHealling=true;
-						if ( this->getHpPercent()<1.0f){	
-							this->scheduleOnce(schedule_selector(ActionManager::setRestore),1.0f);						
+						if ( this->getHpPercent()<1.0f){
+							this->scheduleOnce(schedule_selector(ActionManager::setRestore),1.0f);
 						}
 					}else{
 						_isHealling=false;
@@ -327,21 +327,21 @@ void ActionManager::update(float dt){
 			}
 		}
 	}
-	
-	
+
+
 
 	if(_actionState == ACTION_STATE_WALK){
-		
+
 		_desiredPosition=ccpAdd(this->getPosition(), ccpMult(_velocity,dt));
 
-		
+
 
 			if(strcmp(this->_role->getCString(),"Player")==0  && !_isAI && !_isWudi && !_isBati){
-				
+
 				//save the stop Area
 				CCObject* pObject;
 				CCARRAY_FOREACH(this->_delegate->_TowerArray,pObject){
-	
+
 					Tower* tower=(Tower*) pObject;
 					if(tower){
 						int metaWidth=96;
@@ -361,16 +361,16 @@ void ActionManager::update(float dt){
 						};
 
 					}
-					
+
 				};
-			
+
 			};
-	
+
 		float posX= MIN(_delegate->currentMap->getMapSize().width*_delegate->currentMap->getTileSize().width,
 			MAX(0,_desiredPosition.x));
 
 		float poxY=MIN(_delegate->currentMap->getTileSize().height*5.5,MAX(0,_desiredPosition.y));
-		
+
 		this->setPosition(ccp(posX,poxY));
 		_delegate->reorderChild(this,-this->getPositionY());
 		//更新minimap
@@ -391,7 +391,7 @@ void ActionManager::acceptAttack(CCObject* object){
 		ActionManager* currentSlayer=NULL;
 		if(this->_slayer){
 			currentSlayer=(ActionManager*) this->_slayer;
-		}	
+		}
 		if(_skillChangeBuffValue &&(
 			this->getActionState()==ACTION_STATE_IDLE ||
 			this->getActionState()==ACTION_STATE_WALK ||
@@ -401,8 +401,8 @@ void ActionManager::acceptAttack(CCObject* object){
 					this->scheduleOnce(schedule_selector(ActionManager::disableBuff),0.2f);
 				}
 				this->setOpacity(150);
-				return;			
-		}	
+				return;
+		}
 	}
 	ActionManager* Attacker=(ActionManager *) object;
 	bool isBizhong=false;
@@ -410,40 +410,40 @@ void ActionManager::acceptAttack(CCObject* object){
 		isBizhong=true;
 	}
 
-	if(strcmp(this->_group->getCString(),Attacker->_group->getCString())!=0 		
+	if(strcmp(this->_group->getCString(),Attacker->_group->getCString())!=0
 		&&_isVisable
-		&& (!_isWudi || isBizhong)	
+		&& (!_isWudi || isBizhong)
 		&& this->getActionState()!=ACTION_STATE_DEAD
 		){
-		
-		// Tower 
+
+		// Tower
 		if(strcmp(this->_role->getCString(),"Tower")==0){
 
-			
+
 
 			bool isHit=false;
-			if(strcmp(Attacker->_attackType->getCString(),"nAttack")==0 && 
-				strcmp(Attacker->_effectType->getCString(),"f_hit")!=0  
+			if(strcmp(Attacker->_attackType->getCString(),"nAttack")==0 &&
+				strcmp(Attacker->_effectType->getCString(),"f_hit")!=0
 				&& strcmp(Attacker->_effectType->getCString(),"c_hit")!=0
 				&& strcmp(Attacker->_effectType->getCString(),"o_hit")!=0
 				&& strcmp(Attacker->_effectType->getCString(),"b_hit")!=0
 				&& strcmp(Attacker->_effectType->getCString(),"bc_hit")!=0
 				){
 
-			
+
 				if(this->setHitBox().intersectsRect(Attacker->setHalfBox())) {
 				isHit=true;
 				}
 
 			}else if(strcmp(Attacker->_effectType->getCString(),"n_hit")==0){
-				
+
 				bool isHitX=false;
 				float distanceX=ccpSub(Attacker->getPosition(),this->getPosition()).x;
 
 				float tempRange1=Attacker->_attackRangeX+Attacker->getContentSize().width/2
 					+this->getContentSize().width/2;
 
-					
+
 				if(!Attacker->_isFlipped && distanceX<0 && -distanceX<tempRange1){
 					_hurtFromLeft=true;
 					isHitX=true;
@@ -451,7 +451,7 @@ void ActionManager::acceptAttack(CCObject* object){
 					_hurtFromRight=true;
 					isHitX=true;
 				};
-					
+
 				if(isHitX){
 					if(abs(this->getPositionY()-Attacker->getPositionY())<=Attacker->_attackRangeY){
 						isHit=true;
@@ -461,13 +461,13 @@ void ActionManager::acceptAttack(CCObject* object){
 			}
 
 			if(isHit){
-					
+
 				_slayer=Attacker;
 				this->setDamage(Attacker->_effectType,Attacker->_attackValue,Attacker->_isFlipped);
 				if(_hpBar){
 					_hpBar->loseHP(this->getHpPercent());
 				}
-					
+
 				if(!this->_isHitOne){
 					this->_isHitOne=true;
 					CCFiniteTimeAction* call=CCCallFunc::create(this,callfunc_selector(ActionManager::disableShack));
@@ -478,13 +478,13 @@ void ActionManager::acceptAttack(CCObject* object){
 					list->addObject(call);
 					this->runAction(CCSequence::create(list));
 				}
-					
+
 			}
-				
-		
+
+
 			return;
-			
-		//bullet 
+
+		//bullet
 		}else if(strcmp(Attacker->_role->getCString(),"Bullet")==0){
 
 			if(this->setHitBox().intersectsRect(Attacker->setHitBox())) {
@@ -532,9 +532,9 @@ void ActionManager::acceptAttack(CCObject* object){
 						}
 
 						return;
-					
+
 					}
-				
+
 				}
 
 				_slayer=Attacker;
@@ -552,7 +552,7 @@ void ActionManager::acceptAttack(CCObject* object){
 							&& strcmp(this->_character->getCString(),"Han")!=0
 							&& this->_actionState!=ACTION_STATE_DEAD
 							){
-							
+
 							Attacker->stopAllActions();
 							Attacker->dealloc();
 
@@ -576,24 +576,24 @@ void ActionManager::acceptAttack(CCObject* object){
 
 									if(strcmp(this->getRole()->getCString(),"Player")==0){
 										this->doAI();
-										this->_delegate->getHudLayer()->_isAllButtonLocked=true;	
+										this->_delegate->getHudLayerForAction(this)->_isAllButtonLocked=true;
 									}
 									this->changeGroup();
-									
+
 								}
 
 							}
 						}
 
 				}
-	
+
 			}
 
 			return;
 
 
 		}else{
-			
+
 			bool isHitX=false;
 
 
@@ -607,7 +607,7 @@ void ActionManager::acceptAttack(CCObject* object){
 					isHitX=true;
 				}
 			}else{
-				
+
 				if(!Attacker->_isFlipped && distanceX<0 && -distanceX<tempRange1){
 					_hurtFromLeft=true;
 					isHitX=true;
@@ -624,7 +624,7 @@ void ActionManager::acceptAttack(CCObject* object){
 
 				float attackerPosY;
 				float currentPosY;
-		
+
 				//y轴矫正
 				if(Attacker->_actionState==ACTION_STATE_JUMP){
 					attackerPosY=Attacker->_originY;
@@ -638,18 +638,18 @@ void ActionManager::acceptAttack(CCObject* object){
 					currentPosY=this->getPositionY();
 				};
 
-				
+
 				if(abs(currentPosY-attackerPosY)<=Attacker->_attackRangeY){
-					
+
 					const char* hitType=Attacker->_effectType->getCString();
 
 					//hit or not !
 					Attacker->_isHitOne=true;
-					
+
 					//record the slayer
 					_slayer=Attacker;
 
-					//flog hurt 
+					//flog hurt
 					if (strcmp(this->_role->getCString(),"Flog")==0){
 						if(strcmp(hitType,"o_hit")==0){
 							this->setKnockLength(48);
@@ -697,35 +697,35 @@ void ActionManager::acceptAttack(CCObject* object){
 						}else if(strcmp(hitType,"s_hit")==0 ){
 							this->absorb(Attacker->getPosition(),false);
 						}
-						
+
 					}// hero hurt
 					else if(strcmp(this->_role->getCString(),"Player")==0
 						||strcmp(this->_role->getCString(),"Com")==0
 						||strcmp(this->_role->getCString(),"Clone")==0
 						){
-						
+
 						if(strcmp(hitType,"l_hit")==0){
 							if(!this->_isBati){
-							this->setKnockLength(32);	
+							this->setKnockLength(32);
 							}
 							this->hurt();
 						}else if(strcmp(hitType,"c_hit")==0 ||
 							strcmp(hitType,"bc_hit")==0){
 							if(!this->_isBati){
-							this->setKnockLength(1);	
+							this->setKnockLength(1);
 							}
 
 							if(strcmp(Attacker->getCharacter()->getCString(),"Kakuzu")==0 && this->_sticker){
 								ActionManager* stHero=(ActionManager *) _sticker;
 								if(strcmp(stHero->getCharacter()->getCString(),"Kakuzu")==0 && stHero->hearts<=4){
-									
-									Attacker->hearts+=1;	
+
+									Attacker->hearts+=1;
 
 									if(Attacker->_heartEffect){
-										CCSpriteFrame *frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(CCString::createWithFormat("Heart_Effect_%02d.png",Attacker->hearts)->getCString()); 
+										CCSpriteFrame *frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(CCString::createWithFormat("Heart_Effect_%02d.png",Attacker->hearts)->getCString());
 										Attacker->_heartEffect->setDisplayFrame(frame);
-									}																	
-	
+									}
+
 								}
 
 								if(strcmp(Attacker->getRole()->getCString(),"Player")==0 && Attacker->hearts>0 ){
@@ -739,10 +739,10 @@ void ActionManager::acceptAttack(CCObject* object){
 
 									};
 									if(countMON<3 && Attacker->getLV()>=2){
-										if(_delegate->getHudLayer()->skill4Button){
-											_delegate->getHudLayer()->skill4Button->unLock();
+										if(_delegate->getHudLayerForAction(this)->skill4Button){
+											_delegate->getHudLayerForAction(this)->skill4Button->unLock();
 										}
-									}										
+									}
 								}
 
 							}
@@ -750,8 +750,8 @@ void ActionManager::acceptAttack(CCObject* object){
 						}else if(strcmp(hitType,"ts_hit")==0){
 							if(!this->_isBati){
 								this->setKnockLength(1);
-							}	
-							if(this->hurt() && 
+							}
+							if(this->hurt() &&
 								(!Attacker->_isCatchOne  || strcmp(Attacker->getCharacter()->getCString(),"FakeMinato")==0)
 								){
 							  Attacker->_isCatchOne=true;
@@ -764,22 +764,22 @@ void ActionManager::acceptAttack(CCObject* object){
 										  Attacker->getMaster()->getPositionY()));
 								  }
 
-								 
+
 								  CCNotificationCenter::sharedNotificationCenter()->postNotification("updateMap", this);
 								  _delegate->reorderChild(this,-this->getPositionY());
 							  }
 							}
-								
-								
+
+
 						}else if(strcmp(hitType,"sl_hit")==0){
 							if(!this->_isBati){
 								this->setKnockLength(1);
-							}	
+							}
 							this->hurt();
 							if(this->getWalkSpeed()==224){
 							this->setWalkSpeed(112);
 							this->schedule(schedule_selector(ActionManager::disableDebuff),3);
-							}						
+							}
 
 						}else if(strcmp(hitType,"ac_hit")==0){
 							if(this->_actionState==ACTION_STATE_FLOAT || this->_actionState==ACTION_STATE_AIRHURT){
@@ -791,9 +791,9 @@ void ActionManager::acceptAttack(CCObject* object){
 								this->hurt();
 							}
 						}else if(strcmp(hitType,"o_hit")==0){
-							if(this->_actionState!=ACTION_STATE_OATTACK || 
-								(this->_actionState==ACTION_STATE_OATTACK && 
-								(Attacker->_actionState==ACTION_STATE_O2ATTACK || 
+							if(this->_actionState!=ACTION_STATE_OATTACK ||
+								(this->_actionState==ACTION_STATE_OATTACK &&
+								(Attacker->_actionState==ACTION_STATE_O2ATTACK ||
 								Attacker->_actionState==ACTION_STATE_OATTACK))
 								){
 								if(!this->_isBati){
@@ -802,7 +802,7 @@ void ActionManager::acceptAttack(CCObject* object){
 								this->setKnockDiretion(Attacker->_isFlipped);
 								this->hardHurt(500,true,false,false,false);
 							}
-							
+
 						}else if(strcmp(hitType,"o2_hit")==0){
 							if(!this->_isBati){
 							this->setKnockLength(1);
@@ -828,17 +828,17 @@ void ActionManager::acceptAttack(CCObject* object){
 
 						}
 						else if(strcmp(hitType,"ct_hit")==0){
-						
-							if(this->_actionState!=ACTION_STATE_OATTACK || 
-								(this->_actionState==ACTION_STATE_OATTACK && 
-								(Attacker->_actionState==ACTION_STATE_O2ATTACK || 
+
+							if(this->_actionState!=ACTION_STATE_OATTACK ||
+								(this->_actionState==ACTION_STATE_OATTACK &&
+								(Attacker->_actionState==ACTION_STATE_O2ATTACK ||
 								Attacker->_actionState==ACTION_STATE_OATTACK))
 								){
-									if (Attacker->_isCatchOne == false || 
-										strcmp(Attacker->getCharacter()->getCString(),"Shenwei")==0 
+									if (Attacker->_isCatchOne == false ||
+										strcmp(Attacker->getCharacter()->getCString(),"Shenwei")==0
 									){
 
-										
+
 											if(Attacker->getMaster()){
 
 												if(strcmp(Attacker->getCharacter()->getCString(),"Kuroari")==0||
@@ -859,21 +859,21 @@ void ActionManager::acceptAttack(CCObject* object){
 													bool pianyi=false;
 													if(strcmp(Attacker->getCharacter()->getCString(),"KageHand")==0){
 														if(pianyi=this->hardHurt(6000,false,false,true,false)){
-															
+
 															Attacker->stopAllActions();
 															Attacker->schedule(schedule_selector(ActionManager::getSticker),0.1f);
 															this->schedule(schedule_selector(ActionManager::lostBlood),1.0f);
 															this->lostBloodValue=400;
 															this->scheduleOnce(schedule_selector(ActionManager::removeLostBlood),6.0f);
 														}
-													
+
 													}else if(strcmp(Attacker->getCharacter()->getCString(),"QuanRen")==0||
 														strcmp(Attacker->getCharacter()->getCString(),"KageBom")==0 ){
 														pianyi=this->hardHurt(3000,false,false,true,false);
 													}
 
-													
-													
+
+
 													if(pianyi){
 														Attacker->_isCatchOne=true;
 														this->setPosition(CCPointMake(Attacker->getPositionX()
@@ -881,13 +881,13 @@ void ActionManager::acceptAttack(CCObject* object){
 														_delegate->reorderChild(this,-this->getPositionY());
 
 													}
-													
-													
+
+
 												}else if(strcmp(Attacker->getMaster()->getCharacter()->getCString(),"Itachi")==0  ||
-													strcmp(Attacker->getMaster()->getCharacter()->getCString(),"Chiyo")==0 
+													strcmp(Attacker->getMaster()->getCharacter()->getCString(),"Chiyo")==0
 													) {
-			
-														
+
+
 														bool pianyi=false;
 
 														if(strcmp(Attacker->getMaster()->getCharacter()->getCString(),"Chiyo")==0 ){
@@ -902,24 +902,24 @@ void ActionManager::acceptAttack(CCObject* object){
 															_delegate->reorderChild(this,-this->getPositionY());
 
 
-														}						
+														}
 												}
 											}else {
 
 												if(strcmp(Attacker->getCharacter()->getCString(),"Lee")==0 ||
 													strcmp(Attacker->getCharacter()->getCString(),"RockLee")==0
 													){
-													
-												
+
+
 													if(this->hardHurt(1000,false,true,false,false)){
 														Attacker->_isCatchOne=true;
 														this->scheduleOnce(schedule_selector(ActionManager::reCatched),1.1f);
 													}
-													
-													
+
+
 												}else if(strcmp(Attacker->getCharacter()->getCString(),"Kakuzu")==0){
 													bool pianyi=false;
-													
+
 													if(!this->_isBati){
 														this->setKnockLength(1);
 													}
@@ -942,7 +942,7 @@ void ActionManager::acceptAttack(CCObject* object){
 											}
 
 							}
-							
+
 
 							}
 						}else if(strcmp(hitType,"f_hit")==0  || strcmp(hitType,"bf_hit")==0){
@@ -956,9 +956,9 @@ void ActionManager::acceptAttack(CCObject* object){
 								}
 
 							}
-							if(this->_actionState!=ACTION_STATE_OATTACK || 
-								(this->_actionState==ACTION_STATE_OATTACK && 
-								(Attacker->_actionState==ACTION_STATE_O2ATTACK || 
+							if(this->_actionState!=ACTION_STATE_OATTACK ||
+								(this->_actionState==ACTION_STATE_OATTACK &&
+								(Attacker->_actionState==ACTION_STATE_O2ATTACK ||
 								Attacker->_actionState==ACTION_STATE_OATTACK))
 							){
 							this->floatUP(64,true);
@@ -975,9 +975,9 @@ void ActionManager::acceptAttack(CCObject* object){
 									_isFlipped=true;
 								}
 							}
-							if(this->_actionState!=ACTION_STATE_OATTACK || 
-								(this->_actionState==ACTION_STATE_OATTACK && 
-								(Attacker->_actionState==ACTION_STATE_O2ATTACK || 
+							if(this->_actionState!=ACTION_STATE_OATTACK ||
+								(this->_actionState==ACTION_STATE_OATTACK &&
+								(Attacker->_actionState==ACTION_STATE_O2ATTACK ||
 								Attacker->_actionState==ACTION_STATE_OATTACK))
 								){
 							this->floatUP(128,true);
@@ -994,9 +994,9 @@ void ActionManager::acceptAttack(CCObject* object){
 								}
 							}
 
-							if(this->_actionState!=ACTION_STATE_OATTACK || 
-								(this->_actionState==ACTION_STATE_OATTACK && 
-								(Attacker->_actionState==ACTION_STATE_O2ATTACK || 
+							if(this->_actionState!=ACTION_STATE_OATTACK ||
+								(this->_actionState==ACTION_STATE_OATTACK &&
+								(Attacker->_actionState==ACTION_STATE_O2ATTACK ||
 								Attacker->_actionState==ACTION_STATE_OATTACK))
 							){
 							this->floatUP(16,false);
@@ -1010,9 +1010,9 @@ void ActionManager::acceptAttack(CCObject* object){
 						}
 
 					}
-					
+
 					if(strcmp(this->getCharacter()->getCString(),"Hidan")==0 && this->_skillChangeBuffValue){
-						
+
 						bool _isCounter=false;
 						if(_monsterArray && _monsterArray->count()>0){
 							CCObject* pObject;
@@ -1026,13 +1026,13 @@ void ActionManager::acceptAttack(CCObject* object){
 							}
 						}
 
-						if(_isCounter &&  
+						if(_isCounter &&
 							strcmp(Attacker->_character->getCString(),"Roshi")!=0 &&
 							strcmp(Attacker->_character->getCString(),"Han")!=0 ){
 							if(Attacker->_master && Attacker->_master->_actionState!=ACTION_STATE_DEAD){
-								
+
 								Attacker->_master->_slayer=this;
-								
+
 								Attacker->_master->setDamage(Attacker->_effectType,Attacker->_attackValue,Attacker->_isFlipped);
 								if(Attacker->_master->_hpBar){
 									Attacker->_master->_hpBar->loseHP(Attacker->_master->getHpPercent());
@@ -1042,7 +1042,7 @@ void ActionManager::acceptAttack(CCObject* object){
 								if(Attacker->_actionState!=ACTION_STATE_DEAD){
 
 									Attacker->_slayer=this;
-									
+
 									Attacker->setDamage(Attacker->_effectType,Attacker->_attackValue,Attacker->_isFlipped);
 									if(Attacker->_hpBar){
 										Attacker->_hpBar->loseHP(Attacker->getHpPercent());
@@ -1070,12 +1070,12 @@ void ActionManager::acceptAttack(CCObject* object){
 							return;
 
 						}
-						
-					
+
+
 					}
 
 					if(strcmp(this->getCharacter()->getCString(),"Kakuzu")==0 && this->_skillChangeBuffValue){
-						
+
 						if(!Attacker->_master){
 
 							if(Attacker->_actionState!=ACTION_STATE_DEAD){
@@ -1137,22 +1137,22 @@ CCAction* ActionManager::createAnimation(CCArray* ationArray,float fps,bool isRe
 			}else{
 				tempAnimation=CCAnimation::createWithSpriteFrames(animeFrames, float(1.0 / fps));
 				tempAction=CCAnimate::create(tempAnimation);
-			
+
 				seqArray->addObject(tempAction);
 				if(strcmp(key,"setAttackBox")==0){
-					callValue = CCDictionary::create(); 
+					callValue = CCDictionary::create();
 					callValue->retain();
 					callValue->setObject(CCString::create(keyValue), 1);
 					CCFiniteTimeAction *call = CCCallFuncND::create(this,callfuncND_selector(ActionManager::setAttackBox),(void*)callValue);
 					seqArray->addObject(call);
 				}else if(strcmp(key,"setSound")==0){
-					callValue = CCDictionary::create(); 
+					callValue = CCDictionary::create();
 					callValue->retain();
 					callValue->setObject(CCString::create(keyValue), 1);
 					CCFiniteTimeAction *call = CCCallFuncND::create(this,callfuncND_selector(ActionManager::setSound),(void*)callValue);
 					seqArray->addObject(call);
 				}else if(strcmp(key,"setDSound")==0){
-					callValue = CCDictionary::create(); 
+					callValue = CCDictionary::create();
 					callValue->retain();
 					callValue->setObject(CCString::create(keyValue), 1);
 					CCFiniteTimeAction *call = CCCallFuncND::create(this,callfuncND_selector(ActionManager::setDSound),(void*)callValue);
@@ -1166,7 +1166,7 @@ CCAction* ActionManager::createAnimation(CCArray* ationArray,float fps,bool isRe
 					CCFiniteTimeAction *call = CCCallFuncND::create(this,callfuncND_selector(ActionManager::setMove),(void*)moveLength);
 					seqArray->addObject(call);
 				}else if(strcmp(key,"setSkillEffect")==0){
-					callValue = CCDictionary::create(); 
+					callValue = CCDictionary::create();
 					callValue->retain();
 					callValue->setObject(CCString::create(keyValue), 1);
 					CCFiniteTimeAction *call = CCCallFuncND::create(this,callfuncND_selector(ActionManager::setSkillEffect),(void*)callValue);
@@ -1191,25 +1191,25 @@ CCAction* ActionManager::createAnimation(CCArray* ationArray,float fps,bool isRe
 					CCFiniteTimeAction *call = CCCallFuncND::create(this,callfuncND_selector(ActionManager::setClone),(void*)cloneTime);
 					seqArray->addObject(call);
 				}else if(strcmp(key,"setMon")==0){
-					callValue = CCDictionary::create(); 
+					callValue = CCDictionary::create();
 					callValue->retain();
 					callValue->setObject(CCString::create(keyValue), 1);
 					CCFiniteTimeAction *call = CCCallFuncND::create(this,callfuncND_selector(ActionManager::setMon),(void*)callValue);
 					seqArray->addObject(call);
 				}else if(strcmp(key,"setFont")==0){
-					callValue = CCDictionary::create(); 
+					callValue = CCDictionary::create();
 					callValue->retain();
 					const char * split = ",";
-					char * p; 
+					char * p;
 					char* str = new char[20];
 					strcpy(str,keyValue);
-					p = strtok (str,split); 
+					p = strtok (str,split);
 					int i=1;
-					while(p!=NULL) { 
+					while(p!=NULL) {
 						callValue->setObject(CCString::create(p), i);
 						i++;
-						p = strtok(NULL,split); 
-					} 
+						p = strtok(NULL,split);
+					}
 
 					//CCFiniteTimeAction *call = CCCallFuncND::create(this,callfuncND_selector(ActionManager::setFontEffect),(void*)callValue);
 					//seqArray->addObject(call);
@@ -1219,7 +1219,7 @@ CCAction* ActionManager::createAnimation(CCArray* ationArray,float fps,bool isRe
 					CCFiniteTimeAction *call = CCCallFuncND::create(this,callfuncND_selector(ActionManager::setBuff),(void*)buffValue);
 					seqArray->addObject(call);
 				}else if(strcmp(key,"setCommand")==0){
-					callValue = CCDictionary::create(); 
+					callValue = CCDictionary::create();
 					callValue->retain();
 					callValue->setObject(CCString::create(keyValue), 1);
 					CCFiniteTimeAction *call = CCCallFuncND::create(this,callfuncND_selector(ActionManager::setCommand),(void*)callValue);
@@ -1230,7 +1230,7 @@ CCAction* ActionManager::createAnimation(CCArray* ationArray,float fps,bool isRe
 					seqArray->addObject(call);
 
 				}else if(strcmp(key,"setBullet")==0){
-					callValue = CCDictionary::create(); 
+					callValue = CCDictionary::create();
 					callValue->retain();
 					callValue->setObject(CCString::create(keyValue), 1);
 					CCFiniteTimeAction *call = CCCallFuncND::create(this,callfuncND_selector(ActionManager::setBullet),(void*)callValue);
@@ -1240,7 +1240,7 @@ CCAction* ActionManager::createAnimation(CCArray* ationArray,float fps,bool isRe
 					CCFiniteTimeAction *call = CCCallFuncND::create(this,callfuncND_selector(ActionManager::setMonAttack),(void*)skillNum);
 					seqArray->addObject(call);
 				}else if(strcmp(key,"setTrap")==0){
-					callValue = CCDictionary::create(); 
+					callValue = CCDictionary::create();
 					callValue->retain();
 					callValue->setObject(CCString::create(keyValue), 1);
 				CCFiniteTimeAction *call = CCCallFuncND::create(this,callfuncND_selector(ActionManager::setTrap),(void*)callValue);
@@ -1253,7 +1253,7 @@ CCAction* ActionManager::createAnimation(CCArray* ationArray,float fps,bool isRe
 					CCFiniteTimeAction *call=CCCallFunc::create(this,callfunc_selector(ActionManager::setActionResume2));
 					seqArray->addObject(call);
 				}else if(strcmp(key,"setShadow")==0){
-					callValue = CCDictionary::create(); 
+					callValue = CCDictionary::create();
 					callValue->retain();
 					callValue->setObject(animeFrames->objectAtIndex(int(animeFrames->count()-1)),1);
 					CCFiniteTimeAction *call = CCCallFuncND::create(this,callfuncND_selector(ActionManager::setShadow),(void*)callValue);
@@ -1275,7 +1275,7 @@ CCAction* ActionManager::createAnimation(CCArray* ationArray,float fps,bool isRe
 					seqArray->addObject(call);
 				}
 
-				animeFrames->removeAllObjects();		
+				animeFrames->removeAllObjects();
 			}
 
 		}
@@ -1294,7 +1294,7 @@ CCAction* ActionManager::createAnimation(CCArray* ationArray,float fps,bool isRe
 			CCFiniteTimeAction *call = CCCallFunc::create(this,callfunc_selector(ActionManager::idle));
 			seqArray->addObject(call);
 		}
-	
+
 		seq=CCSequence::create(seqArray);
 	}
 
@@ -1327,7 +1327,7 @@ void ActionManager::setShadow(CCNode* sender,void* date){
 	}else{
 		charN->setColor(ccRED);
 	}
-	
+
 	charN->setOpacity(180);
 	charN->setAnchorPoint(ccp(0.5,0));
 	charN->setFlipX(_isFlipped);
@@ -1378,23 +1378,23 @@ void ActionManager::disableHpBar(float dt){
 	if(_hpBar){
 		_hpBar->setVisible(false);
 	}
-	
+
 }
 
 void ActionManager::setDamage(CCString* effectType,unsigned int attackValue,bool isFlipped){
-	
+
 	if(strcmp(_role->getCString(),"Tower")==0){
 		if(_hpBar){
 		_hpBar->setVisible(true);
 		}
-		
+
 		this->unschedule(schedule_selector(ActionManager::disableHpBar));
 		this->scheduleOnce(schedule_selector(ActionManager::disableHpBar),2.0f);
 	};
 
-	
 
-	
+
+
 	int criticalValue;
 	unsigned int realValue;
 
@@ -1433,15 +1433,15 @@ void ActionManager::setDamage(CCString* effectType,unsigned int attackValue,bool
 			if(attackValue-_gardValue<=0){
 				realValue=criticalValue;
 			}else{
-				
+
 				realValue=attackValue-_gardValue+criticalValue;
 				float jianshang=0;
 				if(isHujia){
-					jianshang+=0.25; 
+					jianshang+=0.25;
 				}
 
 				if(strcmp(this->getCharacter()->getCString(),"Kakuzu")==0 && _skillChangeBuffValue){
-					jianshang+=0.25; 
+					jianshang+=0.25;
 				}
 
 				if(strcmp(this->_character->getCString(),"Chiyo")==0 && this->getMonsterArray() && this->getMonsterArray()->count()>0){
@@ -1467,11 +1467,11 @@ void ActionManager::setDamage(CCString* effectType,unsigned int attackValue,bool
 				}else{
 					realValue-=realValue*jianshang;
 				}
-				
+
 			}
 
 		}
-		
+
 	}
 
 	if (atoi(_hp->getCString())-realValue<0){
@@ -1479,10 +1479,10 @@ void ActionManager::setDamage(CCString* effectType,unsigned int attackValue,bool
 	}else{
 		this->setHP(CCString::createWithFormat("%d",atoi(this->getHP()->getCString())-realValue));
 	}
-	
+
 	if(strcmp(this->getRole()->getCString(),"Clone")==0){
 
-		
+
 		int boundValue=0;
 		if(strcmp(this->getCharacter()->getCString(),"Naruto")==0){
 			boundValue=realValue*15/100;
@@ -1491,12 +1491,12 @@ void ActionManager::setDamage(CCString* effectType,unsigned int attackValue,bool
 		}else if(strcmp(this->getCharacter()->getCString(),"RikudoNaruto")==0){
 			boundValue=realValue*35/100;
 		}
-		
+
 		//4v4
 		if(Cheats>10){
 			boundValue=boundValue/2;
 		}
-		
+
 		if(currentAttacker->isAttackGainCKR){
 			if(boundValue-boundValue*25/100>0){
 				boundValue=boundValue-boundValue*25/100;
@@ -1513,11 +1513,11 @@ void ActionManager::setDamage(CCString* effectType,unsigned int attackValue,bool
 					_master->setCKR(CCString::createWithFormat("%f",newValue));
 				}else{
 					_master->setCKR(CCString::create("45000"));
-				}	
+				}
 
 				if(atof(_master->getCKR()->getCString())>=15000){
 					_master->_isCanOugis1=true;
-					
+
 				}
 
 				if(strcmp(_master->getRole()->getCString(),"Player")==0){
@@ -1531,13 +1531,13 @@ void ActionManager::setDamage(CCString* effectType,unsigned int attackValue,bool
 						float newValue=atof(_master->getCKR2()->getCString())+boundValue;
 						_master->setCKR2(CCString::createWithFormat("%f",newValue));
 					}else{
-						
+
 						_master->setCKR2(CCString::create("50000"));
-					}	
+					}
 
 					if(atof(_master->getCKR2()->getCString())>=25000){
 						_master->_isCanOugis2=true;
-						
+
 					}
 
 					if(strcmp(_master->getRole()->getCString(),"Player")==0){
@@ -1547,20 +1547,20 @@ void ActionManager::setDamage(CCString* effectType,unsigned int attackValue,bool
 			}
 
 		}
-		
+
 
 
 	}else{
 		int boundValue;
-		
-		if(_level==5){	
+
+		if(_level==5){
 			boundValue=realValue+realValue*5/100;
 		}else if(_level==6){
 			boundValue=realValue+realValue*10/100;
 		}else {
 			boundValue=realValue;
 		}
-		
+
 		boundValue+=realValue*gearCKRValue/100;
 
 		//4v4
@@ -1575,7 +1575,7 @@ void ActionManager::setDamage(CCString* effectType,unsigned int attackValue,bool
 				boundValue=0;
 			}
 		}
-		
+
 		bool isGainable=true;
 		if(strcmp(this->getCharacter()->getCString(),"Tsunade")==0 && this->_skillChangeBuffValue ){
 			isGainable=false;
@@ -1590,12 +1590,12 @@ void ActionManager::setDamage(CCString* effectType,unsigned int attackValue,bool
 					this->setCKR(CCString::createWithFormat("%f",newValue));
 				}else{
 					this->setCKR(CCString::create("45000"));
-			
-				}	
+
+				}
 
 				if(atof(this->getCKR()->getCString())>=15000){
 					_isCanOugis1=true;
-				
+
 				}
 
 				if(strcmp(_role->getCString(),"Player")==0){
@@ -1603,7 +1603,7 @@ void ActionManager::setDamage(CCString* effectType,unsigned int attackValue,bool
 				}
 
 
-			
+
 
 
 		}
@@ -1616,13 +1616,13 @@ void ActionManager::setDamage(CCString* effectType,unsigned int attackValue,bool
 
 				}else{
 					this->setCKR2(CCString::create("50000"));
-					
-					
-				}	
+
+
+				}
 
 				if(atof(this->getCKR2()->getCString())>=25000){
 					_isCanOugis2=true;
-					
+
 				}
 
 				if(strcmp(_role->getCString(),"Player")==0){
@@ -1644,14 +1644,14 @@ void ActionManager::setDamage(CCString* effectType,unsigned int attackValue,bool
 					gainValue=realValue*80/100;
 				}else{
 					gainValue=realValue*65/100;
-				}			
+				}
 			}else if(currentAttacker->isAttackGainCKR){
 				gainValue=realValue*15/100;
 			}
 
 			if(gainValue!=0){
 
-			
+
 				if(currentAttacker->_level>=2 && !currentAttacker->_isControled){
 
 					if(45000-atof(currentAttacker->getCKR()->getCString())>=gainValue){
@@ -1660,7 +1660,7 @@ void ActionManager::setDamage(CCString* effectType,unsigned int attackValue,bool
 
 					}else{
 						currentAttacker->setCKR(CCString::create("45000"));
-					}	
+					}
 
 					if(atof(currentAttacker->getCKR()->getCString())>=15000){
 						currentAttacker->_isCanOugis1=true;
@@ -1681,7 +1681,7 @@ void ActionManager::setDamage(CCString* effectType,unsigned int attackValue,bool
 					}else{
 						currentAttacker->setCKR2(CCString::create("50000"));
 
-					}	
+					}
 
 					if(atof(currentAttacker->getCKR2()->getCString())>=25000){
 						currentAttacker->_isCanOugis2=true;
@@ -1694,19 +1694,19 @@ void ActionManager::setDamage(CCString* effectType,unsigned int attackValue,bool
 
 				}
 			}
-		
-			
+
+
 
 	}
-	
-	
+
+
 
 
 	if(strcmp(_role->getCString(),"Player")==0 || ( strcmp(_role->getCString(),"Tower")!=0 &&
 		abs(ccpSub(this->getPosition(),_delegate->currentPlayer->getPosition()).x)<winSize.width/2)
 		){
 
-			
+
 			//create damage value display
 
 			bool _isDisplay=false;
@@ -1729,7 +1729,7 @@ void ActionManager::setDamage(CCString* effectType,unsigned int attackValue,bool
 					this->setDamgeDisplay(realValue,"yellow");
 				}else{
 					this->setDamgeDisplay(realValue,"red");
-				} 
+				}
 
 			}
 
@@ -1746,7 +1746,7 @@ void ActionManager::setDamage(CCString* effectType,unsigned int attackValue,bool
 
 
 	}
-	
+
 
 }
 
@@ -1765,7 +1765,7 @@ void ActionManager::setCoinDisplay(int num){
 
 	coinDisplay->setPosition(ccp(this->getPositionX(),this->getPositionY()+this->getContentSize().height/2));
 	_delegate->addChild(coinDisplay,5000);
-	
+
 	CCActionInterval*  mv=CCMoveBy::create(0.5f,ccp(0,12));
 	CCActionInterval* fadeOut=CCFadeOut::create(0.8f);
 	CCFiniteTimeAction *call=CCCallFuncND::create(coinDisplay,callfuncND_selector(ActionManager::removeCoinDisplay),NULL);
@@ -1793,7 +1793,7 @@ void ActionManager::setDamgeDisplay(unsigned int value,const char* type){
 	CCLabelBMFont* damageFont=CCLabelBMFont::create(CCString::createWithFormat("%d",value)->getCString(),
 		CCString::createWithFormat("Fonts/%s.fnt",type)->getCString());
 	damageFont->setAnchorPoint(ccp(0.5,0.5));
-	
+
 	if(strcmp(this->_role->getCString(),"Flog")==0){
 		damageFont->setScale(0.6f);
 		damageFont->setPosition(ccp(this->getPositionX()+rand()%16,this->getPositionY()+this->getHeight()+rand()%4));
@@ -1801,8 +1801,8 @@ void ActionManager::setDamgeDisplay(unsigned int value,const char* type){
 		damageFont->setScale(0.8f);
 		damageFont->setPosition(ccp(this->getPositionX()+rand()%16,this->getPositionY()+this->getHeight()+rand()%16));
 	}
-	
-	_delegate->addChild(damageFont,currentNumberTag);	
+
+	_delegate->addChild(damageFont,currentNumberTag);
 	_damageArray->addObject(damageFont);
 
 	CCActionInterval*  sd=CCScaleBy::create(0.2f,0.5f);
@@ -1835,7 +1835,7 @@ void ActionManager::removeDamageDisplay(){
 		_damageArray->removeObjectAtIndex(0);
 		damageFont=NULL;
 	}
-	
+
 }
 
 void ActionManager::setDamgeEffect(CCString* type){
@@ -1857,7 +1857,7 @@ void ActionManager::setDamgeEffect(CCString* type){
 				damageEffectCount++;
 
 			}
-		
+
 	}
 
 }
@@ -1867,12 +1867,12 @@ void ActionManager::setSkillEffect(CCNode* sender,void* date){
 	CCDictionary* file=(CCDictionary*) date;
 	CCString* str = (CCString*)(file->objectForKey(1));
 
-	if(strcmp(_role->getCString(),"Player")==0 || 
+	if(strcmp(_role->getCString(),"Player")==0 ||
 		abs(ccpSub(this->getPosition(),_delegate->currentPlayer->getPosition()).x)<winSize.width/2){
 
 			Effect* ef=Effect::create(str->getCString(),this);
 			if(strcmp(str->getCString(),"Bagua")==0 ||
-				strcmp(str->getCString(),"Kujiyose")==0 
+				strcmp(str->getCString(),"Kujiyose")==0
 				){
 				_delegate->addChild(ef,-500);
 			}else if(strcmp(str->getCString(),"DarkFlame")==0){
@@ -1892,9 +1892,9 @@ void ActionManager::setItem(abType type){
 		return;
 	}
 
-	if((strcmp(this->getCharacter()->getCString(),"Kankuro")==0 || 
-		strcmp(this->getCharacter()->getCString(),"Chiyo")==0 || 
-		strcmp(this->getCharacter()->getCString(),"Kiba")==0 || 
+	if((strcmp(this->getCharacter()->getCString(),"Kankuro")==0 ||
+		strcmp(this->getCharacter()->getCString(),"Chiyo")==0 ||
+		strcmp(this->getCharacter()->getCString(),"Kiba")==0 ||
 		strcmp(this->getCharacter()->getCString(),"Kakuzu")==0
 		) && this->getMonsterArray() && getMonsterArray()->count()>0){
 		CCObject* pObject;
@@ -1907,33 +1907,33 @@ void ActionManager::setItem(abType type){
 			if(strcmp(mo->getCharacter()->getCString(),"Traps")!=0){
 				mo->setItem(Item1);
 			}
-			
+
 		};
 	}
 	_isCanItem1=false;
 	if(strcmp(this->getRole()->getCString(),"Player")==0 ){
 		if(this->_isAI){
-			_delegate->getHudLayer()->offCoin(CCString::createWithFormat("%d",50)->getCString());
+			_delegate->getHudLayerForAction(this)->offCoin(CCString::createWithFormat("%d",50)->getCString());
 
 		}
-		
+
 	}else{
 		this->minusCoin(50);
-		
+
 	}
 	this->scheduleOnce(schedule_selector(Hero::enableItem1),5.0f);
 
-	
+
 
 	if(_hpBar){
-		
+
 		int hpRestore=3000+gearRecoverValue;
 		if(atoi(_maxHP->getCString())-atoi(_hp->getCString())<=hpRestore){
 			this->setHP(CCString::create(this->getMaxHP()->getCString()));
 			if(_hpBar){
 				_hpBar->loseHP(this->getHpPercent());
 			}
-			
+
 		}else{
 			this->setHP(CCString::createWithFormat("%d",atoi(_hp->getCString())+hpRestore)) ;
 			if(_hpBar){
@@ -1960,13 +1960,13 @@ bool ActionManager::setGear(gearType type){
 	}else{
 		gearCost=1000;
 	}
-	
+
 	if( this->getGearArray()->count()<=2 && atoi(this->getCoin()->getCString())>=gearCost){
 		CCString* gearItem=CCString::createWithFormat("%d",gearType(type));
 		this->getGearArray()->addObject(gearItem);
-		
+
 		if(strcmp(this->getRole()->getCString(),"Player")==0){
-			_delegate->getHudLayer()->offCoin(CCString::createWithFormat("%d",gearCost)->getCString());
+			_delegate->getHudLayerForAction(this)->offCoin(CCString::createWithFormat("%d",gearCost)->getCString());
 		}else{
 			this->minusCoin(gearCost);
 		}
@@ -1995,31 +1995,31 @@ bool ActionManager::setGear(gearType type){
 			break;
 		case gear05:
 
-			
+
 			this->isGearCD=true;
-			
+
 			this->_sattackcoldDown1-=5;
 			this->_sattackcoldDown2-=5;
 			this->_sattackcoldDown3-=5;
 
 			if(strcmp(this->getRole()->getCString(),"Player")==0){
-				this->_delegate->getHudLayer()->skill1Button->setCD(CCString::createWithFormat("%d",this->_sattackcoldDown1*1000));
-				this->_delegate->getHudLayer()->skill2Button->setCD(CCString::createWithFormat("%d",this->_sattackcoldDown2*1000));
-				this->_delegate->getHudLayer()->skill3Button->setCD(CCString::createWithFormat("%d",this->_sattackcoldDown3*1000));
-				
-				this->_delegate->getHudLayer()->skill1Button->_isColdChanged=true;
-				this->_delegate->getHudLayer()->skill2Button->_isColdChanged=true;
-				this->_delegate->getHudLayer()->skill3Button->_isColdChanged=true;
+				this->_delegate->getHudLayerForAction(this)->skill1Button->setCD(CCString::createWithFormat("%d",this->_sattackcoldDown1*1000));
+				this->_delegate->getHudLayerForAction(this)->skill2Button->setCD(CCString::createWithFormat("%d",this->_sattackcoldDown2*1000));
+				this->_delegate->getHudLayerForAction(this)->skill3Button->setCD(CCString::createWithFormat("%d",this->_sattackcoldDown3*1000));
+
+				this->_delegate->getHudLayerForAction(this)->skill1Button->_isColdChanged=true;
+				this->_delegate->getHudLayerForAction(this)->skill2Button->_isColdChanged=true;
+				this->_delegate->getHudLayerForAction(this)->skill3Button->_isColdChanged=true;
 			}
-				
+
 			break;
 		case gear06:
 			this->_isCanGear06=true;
 			break;
 		case gear07:
 			gearRecoverValue=3000;
-			this->_delegate->getHudLayer()->item1Button->setCD(CCString::createWithFormat("%d",3000));
-			this->_delegate->getHudLayer()->item1Button->_isColdChanged=true;
+			this->_delegate->getHudLayerForAction(this)->item1Button->setCD(CCString::createWithFormat("%d",3000));
+			this->_delegate->getHudLayerForAction(this)->item1Button->_isColdChanged=true;
 			break;
 		case gear08:
 			int tempMaxHP=atoi(this->getMaxHP()->getCString());
@@ -2077,7 +2077,7 @@ void ActionManager::useGear(gearType type){
 					}
 					this->_isVisable=false;
 
-					CCDictionary* callValue2 = CCDictionary::create(); 
+					CCDictionary* callValue2 = CCDictionary::create();
 					callValue2->setObject(CCString::create("Audio/Effect/suzou_effect.mp3"),1);
 					this->setSound(this,callValue2);
 
@@ -2086,25 +2086,25 @@ void ActionManager::useGear(gearType type){
 
 				}
 		}
-		
+
 
 	}else if(type==gear03){
 		_isCanGear03=false;
 
-		CCDictionary* tmpValue = CCDictionary::create(); 
+		CCDictionary* tmpValue = CCDictionary::create();
 		tmpValue->setObject(CCString::create("Traps"), 1);
 		this->setMon(this,(void*)tmpValue);
-	
+
 
 		this->scheduleOnce(schedule_selector(ActionManager::enableGear03),15.0f);
 	}else if(type==gear06){
 		_isCanGear06=false;
 		this->scheduleOnce(schedule_selector(ActionManager::enableGear06),15.0f);
 
-		
+
 		if(!_isWudi && !_isBati){
 
-			if(this->getActionState()==ACTION_STATE_IDLE || 
+			if(this->getActionState()==ACTION_STATE_IDLE ||
 				this->getActionState()==ACTION_STATE_WALK ||
 				this->getActionState()==ACTION_STATE_FLOAT||
 				this->getActionState()==ACTION_STATE_AIRHURT ||
@@ -2124,14 +2124,14 @@ void ActionManager::useGear(gearType type){
 
 					this->idle();
 
-					CCDictionary* callValue = CCDictionary::create(); 
+					CCDictionary* callValue = CCDictionary::create();
 					callValue->setObject(CCString::create("tishen"), 1);
 					this->setSkillEffect(this,callValue);
 					this->scheduleOnce(schedule_selector(ActionManager::disableGear2),1.0f);
 
 
-					
-					CCDictionary* callValue2 = CCDictionary::create(); 
+
+					CCDictionary* callValue2 = CCDictionary::create();
 					callValue2->setObject(CCString::create("Audio/Effect/poof2.mp3"),1);
 					this->setSound(this,callValue2);
 
@@ -2151,16 +2151,16 @@ void ActionManager::useGear(gearType type){
 					this->_isVisable=false;
 			}
 
-	
+
 		}
-		
+
 
 	}
 }
 
 void ActionManager::disableGear1(float dt){
 
-	if(!_isVisable && this->_actionState!=ACTION_STATE_HURT){ 
+	if(!_isVisable && this->_actionState!=ACTION_STATE_HURT){
 
 		this->setOpacity(255);
 		this->setVisible(true);
@@ -2175,21 +2175,21 @@ void ActionManager::disableGear1(float dt){
 		_isVisable=true;
 
 	}else {
-	
-		this->unschedule(schedule_selector(ActionManager::disableGear1));	
+
+		this->unschedule(schedule_selector(ActionManager::disableGear1));
 		if(this->getWalkSpeed()==320){
 			this->setWalkSpeed(224);
-		}	
+		}
 	}
-	
+
 
 }
 
 void ActionManager::disableGear2(float dt){
-	
+
 	this->setOpacity(255);
 	this->setVisible(true);
-	
+
 
 	if(_hpBar){
 		_hpBar->setVisible(true);
@@ -2232,13 +2232,13 @@ void ActionManager::minusCoin(int num){
 	}else{
 		this->setCoin(CCString::createWithFormat("%d",0));
 	}
-	
+
 }
 
 void ActionManager::setRestore(float dt){
 	if(_hpBar){
 
-		
+
 		if(atoi(_maxHP->getCString())-atoi(_hp->getCString())<=800){
 			this->setHP(CCString::create(this->getMaxHP()->getCString()));
 			_hpBar->loseHP(this->getHpPercent());
@@ -2257,7 +2257,7 @@ void ActionManager::setRestore(float dt){
 }
 
 void ActionManager::setRestore2(float dt){
-	
+
 	if(_hpBar ){
 		//八门耗血
 		if(bamen>=8){
@@ -2294,7 +2294,7 @@ void ActionManager::setRestore2(float dt){
 			}
 		}
 
-		
+
 		bool isZone=false;
 		if(strcmp("Akatsuki",_group->getCString())==0 && this->getPositionX()<=_delegate->currentMap->getTileSize().width*2 ){
 			isZone=true;
@@ -2324,7 +2324,7 @@ void ActionManager::setRestore2(float dt){
 			}
 
 		}
-		
+
 
 	}
 
@@ -2342,15 +2342,15 @@ void ActionManager::disableEffect(){
 		_speedItemEffect=NULL;
 	}
 
-	
+
 }
 
 void ActionManager::setSound(CCNode* sender,void* date){
 
 	if(CCUserDefault::sharedUserDefault()->getBoolForKey("isVoice")!=false){
 		bool _isPlayable=false;
-		if(strcmp(_role->getCString(),"Player")==0 || 
-			abs(ccpSub(this->getPosition(),_delegate->currentPlayer->getPosition()).x)<winSize.width/2 
+		if(strcmp(_role->getCString(),"Player")==0 ||
+			abs(ccpSub(this->getPosition(),_delegate->currentPlayer->getPosition()).x)<winSize.width/2
 			){
 				_isPlayable=true;
 		}
@@ -2374,8 +2374,8 @@ void ActionManager::setDSound(CCNode* sender,void* date){
 
 	if(CCUserDefault::sharedUserDefault()->getBoolForKey("isVoice")!=false){
 		bool _isPlayable=false;
-		if(strcmp(_role->getCString(),"Player")==0 || 
-			abs(ccpSub(this->getPosition(),_delegate->currentPlayer->getPosition()).x)<winSize.width/2 
+		if(strcmp(_role->getCString(),"Player")==0 ||
+			abs(ccpSub(this->getPosition(),_delegate->currentPlayer->getPosition()).x)<winSize.width/2
 			){
 				_isPlayable=true;
 		}
@@ -2404,8 +2404,8 @@ void ActionManager::setAttackBox(CCNode* sender,void* date){
 
 	if(_actionState==ACTION_STATE_HURT){
 
-		if(strcmp(this->getCharacter()->getCString(),"Sasuke")==0 || 
-			strcmp(this->getCharacter()->getCString(),"ImmortalSasuke")==0 || 
+		if(strcmp(this->getCharacter()->getCString(),"Sasuke")==0 ||
+			strcmp(this->getCharacter()->getCString(),"ImmortalSasuke")==0 ||
 			strcmp(this->getCharacter()->getCString(),"DevaPath")==0 ){
 
 				if(atoi(_maxHP->getCString())-atoi(_hp->getCString())<=260){
@@ -2426,9 +2426,9 @@ void ActionManager::setAttackBox(CCNode* sender,void* date){
 				_attackRangeY=_spcattackRangeY1;
 
 		}
-	
+
 	}
-	
+
 
 	CCNotificationCenter::sharedNotificationCenter()->postNotification("acceptAttack", this);
 
@@ -2437,14 +2437,14 @@ void ActionManager::setAttackBox(CCNode* sender,void* date){
 		if((_actionState==ACTION_STATE_OATTACK|| _actionState==ACTION_STATE_O2ATTACK ) && this->_isHitOne==true && !_delegate->_isShacking){
 			_delegate->_isShacking=true;
 			CCScene* f = CCDirector::sharedDirector()->getRunningScene();
-			CCFiniteTimeAction* call=CCCallFunc::create(this,callfunc_selector(ActionManager::disableShack));	
+			CCFiniteTimeAction* call=CCCallFunc::create(this,callfunc_selector(ActionManager::disableShack));
 			f->runAction(CCSequence::createWithTwoActions(CCShake::create(0.05f,12),call));
 		}
 		if(_delegate->_isAttackButtonRelease && _actionState==ACTION_STATE_ATTACK && !_isOnlySkillLocked && !_isAI){
 			this->idle();
 			return;
 		}
-		
+
 	}
 
 
@@ -2467,9 +2467,9 @@ void ActionManager::getSticker(float dt){
 		}
 	};
 
-	this->unschedule(schedule_selector(ActionManager::getSticker));	
+	this->unschedule(schedule_selector(ActionManager::getSticker));
 	this->dealloc();
-	
+
 }
 
 void ActionManager::disableShack(){
@@ -2487,7 +2487,7 @@ void ActionManager::setMove(CCNode* sender,void* date){
 	if(this->getKnockLength()){
 		if(this->getKnockLength()==1){
 			return;
-		} 
+		}
 		moveLength=this->getKnockLength();
 	}else{
 		moveLength=(int) date;
@@ -2502,7 +2502,7 @@ void ActionManager::setMove(CCNode* sender,void* date){
 				if(!_knockDiretion){
 					mv =CCMoveBy::create(0.1f,ccp(_hurtFromRight?-moveLength:moveLength,0));
 				}else{
-					
+
 					mv =CCMoveBy::create(0.1f,ccp(_knockDiretion?-moveLength:moveLength,0));
 				}
 				this->runAction(mv);
@@ -2511,34 +2511,34 @@ void ActionManager::setMove(CCNode* sender,void* date){
 				this->runAction(mv);
 			};
 	}
-	
+
 };
 
 void ActionManager::setJump(CCNode* sender,void* date){
 
 	if(
-		_actionState!=ACTION_STATE_FLOAT && 
+		_actionState!=ACTION_STATE_FLOAT &&
 		_actionState!=ACTION_STATE_AIRHURT &&
-		_actionState!=ACTION_STATE_HURT && 
-		_actionState!=ACTION_STATE_DEAD 
+		_actionState!=ACTION_STATE_HURT &&
+		_actionState!=ACTION_STATE_DEAD
 		){
-		
+
 			_actionState=ACTION_STATE_JUMP;
 
 			bool jumpDirection=(bool) date;
 			float posX=this->getPositionX();
 			float posY=this->getPositionY();
 			_originY=posY;
-			
+
 			if(!jumpDirection){
 				_jumpUPAction=CCJumpTo::create(0.8f, ccp(posX+(_isFlipped?64:-64),posY),64,1);
 			}else{
 				_jumpUPAction=CCJumpTo::create(0.8f, ccp(posX+(_isFlipped?-64:64),posY),64,1);
 			}
-			
+
 			this->runAction(_jumpUPAction);
 
-			
+
 
 	}
 }
@@ -2553,7 +2553,7 @@ void ActionManager::setCharge(CCNode* sender,void* date){
 	}else{
 		_moveAction=CCMoveBy::create(0.1f,ccp(_isFlipped?-moveLength*winSize.width/1280:moveLength*winSize.width/1280,0));
 		this->runAction(_moveAction);
-		
+
 	}
 
 };
@@ -2603,7 +2603,7 @@ void ActionManager::setCommand(CCNode* sender,void* date){
 			}else{
 				this->setCKR(CCString::create("45000"));
 
-			}	
+			}
 
 			if(atof(this->getCKR()->getCString())>=15000){
 				_isCanOugis1=true;
@@ -2627,7 +2627,7 @@ void ActionManager::setCommand(CCNode* sender,void* date){
 				this->setCKR2(CCString::create("50000"));
 
 
-			}	
+			}
 
 			if(atof(this->getCKR2()->getCString())>=25000){
 				_isCanOugis2=true;
@@ -2653,7 +2653,7 @@ void ActionManager::setCommand(CCNode* sender,void* date){
 		int tsPosX=this->getPositionX();
 		int tsPosY=this->getPositionY();
 
-	
+
 
 		if(this->getMonsterArray()  && this->_actionState!=ACTION_STATE_ATTACK){
 			CCARRAY_FOREACH(this->getMonsterArray(),pObject){
@@ -2670,7 +2670,7 @@ void ActionManager::setCommand(CCNode* sender,void* date){
 
 		this->setPosition(ccp(tsPosX,tsPosY));
 		CCNotificationCenter::sharedNotificationCenter()->postNotification("updateMap", this);
-		
+
 		_delegate->reorderChild(this,-tsPosY);
 
 
@@ -2689,7 +2689,7 @@ void ActionManager::setCommand(CCNode* sender,void* date){
 				this->_isFlipped=false;
 			}
 		}
-		
+
 
 		if(strcmp(this->getCharacter()->getCString(),"Sakura")==0){
 			float posY=this->getPositionY();
@@ -2720,7 +2720,7 @@ void ActionManager::setCommand(CCNode* sender,void* date){
 		if(strcmp(this->getCharacter()->getCString(),"Yominuma")!=0){
 			_delegate->reorderChild(this,-tsPosY);
 		}
-		
+
 	}
 	else if(strcmp(commandType->getCString(),"reTransport")==0){
 		this->setPosition(ccp(this->getPositionX(),_originY));
@@ -2737,12 +2737,12 @@ void ActionManager::setCommand(CCNode* sender,void* date){
 					_mainTarget=NULL;
 			}
 		};
-		
+
 
 		if(_mainTarget){
 			if(strcmp(this->getCharacter()->getCString(),"Dogs")==0 ||
 				strcmp(this->getCharacter()->getCString(),"Yominuma")==0 ||
-				strcmp(this->getCharacter()->getCString(),"SandBall")==0 ||	
+				strcmp(this->getCharacter()->getCString(),"SandBall")==0 ||
 				strcmp(this->getCharacter()->getCString(),"Sabaku")==0 ||
 				strcmp(this->getCharacter()->getCString(),"Yataikuzu")==0 ||
 					strcmp(this->getCharacter()->getCString(),"Lee")==0 ||
@@ -2752,14 +2752,14 @@ void ActionManager::setCommand(CCNode* sender,void* date){
 			}else if(strcmp(this->getCharacter()->getCString(),"Tsukuyomi")==0 ){
 				_markPoint=ccp(_mainTarget->getPositionX(),_mainTarget->_originY?_mainTarget->_originY:_mainTarget->getPositionY()+2);
 			}else if(strcmp(this->getCharacter()->getCString(),"KageFeng")==0){
-				
+
 				_markPoint=ccp(_mainTarget->getPositionX(),_mainTarget->_originY?_mainTarget->_originY-6:_mainTarget->getPositionY()-6);
 
 			}else{
 				_markPoint=ccp(_mainTarget->_isFlipped?_mainTarget->getPositionX()+32:_mainTarget->getPositionX()-32,
 					_mainTarget->_originY?_mainTarget->_originY:_mainTarget->getPositionY());
 			}
-	
+
 		}
 
 	}else if(strcmp(commandType->getCString(),"setRevive")==0){
@@ -2782,19 +2782,19 @@ void ActionManager::setCommand(CCNode* sender,void* date){
 		CCObject* pObject;
 		CCARRAY_FOREACH(_delegate->_CharacterArray,pObject){
 			Hero* tempHero=(Hero*) pObject;
-			if((strcmp(tempHero->_role->getCString(),"Player")==0 || 
+			if((strcmp(tempHero->_role->getCString(),"Player")==0 ||
 				strcmp(tempHero->_role->getCString(),"Com")==0)
 				&& tempHero->_actionState==ACTION_STATE_DEAD
 				&&  tempHero->rebornSprite
 				&& tempHero->hearts>0
-				&& strcmp(tempHero->_character->getCString(),"Kakuzu")!=0 
+				&& strcmp(tempHero->_character->getCString(),"Kakuzu")!=0
 				){
-				
+
 					CCPoint sp=ccpSub(tempHero->getPosition(),this->getPosition());
 					if(abs(sp.x)<=48 && abs(sp.y)<=48){
 						tempHero->hearts-=1;
 						if(strcmp(this->_group->getCString(),tempHero->_group->getCString())!=0){
-						
+
 							int tempMaxHP=atoi(this->getMaxHP()->getCString());
 							tempMaxHP+=100;
 							this->setnAttackValue(CCString::createWithFormat("%d",atoi(this->_nattackValue->getCString())+5));
@@ -2804,7 +2804,7 @@ void ActionManager::setCommand(CCNode* sender,void* date){
 								_hpBar->loseHP(this->getHpPercent());
 							}
 						}
-				
+
 
 						if (strcmp(this->getRole()->getCString(),"Player")==0){
 							if(_delegate->_isHardCoreGame){
@@ -2817,7 +2817,7 @@ void ActionManager::setCommand(CCNode* sender,void* date){
 								this->addCoin(50);
 							}
 						}
-						
+
 					}
 
 
@@ -2839,7 +2839,7 @@ void ActionManager::setCommand(CCNode* sender,void* date){
 				i+=1;
 			}
 		}
-		
+
 
 
 		CCAnimation* tempAnimation= CCAnimation::createWithSpriteFrames(tempArray, 0.1f);
@@ -2855,7 +2855,7 @@ void ActionManager::setCommand(CCNode* sender,void* date){
 		tempChar->setAnchorPoint(ccp(0.5f,0));
 		tempChar->setPosition(this->getPosition());
 		this->_delegate->addChild(tempChar,-this->_originY);
-		
+
 		tempChar->runAction(seq);
 
 
@@ -2882,12 +2882,12 @@ void ActionManager::setCommand(CCNode* sender,void* date){
 				Hero* tempHero=(Hero*) pObject;
 				if(strcmp(this->_group->getCString(),tempHero->_group->getCString())!=0
 					&& (strcmp(tempHero->_role->getCString(),"Player")==0 || strcmp(tempHero->_role->getCString(),"Com")==0)
-					&& tempHero->_actionState!=ACTION_STATE_DEAD	
+					&& tempHero->_actionState!=ACTION_STATE_DEAD
 					){
 						if(tempHero->_hpBar){
 
 							tempHero->_slayer=this;
-							if(atoi(tempHero->_hp->getCString())<=2000){		
+							if(atoi(tempHero->_hp->getCString())<=2000){
 								tempHero->setDamage(CCString::create("c_hit"),atoi(tempHero->_hp->getCString()),false);
 
 							}else{
@@ -2909,7 +2909,7 @@ void ActionManager::setCommand(CCNode* sender,void* date){
 		}else{
 			if(this->_hpBar){
 				_slayer=this;
-				if(atoi(this->_hp->getCString())<=2000){		
+				if(atoi(this->_hp->getCString())<=2000){
 					this->setDamage(CCString::create("c_hit"),atoi(this->_hp->getCString()),false);
 				}else{
 					this->setDamage(CCString::create("c_hit"),2000,false);
@@ -2924,7 +2924,7 @@ void ActionManager::setCommand(CCNode* sender,void* date){
 		}
 
 		this->setActionResume();
-		
+
 	}
 
 
@@ -2944,17 +2944,17 @@ void ActionManager::setBuff(CCNode* sender,void* date){
 	}else if(strcmp(_attackType->getCString(),"sBuff")==0 ||
 		strcmp(_attackType->getCString(),"rsBuff")==0||
 		strcmp(_attackType->getCString(),"hsBuff")==0 ||
-		strcmp(_attackType->getCString(),"dcBuff")==0 
+		strcmp(_attackType->getCString(),"dcBuff")==0
 		){
 
 		_skillUPBuffValue=buffValue;
 		this->scheduleOnce(schedule_selector(ActionManager::disableBuff),buffStayTime);
 		this->setBuffEffect(_attackType->getCString());
-		
+
 		this->setsAttackValue1(CCString::createWithFormat("%d",atoi(this->_sattackValue1->getCString())+_skillUPBuffValue));
 		this->setsAttackValue2(CCString::createWithFormat("%d",atoi(this->_sattackValue2->getCString())+_skillUPBuffValue));
 		this->setsAttackValue3(CCString::createWithFormat("%d",atoi(this->_sattackValue3->getCString())+_skillUPBuffValue));
-		
+
 
 		if(strcmp(_attackType->getCString(),"hsBuff")==0 ){
 			CCObject* pObject;
@@ -2997,7 +2997,7 @@ void ActionManager::setBuff(CCNode* sender,void* date){
 				_isBati=true;
 
 			}
-			
+
 		}
 
 
@@ -3005,7 +3005,7 @@ void ActionManager::setBuff(CCNode* sender,void* date){
 	}else if(strcmp(_attackType->getCString(),"cBuff")==0){
 
 		_skillChangeBuffValue=buffValue;
-		
+
 
 		if(strcmp(this->_character->getCString(),"Shino")==0 ||
 			strcmp(this->_character->getCString(),"Sai")==0 ||
@@ -3035,7 +3035,7 @@ void ActionManager::setBuff(CCNode* sender,void* date){
 			this->disableBuff(0);
 
 			this->scheduleOnce(schedule_selector(ActionManager::resumeAction),buffStayTime);
-			
+
 		}else if(strcmp(this->_character->getCString(),"Minato")==0){
 			if(_skillChangeBuffValue==18){
 				this->scheduleOnce(schedule_selector(ActionManager::resumeAction),buffStayTime);
@@ -3047,10 +3047,10 @@ void ActionManager::setBuff(CCNode* sender,void* date){
 				strcmp(this->_character->getCString(),"Han")!=0 &&
 				strcmp(this->_character->getCString(),"Hiruzen")!=0 &&
 				strcmp(this->_character->getCString(),"Suigetsu")!=0 &&
-				strcmp(this->_character->getCString(),"Jugo")!=0 && 	
+				strcmp(this->_character->getCString(),"Jugo")!=0 &&
 				strcmp(this->_character->getCString(),"Kisame")!=0 &&
 					strcmp(this->_character->getCString(),"Parents")!=0 &&
-				strcmp(this->_character->getCString(),"Lee")!=0 && 
+				strcmp(this->_character->getCString(),"Lee")!=0 &&
 				strcmp(this->_character->getCString(),"RockLee")!=0
 				){
 				this->scheduleOnce(schedule_selector(ActionManager::resumeAction),buffStayTime);
@@ -3058,7 +3058,7 @@ void ActionManager::setBuff(CCNode* sender,void* date){
 		}
 
 		this->changeAction();
-	
+
 	}else if(strcmp(_attackType->getCString(),"tBuff")==0){
 
 		_skillChangeBuffValue=buffValue;
@@ -3094,12 +3094,12 @@ void ActionManager::setBuff(CCNode* sender,void* date){
 		}
 
 		this->schedule(schedule_selector(ActionManager::healBuff),1);
-		
-		
+
+
 	}
 	if(strcmp(this->getRole()->getCString(),"Player")==0){
 
-		this->_delegate->getHudLayer()->setBuffDisplay(_attackType->getCString(),buffStayTime);
+		this->_delegate->getHudLayerForAction(this)->setBuffDisplay(_attackType->getCString(),buffStayTime);
 
 	}
 
@@ -3128,12 +3128,12 @@ void ActionManager::setBuffEffect(const char* type){
 	}else if(strcmp(type,"tBuff")==0 ||
 		strcmp(type,"dcBuff")==0 ||
 		strcmp(type,"jdBuff")==0 ||
-		strcmp(type,"bmBuff")==0 
+		strcmp(type,"bmBuff")==0
 		){
 		_skillBuffEffect=Effect::create(type,this);
 		this->addChild(_skillBuffEffect);
 	}else if(strcmp(type,"dhBuff")==0){
-		_dehealBuffEffect=Effect::create(type,this);	
+		_dehealBuffEffect=Effect::create(type,this);
 		this->addChild(_dehealBuffEffect);
 	}
 }
@@ -3149,7 +3149,7 @@ void ActionManager::removeBuffEffect(const char* type){
 		_dehealBuffEffect->removeFromParent();
 		_dehealBuffEffect=NULL;
 	}
-	
+
 	else if(strcmp(type,"all")==0){
 		if(_healBuffEffect){
 			_healBuffEffect->removeFromParent();
@@ -3188,12 +3188,12 @@ void ActionManager::disableBuff(float dt){
 		this->removeBuffEffect("sBuff");
 	}else if(_skillBuffEffect){
 		this->removeBuffEffect("sBuff");
-	}else if(!_isVisable && this->_actionState!=ACTION_STATE_HURT){ 
+	}else if(!_isVisable && this->_actionState!=ACTION_STATE_HURT){
 		//防止被困住的时候进行还原
 
 		this->setOpacity(255);
 		this->setVisible(true);
-		
+
 		if(_hpBar){
 			_hpBar->setVisible(true);
 		}
@@ -3210,7 +3210,7 @@ void ActionManager::disableBuff(float dt){
 void ActionManager::disableDebuff(float dt){
 
 	if((strcmp(this->getCharacter()->getCString(),"ImmortalSasuke")==0 ||
-		strcmp(this->getCharacter()->getCString(),"Itachi")==0 ) 
+		strcmp(this->getCharacter()->getCString(),"Itachi")==0 )
 		&& _isBati
 	){
 		return;
@@ -3228,7 +3228,7 @@ void ActionManager::healBuff(float dt){
 	float curTime = timeVal.tv_sec * 1000 + timeVal.tv_usec / 1000;
 
 	if(!_buffStartTime){
-		_buffStartTime=curTime;	
+		_buffStartTime=curTime;
 	}
 	int limitTime=10000;
 	if(strcmp(_character->getCString(),"Tsunade")==0){
@@ -3368,7 +3368,7 @@ void ActionManager::healBuff(float dt){
 
 					}
 
-					if(strcmp(tempHero->_role->getCString(),"Player")==0 && _delegate && _delegate->getHudLayer()){
+					if(strcmp(tempHero->_role->getCString(),"Player")==0 && _delegate && _delegate->getHudLayerForAction(this)){
 						_delegate->setCKRLose(false);
 					}
 
@@ -3391,7 +3391,7 @@ void ActionManager::healBuff(float dt){
 
 					}
 
-					if(strcmp(tempHero->_role->getCString(),"Player")==0 && tempHero->_delegate && tempHero->_delegate->getHudLayer()){
+					if(strcmp(tempHero->_role->getCString(),"Player")==0 && tempHero->_delegate && tempHero->_delegate->getHudLayerForAction(tempHero)){
 						tempHero->_delegate->setCKRLose(true);
 					}
 
@@ -3421,8 +3421,8 @@ void ActionManager::healBuff(float dt){
 			list=_delegate->_AkatsukiFlogArray;
 		}else{
 			list=_delegate->_KonohaFlogArray;
-		} 
-		
+		}
+
 		CCARRAY_FOREACH(list,pObject){
 			ActionManager* tempHero=(ActionManager*) pObject;
 			if(strcmp(this->_group->getCString(),tempHero->_group->getCString())==0
@@ -3456,7 +3456,7 @@ void ActionManager::healBuff(float dt){
 		}
 
 	}else if(strcmp(_character->getCString(),"Sakura")==0 ||
-		strcmp(_character->getCString(),"Tsunade")==0 
+		strcmp(_character->getCString(),"Tsunade")==0
 		){
 
 		//小樱单补
@@ -3489,8 +3489,8 @@ void ActionManager::dehealBuff(float dt){
 	CCTime::gettimeofdayCocos2d(&timeVal, 0);
 	float curTime = timeVal.tv_sec * 1000 + timeVal.tv_usec / 1000;
 
-	if(!_debuffStartTime)_debuffStartTime=curTime;	
-	
+	if(!_debuffStartTime)_debuffStartTime=curTime;
+
 
 	if(_debuffStartTime&& abs(_debuffStartTime-curTime)>10000){
 		this->unschedule(schedule_selector(ActionManager::dehealBuff));
@@ -3501,7 +3501,7 @@ void ActionManager::dehealBuff(float dt){
 		return;
 	};
 
-	
+
 
 
 	CCObject* pObject;
@@ -3511,9 +3511,9 @@ void ActionManager::dehealBuff(float dt){
 			_slayer=tempHero;
 		}
 	};
-	if(atoi(_hp->getCString())<=_dehealBuffValue){		
+	if(atoi(_hp->getCString())<=_dehealBuffValue){
 		this->setDamage(CCString::create("c_hit"),_dehealBuffValue,false);
-		
+
 	}else{
 		this->setDamage(CCString::create("c_hit"),_dehealBuffValue,false);
 
@@ -3521,7 +3521,7 @@ void ActionManager::dehealBuff(float dt){
 	if(_hpBar){
 		_hpBar->loseHP(this->getHpPercent());
 	}
-	
+
 	if(strcmp(_role->getCString(),"Player")==0){
 		_delegate->setHPLose(this->getHpPercent());
 	}
@@ -3538,7 +3538,7 @@ void ActionManager::lostBlood(float dt){
 		}
 	}
 
-	if(atoi(_hp->getCString())<=lostBloodValue){		
+	if(atoi(_hp->getCString())<=lostBloodValue){
 		this->setDamage(CCString::create("c_hit"),lostBloodValue,false);
 
 	}else{
@@ -3566,28 +3566,28 @@ void ActionManager::changeAction(){
 		 strcmp(this->_character->getCString(),"Shino")==0
 		){
 			this->setNAttackAction(createAnimation(skillSPC1Array,10.0f,false,true));
-		
+
 	}else if(strcmp(this->_character->getCString(),"Choji")==0 ){
-	
+
 			_isBati=true;
 			this->setNAttackAction(createAnimation(skillSPC3Array,10.0f,false,true));
 			this->setIdleAction(createAnimation(skillSPC4Array,5.0f,true,false));
 			this->setWalkAction(createAnimation(skillSPC2Array,5.0f,true,false));
-			
+
 			_tempAttackType=_nattackType;
 			_nattackType=_spcattackType3;
-			
+
 			this->setnAttackValue(CCString::createWithFormat("%d",atoi(this->_nattackValue->getCString())+460));
 			_nattackRangeX=32;
 			_nattackRangeY=48;
 			this->_isOnlySkillLocked=true;
 
 			if(strcmp(this->getRole()->getCString(),"Player")==0){
-				if(_delegate->getHudLayer()->skill4Button){
-					_delegate->getHudLayer()->skill4Button->setLock();
+				if(_delegate->getHudLayerForAction(this)->skill4Button){
+					_delegate->getHudLayerForAction(this)->skill4Button->setLock();
 				}
-				if(_delegate->getHudLayer()->skill5Button){
-					_delegate->getHudLayer()->skill5Button->setLock();
+				if(_delegate->getHudLayerForAction(this)->skill5Button){
+					_delegate->getHudLayerForAction(this)->skill5Button->setLock();
 				}
 			}
 			this->_gardValue+=5000;
@@ -3595,15 +3595,15 @@ void ActionManager::changeAction(){
 			if(_hpBar){
 				_hpBar->setPositionY(108);
 			}
-		
+
 	}else if(strcmp(this->_character->getCString(),"Sakura")==0 ){
 
 		this->setNAttackAction(createAnimation(skillSPC1Array,10.0f,false,true));
 		this->setnAttackValue(CCString::createWithFormat("%d",atoi(this->_nattackValue->getCString())+400));
 
-	}else if(strcmp(this->_character->getCString(),"Kakuzu")==0 ){	
+	}else if(strcmp(this->_character->getCString(),"Kakuzu")==0 ){
 
-		this->setBuffEffect("jdBuff");		
+		this->setBuffEffect("jdBuff");
 
 	}else if(strcmp(this->_character->getCString(),"Sai")==0 ||
 		strcmp(this->_character->getCString(),"Deidara")==0
@@ -3616,16 +3616,16 @@ void ActionManager::changeAction(){
 			this->_isAllAttackLocked=true;
 			this->_isBati=true;
 
-			
-			this->setWalkSpeed(320);	
+
+			this->setWalkSpeed(320);
 			_originSpeed=320;
-			
+
 			if(strcmp(this->getRole()->getCString(),"Player")==0){
-				if(_delegate->getHudLayer()->skill4Button){
-					_delegate->getHudLayer()->skill4Button->setLock();
+				if(_delegate->getHudLayerForAction(this)->skill4Button){
+					_delegate->getHudLayerForAction(this)->skill4Button->setLock();
 				}
-				if(_delegate->getHudLayer()->skill5Button){
-					_delegate->getHudLayer()->skill5Button->setLock();
+				if(_delegate->getHudLayerForAction(this)->skill5Button){
+					_delegate->getHudLayerForAction(this)->skill5Button->setLock();
 				}
 			}
 
@@ -3636,7 +3636,7 @@ void ActionManager::changeAction(){
 				_hpBar->setPositionY(120);
 			}
 			this->schedule(schedule_selector(ActionManager::setMonPer),0.5f);
-			
+
 		}
 
 	}else if(strcmp(this->_character->getCString(),"Naruto")==0){
@@ -3646,18 +3646,18 @@ void ActionManager::changeAction(){
 		this->setNAttackAction(createAnimation(skillSPC3Array,10.0f,false,true));
 		this->setKnockDownAction(createAnimation(skillSPC4Array,10.0f,false,true));
 
-		
+
 		this->setWalkSpeed(320);
 
 		_originSpeed=320;
 
-		
+
 		this->_isOnlySkillLocked=true;
 
-		this->settempAttackValue1(CCString::createWithFormat("%d",atoi(_nattackValue->getCString())));	
+		this->settempAttackValue1(CCString::createWithFormat("%d",atoi(_nattackValue->getCString())));
 		this->setnAttackValue(CCString::createWithFormat("%d",960));
-		
-	
+
+
 		_nattackRangeX=_spcattackRangeX3;
 		_nattackRangeY=_spcattackRangeY3;
 		_tempAttackType=_nattackType;
@@ -3667,15 +3667,15 @@ void ActionManager::changeAction(){
 		_isBati=true;
 
 		if(strcmp(this->getRole()->getCString(),"Player")==0){
-			if(_delegate->getHudLayer()->skill4Button){
-				_delegate->getHudLayer()->skill4Button->setLock();
+			if(_delegate->getHudLayerForAction(this)->skill4Button){
+				_delegate->getHudLayerForAction(this)->skill4Button->setLock();
 			}
-			if(_delegate->getHudLayer()->skill5Button){
-				_delegate->getHudLayer()->skill5Button->setLock();
+			if(_delegate->getHudLayerForAction(this)->skill5Button){
+				_delegate->getHudLayerForAction(this)->skill5Button->setLock();
 			}
 		}
 
-		
+
 	}else if(strcmp(this->_character->getCString(),"SageNaruto")==0 ||
 		strcmp(this->_character->getCString(),"RikudoNaruto")==0
 		){
@@ -3689,22 +3689,22 @@ void ActionManager::changeAction(){
 		this->setWalkAction(createAnimation(skillSPC2Array,10.0f,true,false));
 		this->setNAttackAction(createAnimation(skillSPC3Array,10.0f,false,true));
 
-		
-			
+
+
 		if(strcmp(this->_character->getCString(),"RikudoNaruto")==0){
-			this->settempAttackValue1(CCString::createWithFormat("%d",atoi(_nattackValue->getCString())));	
+			this->settempAttackValue1(CCString::createWithFormat("%d",atoi(_nattackValue->getCString())));
 			this->setnAttackValue(CCString::createWithFormat("%d",560));
 		}
-		
+
 		this->setWalkSpeed(320);
 		_originSpeed=320;
 
 		if(strcmp(this->getRole()->getCString(),"Player")==0){
-			if(_delegate->getHudLayer()->skill4Button){
-				_delegate->getHudLayer()->skill4Button->setLock();
+			if(_delegate->getHudLayerForAction(this)->skill4Button){
+				_delegate->getHudLayerForAction(this)->skill4Button->setLock();
 			}
-			if(_delegate->getHudLayer()->skill5Button){
-				_delegate->getHudLayer()->skill5Button->setLock();
+			if(_delegate->getHudLayerForAction(this)->skill5Button){
+				_delegate->getHudLayerForAction(this)->skill5Button->setLock();
 			}
 		}
 	}else if(strcmp(this->_character->getCString(),"Konan")==0){
@@ -3717,7 +3717,7 @@ void ActionManager::changeAction(){
 		_attackRangeX=_spcattackRangeX2;
 		_attackRangeY=_spcattackRangeY2;
 
-		
+
 		this->setWalkSpeed(320);
 		_originSpeed=320;
 
@@ -3727,11 +3727,11 @@ void ActionManager::changeAction(){
 		_hpBar->setPositionY(90);
 		}
 		if(strcmp(this->getRole()->getCString(),"Player")==0){
-			if(_delegate->getHudLayer()->skill4Button){
-				_delegate->getHudLayer()->skill4Button->setLock();
+			if(_delegate->getHudLayerForAction(this)->skill4Button){
+				_delegate->getHudLayerForAction(this)->skill4Button->setLock();
 			}
-			if(_delegate->getHudLayer()->skill5Button){
-				_delegate->getHudLayer()->skill5Button->setLock();
+			if(_delegate->getHudLayerForAction(this)->skill5Button){
+				_delegate->getHudLayerForAction(this)->skill5Button->setLock();
 			}
 		}
 
@@ -3741,9 +3741,9 @@ void ActionManager::changeAction(){
 			_isBati=false;
 
 			if(strcmp(this->getRole()->getCString(),"Player")==0){
-				_delegate->getHudLayer()->skill1Button->setLock();
-				_delegate->getHudLayer()->skill2Button->unLock();
-				_delegate->getHudLayer()->skill3Button->unLock();
+				_delegate->getHudLayerForAction(this)->skill1Button->setLock();
+				_delegate->getHudLayerForAction(this)->skill2Button->unLock();
+				_delegate->getHudLayerForAction(this)->skill3Button->unLock();
 			}
 
 			this->setIdleAction(createAnimation(skillSPC1Array,5.0f,true,false));
@@ -3761,7 +3761,7 @@ void ActionManager::changeAction(){
 				if(strcmp(mo->getCharacter()->getCString(),"Akamaru")==0){
 					mo->attack(SKILL2);
 				}
-				
+
 			};
 
 			this->_powerUPBuffValue=360;
@@ -3781,7 +3781,7 @@ void ActionManager::changeAction(){
 			_actionState=ACTION_STATE_WALK;
 			this->idle();
 		}
-		
+
 	}else if(strcmp(this->_character->getCString(),"Sasuke")==0){
 
 		if(_skillChangeBuffValue==17){
@@ -3832,15 +3832,15 @@ void ActionManager::changeAction(){
 			this->setNAttackAction(createAnimation(skillSPC3Array,10.0f,false,true));
 			this->setKnockDownAction(createAnimation(skillSPC4Array,10.0f,false,true));
 
-			
+
 			this->setWalkSpeed(320);
 			_originSpeed=320;
 
 
 			this->_isOnlySkillLocked=true;
-			this->settempAttackValue1(CCString::createWithFormat("%d",atoi(_nattackValue->getCString())));	
+			this->settempAttackValue1(CCString::createWithFormat("%d",atoi(_nattackValue->getCString())));
 			this->setnAttackValue(CCString::createWithFormat("%d",560));
-			
+
 
 			_nattackRangeX=_spcattackRangeX3;
 			_nattackRangeY=_spcattackRangeY3;
@@ -3851,17 +3851,17 @@ void ActionManager::changeAction(){
 			_isBati=true;
 
 			if(strcmp(this->getRole()->getCString(),"Player")==0){
-				if(_delegate->getHudLayer()->skill4Button){
-					_delegate->getHudLayer()->skill4Button->setLock();
+				if(_delegate->getHudLayerForAction(this)->skill4Button){
+					_delegate->getHudLayerForAction(this)->skill4Button->setLock();
 				}
-				if(_delegate->getHudLayer()->skill5Button){
-					_delegate->getHudLayer()->skill5Button->setLock();
+				if(_delegate->getHudLayerForAction(this)->skill5Button){
+					_delegate->getHudLayerForAction(this)->skill5Button->setLock();
 				}
 			}
 
 
 		}
-	
+
 	}else if(strcmp(this->_character->getCString(),"ImmortalSasuke")==0){
 
 		if(_skillChangeBuffValue==17){
@@ -3911,10 +3911,10 @@ void ActionManager::changeAction(){
 			this->setNAttackAction(createAnimation(skillSPC2Array,10.0f,false,true));
 			this->setWalkSpeed(112);
 			this->_originSpeed=112;
-			
-			this->settempAttackValue1(CCString::createWithFormat("%d",atoi(_nattackValue->getCString())));	
+
+			this->settempAttackValue1(CCString::createWithFormat("%d",atoi(_nattackValue->getCString())));
 			this->setnAttackValue(CCString::createWithFormat("%d",1160));
-		
+
 			_nattackRangeX=156;
 			_nattackRangeY=64;
 
@@ -3923,11 +3923,11 @@ void ActionManager::changeAction(){
 			this->_isOnlySkillLocked=true;
 
 			if(strcmp(this->getRole()->getCString(),"Player")==0){
-				if(_delegate->getHudLayer()->skill4Button){
-					_delegate->getHudLayer()->skill4Button->setLock();
+				if(_delegate->getHudLayerForAction(this)->skill4Button){
+					_delegate->getHudLayerForAction(this)->skill4Button->setLock();
 				}
-				if(_delegate->getHudLayer()->skill5Button){
-					_delegate->getHudLayer()->skill5Button->setLock();
+				if(_delegate->getHudLayerForAction(this)->skill5Button){
+					_delegate->getHudLayerForAction(this)->skill5Button->setLock();
 				}
 			}
 		}
@@ -3935,9 +3935,9 @@ void ActionManager::changeAction(){
 
 
 	}else if(strcmp(this->_character->getCString(),"Tobi")==0){
-		
+
 		this->setWalkAction(createAnimation(skillSPC1Array,10.0f,true,false));
-		
+
 		this->setWalkSpeed(320);
 
 		_originSpeed=320;
@@ -3984,18 +3984,18 @@ void ActionManager::changeAction(){
 		this->setIdleAction(createAnimation(skillSPC1Array,5.0f,true,false));
 		this->setWalkAction(createAnimation(skillSPC2Array,10.0f,true,false));
 		this->setNAttackAction(createAnimation(skillSPC3Array,10.0f,false,true));
-		
+
 		this->_isOnlySkillLocked=true;
 
 		this->_gardValue+=5000;
 		_isBati=true;
 
 		if(strcmp(this->getRole()->getCString(),"Player")==0){
-			if(_delegate->getHudLayer()->skill4Button){
-				_delegate->getHudLayer()->skill4Button->setLock();
+			if(_delegate->getHudLayerForAction(this)->skill4Button){
+				_delegate->getHudLayerForAction(this)->skill4Button->setLock();
 			}
-			if(_delegate->getHudLayer()->skill5Button){
-				_delegate->getHudLayer()->skill5Button->setLock();
+			if(_delegate->getHudLayerForAction(this)->skill5Button){
+				_delegate->getHudLayerForAction(this)->skill5Button->setLock();
 			}
 		}
 
@@ -4014,7 +4014,7 @@ void ActionManager::changeAction(){
 
 		this->_isOnlySkillLocked=true;
 
-		this->settempAttackValue1(CCString::createWithFormat("%d",atoi(_nattackValue->getCString())));	
+		this->settempAttackValue1(CCString::createWithFormat("%d",atoi(_nattackValue->getCString())));
 		this->setnAttackValue(CCString::createWithFormat("%d",560));
 
 		_nattackRangeX=128;
@@ -4024,23 +4024,23 @@ void ActionManager::changeAction(){
 		_isBati=true;
 
 		if(strcmp(this->getRole()->getCString(),"Player")==0){
-			if(_delegate->getHudLayer()->skill4Button){
-				_delegate->getHudLayer()->skill4Button->setLock();
+			if(_delegate->getHudLayerForAction(this)->skill4Button){
+				_delegate->getHudLayerForAction(this)->skill4Button->setLock();
 			}
-			if(_delegate->getHudLayer()->skill5Button){
-				_delegate->getHudLayer()->skill5Button->setLock();
+			if(_delegate->getHudLayerForAction(this)->skill5Button){
+				_delegate->getHudLayerForAction(this)->skill5Button->setLock();
 			}
 		}
 
-	
+
 	}else if(strcmp(this->_character->getCString(),"Kakashi")==0){
-		
+
 		this->setSkill1Action(createAnimation(skillSPC1Array,10.0f,false,true));
 		this->setSkill2Action(createAnimation(skillSPC2Array,10.0f,false,true));
 		this->setIdleAction(createAnimation(skillSPC3Array,5.0f,true,false));
 		this->settempAttackValue1(CCString::createWithFormat("%d",atoi(_sattackValue1->getCString())));
 		this->setsAttackValue1(_spcattackValue1);
-		
+
 		CCObject* pObject;
 		CCARRAY_FOREACH(_delegate->_CharacterArray,pObject){
 			ActionManager* tempHero=(ActionManager*) pObject;
@@ -4077,23 +4077,23 @@ void ActionManager::changeAction(){
 
 			}
 		};
-		
+
 
 		if(strcmp(this->_role->getCString(),"Player")==0){
-			CCSpriteFrame *frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("Kakashi_skill1_1.png"); 
-			_delegate->getHudLayer()->skill1Button->setDisplayFrame(frame);
-			frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("Kakashi_skill2_1.png"); 
-			_delegate->getHudLayer()->skill2Button->setDisplayFrame(frame);
+			CCSpriteFrame *frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("Kakashi_skill1_1.png");
+			_delegate->getHudLayerForAction(this)->skill1Button->setDisplayFrame(frame);
+			frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("Kakashi_skill2_1.png");
+			_delegate->getHudLayerForAction(this)->skill2Button->setDisplayFrame(frame);
 
 		}
-		
+
 	}else if(strcmp(this->_character->getCString(),"Hiruzen")==0 ){
 			_isBati=true;
 			_nattackRangeX=16;
 			_nattackRangeY=48;
-			this->settempAttackValue1(CCString::createWithFormat("%d",atoi(_nattackValue->getCString())));	
+			this->settempAttackValue1(CCString::createWithFormat("%d",atoi(_nattackValue->getCString())));
 			this->setnAttackValue(CCString::createWithFormat("%d",560));
-			
+
 			this->_isOnlySkillLocked=true;
 
 
@@ -4102,25 +4102,25 @@ void ActionManager::changeAction(){
 			this->setNAttackAction(createAnimation(skillSPC3Array,10.0f,false,true));
 
 			if(strcmp(this->getRole()->getCString(),"Player")==0){
-				if(_delegate->getHudLayer()->skill4Button){
-					_delegate->getHudLayer()->skill4Button->setLock();
+				if(_delegate->getHudLayerForAction(this)->skill4Button){
+					_delegate->getHudLayerForAction(this)->skill4Button->setLock();
 				}
-				if(_delegate->getHudLayer()->skill5Button){
-					_delegate->getHudLayer()->skill5Button->setLock();
+				if(_delegate->getHudLayerForAction(this)->skill5Button){
+					_delegate->getHudLayerForAction(this)->skill5Button->setLock();
 				}
 			}
 
 
 	}else if(strcmp(this->_character->getCString(),"Suigetsu")==0 ){
 
-		this->settempAttackValue1(CCString::createWithFormat("%d",atoi(_nattackValue->getCString())));	
+		this->settempAttackValue1(CCString::createWithFormat("%d",atoi(_nattackValue->getCString())));
 		this->setnAttackValue(CCString::createWithFormat("%d",1960));
 
 		this->_isOnlySkillLocked=true;
 
 		_nattackRangeX=16;
 		_nattackRangeY=48;
-		
+
 		_isBati=true;
 
 		this->setIdleAction(createAnimation(skillSPC1Array,5.0f,true,false));
@@ -4128,18 +4128,18 @@ void ActionManager::changeAction(){
 		this->setNAttackAction(createAnimation(skillSPC3Array,10.0f,false,true));
 
 		if(strcmp(this->getRole()->getCString(),"Player")==0){
-			if(_delegate->getHudLayer()->skill4Button){
-				_delegate->getHudLayer()->skill4Button->setLock();
+			if(_delegate->getHudLayerForAction(this)->skill4Button){
+				_delegate->getHudLayerForAction(this)->skill4Button->setLock();
 			}
-			if(_delegate->getHudLayer()->skill5Button){
-				_delegate->getHudLayer()->skill5Button->setLock();
+			if(_delegate->getHudLayerForAction(this)->skill5Button){
+				_delegate->getHudLayerForAction(this)->skill5Button->setLock();
 			}
 		}
 
 
 	}else if(strcmp(this->_character->getCString(),"Kisame")==0){
 
-		this->settempAttackValue1(CCString::createWithFormat("%d",atoi(_nattackValue->getCString())));	
+		this->settempAttackValue1(CCString::createWithFormat("%d",atoi(_nattackValue->getCString())));
 		this->setnAttackValue(CCString::createWithFormat("%d",660));
 
 		this->_isOnlySkillLocked=true;
@@ -4157,11 +4157,11 @@ void ActionManager::changeAction(){
 		_originSpeed=112;
 
 		if(strcmp(this->getRole()->getCString(),"Player")==0){
-			if(_delegate->getHudLayer()->skill4Button){
-				_delegate->getHudLayer()->skill4Button->setLock();
+			if(_delegate->getHudLayerForAction(this)->skill4Button){
+				_delegate->getHudLayerForAction(this)->skill4Button->setLock();
 			}
-			if(_delegate->getHudLayer()->skill5Button){
-				_delegate->getHudLayer()->skill5Button->setLock();
+			if(_delegate->getHudLayerForAction(this)->skill5Button){
+				_delegate->getHudLayerForAction(this)->skill5Button->setLock();
 			}
 		}
 
@@ -4169,7 +4169,7 @@ void ActionManager::changeAction(){
 
 	}else if(strcmp(this->_character->getCString(),"Jugo")==0){
 
-		this->settempAttackValue1(CCString::createWithFormat("%d",atoi(_nattackValue->getCString())));	
+		this->settempAttackValue1(CCString::createWithFormat("%d",atoi(_nattackValue->getCString())));
 		this->setnAttackValue(CCString::createWithFormat("%d",1960));
 
 		this->_isOnlySkillLocked=true;
@@ -4182,16 +4182,16 @@ void ActionManager::changeAction(){
 		this->setNAttackAction(createAnimation(skillSPC3Array,10.0f,false,true));
 
 
-		
+
 	    this->setWalkSpeed(320);
 		_originSpeed=320;
 
 		if(strcmp(this->getRole()->getCString(),"Player")==0){
-			if(_delegate->getHudLayer()->skill4Button){
-				_delegate->getHudLayer()->skill4Button->setLock();
+			if(_delegate->getHudLayerForAction(this)->skill4Button){
+				_delegate->getHudLayerForAction(this)->skill4Button->setLock();
 			}
-			if(_delegate->getHudLayer()->skill5Button){
-				_delegate->getHudLayer()->skill5Button->setLock();
+			if(_delegate->getHudLayerForAction(this)->skill5Button){
+				_delegate->getHudLayerForAction(this)->skill5Button->setLock();
 			}
 		}
 
@@ -4199,7 +4199,7 @@ void ActionManager::changeAction(){
 
 	}else if(strcmp(this->_character->getCString(),"Parents")==0){
 
-		this->settempAttackValue1(CCString::createWithFormat("%d",atoi(_nattackValue->getCString())));	
+		this->settempAttackValue1(CCString::createWithFormat("%d",atoi(_nattackValue->getCString())));
 		this->setnAttackValue(CCString::createWithFormat("%d",2460));
 
 		this->_isOnlySkillLocked=true;
@@ -4212,27 +4212,27 @@ void ActionManager::changeAction(){
 
 
 		if(strcmp(this->getMaster()->getRole()->getCString(),"Player")==0){
-			if(this->_delegate->getHudLayer()->skill2Button){
-				this->_delegate->getHudLayer()->skill2Button->setLock();
+			if(this->_delegate->getHudLayerForAction(this)->skill2Button){
+				this->_delegate->getHudLayerForAction(this)->skill2Button->setLock();
 			}
 
 		}
 		this->setWalkSpeed(460);
-		
+
 
 
 	}else if(strcmp(this->_character->getCString(),"Kankuro")==0){
 
-		if(strcmp(this->_role->getCString(),"Player")==0){	
-			_delegate->getHudLayer()->skill1Button->setLock();
-			_delegate->getHudLayer()->skill2Button->unLock();
+		if(strcmp(this->_role->getCString(),"Player")==0){
+			_delegate->getHudLayerForAction(this)->skill1Button->setLock();
+			_delegate->getHudLayerForAction(this)->skill2Button->unLock();
 		}
 	}else if(strcmp(this->_character->getCString(),"Chiyo")==0){
 
-		if(strcmp(this->_role->getCString(),"Player")==0){	
-			_delegate->getHudLayer()->skill1Button->setLock();
-			_delegate->getHudLayer()->skill2Button->unLock();
-			_delegate->getHudLayer()->skill3Button->unLock();
+		if(strcmp(this->_role->getCString(),"Player")==0){
+			_delegate->getHudLayerForAction(this)->skill1Button->setLock();
+			_delegate->getHudLayerForAction(this)->skill2Button->unLock();
+			_delegate->getHudLayerForAction(this)->skill3Button->unLock();
 		}
 	}else if(strcmp(this->_character->getCString(),"Minato")==0){
 
@@ -4243,12 +4243,12 @@ void ActionManager::changeAction(){
 
 			if(strcmp(this->_role->getCString(),"Player")==0){
 
-				CCSpriteFrame *frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("Minato_skill1_1.png"); 
-				_delegate->getHudLayer()->skill1Button->setDisplayFrame(frame);
-				if(_delegate->getHudLayer()->skill1Button->_clickNum<2){
-					_delegate->getHudLayer()->skill1Button->_clickNum++;
+				CCSpriteFrame *frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("Minato_skill1_1.png");
+				_delegate->getHudLayerForAction(this)->skill1Button->setDisplayFrame(frame);
+				if(_delegate->getHudLayerForAction(this)->skill1Button->_clickNum<2){
+					_delegate->getHudLayerForAction(this)->skill1Button->_clickNum++;
 				}
-				
+
 			}
 
 		}else if(_skillChangeBuffValue==18){
@@ -4272,17 +4272,17 @@ void ActionManager::changeAction(){
 		}
 		if(bamen<5){
 			bamen+=1;
-			CCSpriteFrame *frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(CCString::createWithFormat("Bamen_Effect_%02d.png",this->bamen-1)->getCString()); 
+			CCSpriteFrame *frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(CCString::createWithFormat("Bamen_Effect_%02d.png",this->bamen-1)->getCString());
 			this->_heartEffect->setDisplayFrame(frame);
 		}else{
 			return;
 		}
-		
+
 		if(bamen ==1){
 			this->setnAttackValue(CCString::createWithFormat("%d",atoi(this->_nattackValue->getCString())+30));
 			if(strcmp(this->getRole()->getCString(),"Player")==0){
-				if(_delegate->getHudLayer()->skill4Button){
-					_delegate->getHudLayer()->skill4Button->unLock();
+				if(_delegate->getHudLayerForAction(this)->skill4Button){
+					_delegate->getHudLayerForAction(this)->skill4Button->unLock();
 				}
 			}
 		}else if(bamen ==2){
@@ -4292,15 +4292,15 @@ void ActionManager::changeAction(){
 				this->setBuffEffect("bmBuff");
 			}
 			this->setTransform();
-	
+
 
 			if(strcmp(this->getRole()->getCString(),"Player")==0){
-				_delegate->getHudLayer()->skill3Button->unLock();
+				_delegate->getHudLayerForAction(this)->skill3Button->unLock();
 			}
 
 			if(strcmp(this->getRole()->getCString(),"Player")==0){
-				if(_delegate->getHudLayer()->skill5Button){
-					_delegate->getHudLayer()->skill5Button->unLock();
+				if(_delegate->getHudLayerForAction(this)->skill5Button){
+					_delegate->getHudLayerForAction(this)->skill5Button->unLock();
 				}
 			}
 		}else if(bamen==4){
@@ -4333,16 +4333,16 @@ void ActionManager::changeAction(){
 		this->setNAttackAction(createAnimation(skillSPC3Array,10.0f,false,true));
 
 		if(strcmp(this->getRole()->getCString(),"Player")==0){
-			if(_delegate->getHudLayer()->skill4Button){
-				_delegate->getHudLayer()->skill4Button->setLock();
+			if(_delegate->getHudLayerForAction(this)->skill4Button){
+				_delegate->getHudLayerForAction(this)->skill4Button->setLock();
 			}
-			if(_delegate->getHudLayer()->skill5Button){
-				_delegate->getHudLayer()->skill5Button->setLock();
+			if(_delegate->getHudLayerForAction(this)->skill5Button){
+				_delegate->getHudLayerForAction(this)->skill5Button->setLock();
 			}
 		}
 
 	}else if(strcmp(this->_character->getCString(),"Roshi")==0 ||
-		strcmp(this->_character->getCString(),"Han")==0 
+		strcmp(this->_character->getCString(),"Han")==0
 		){
 		this->setnAttackValue(CCString::createWithFormat("%d",atoi(this->_nattackValue->getCString())+700));
 		_nattackRangeX=0;
@@ -4360,7 +4360,7 @@ void ActionManager::changeAction(){
 		this->setIdleAction(createAnimation(skillSPC3Array,5.0f,true,false));
 
 	}else if(strcmp(this->_character->getCString(),"Hidan")==0){
-		
+
 		_isBati=true;
 		_isTaunt=true;
 		this->_isOnlySkillLocked=true;
@@ -4369,16 +4369,16 @@ void ActionManager::changeAction(){
 		this->setNAttackAction(createAnimation(skillSPC3Array,10.0f,false,true));
 
 		if(strcmp(this->getRole()->getCString(),"Player")==0){
-			if(_delegate->getHudLayer()->skill4Button){
-				_delegate->getHudLayer()->skill4Button->setLock();
+			if(_delegate->getHudLayerForAction(this)->skill4Button){
+				_delegate->getHudLayerForAction(this)->skill4Button->setLock();
 			}
-			if(_delegate->getHudLayer()->skill5Button){
-				_delegate->getHudLayer()->skill5Button->setLock();
+			if(_delegate->getHudLayerForAction(this)->skill5Button){
+				_delegate->getHudLayerForAction(this)->skill5Button->setLock();
 			}
 		}
 
 	}
-	
+
 }
 void ActionManager::changeAction2(){
 
@@ -4409,11 +4409,11 @@ void ActionManager::resumeAction(float dt){
 	if(strcmp(this->_character->getCString(),"Tenten")==0 ||
 		strcmp(this->_character->getCString(),"Shino")==0 ){
 		this->setNAttackAction(createAnimation(nattackArray,10.0f,false,true));
-	}else if(strcmp(this->_character->getCString(),"Kakuzu")==0 ){	
-		this->removeBuffEffect("sBuff");		
+	}else if(strcmp(this->_character->getCString(),"Kakuzu")==0 ){
+		this->removeBuffEffect("sBuff");
 	}else if(strcmp(this->_character->getCString(),"Choji")==0 ){
 
-	
+
 			this->setnAttackValue(CCString::createWithFormat("%d",atoi(this->_nattackValue->getCString())-460));
 			_nattackRangeX=16;
 			_nattackRangeY=48;
@@ -4434,11 +4434,11 @@ void ActionManager::resumeAction(float dt){
 			}
 
 			if(strcmp(this->getRole()->getCString(),"Player")==0){
-				if(_delegate->getHudLayer()->skill4Button){
-					_delegate->getHudLayer()->skill4Button->unLock();
+				if(_delegate->getHudLayerForAction(this)->skill4Button){
+					_delegate->getHudLayerForAction(this)->skill4Button->unLock();
 				}
-				if(_delegate->getHudLayer()->skill5Button){
-					_delegate->getHudLayer()->skill5Button->unLock();
+				if(_delegate->getHudLayerForAction(this)->skill5Button){
+					_delegate->getHudLayerForAction(this)->skill5Button->unLock();
 				}
 			}
 
@@ -4446,7 +4446,7 @@ void ActionManager::resumeAction(float dt){
 				_hpBar->setPositionY(this->getHeight());
 			}
 
-		
+
 
 	}else if(strcmp(this->_character->getCString(),"Sakura")==0){
 		this->setNAttackAction(createAnimation(nattackArray,10.0f,false,true));
@@ -4465,15 +4465,15 @@ void ActionManager::resumeAction(float dt){
 			this->_isAllAttackLocked=false;
 			_originSpeed=224;
 
-			
+
 			this->setWalkSpeed(224);
-			
+
 			if(strcmp(this->getRole()->getCString(),"Player")==0){
-				if(_delegate->getHudLayer()->skill4Button){
-					_delegate->getHudLayer()->skill4Button->unLock();
+				if(_delegate->getHudLayerForAction(this)->skill4Button){
+					_delegate->getHudLayerForAction(this)->skill4Button->unLock();
 				}
-				if(_delegate->getHudLayer()->skill5Button){
-					_delegate->getHudLayer()->skill5Button->unLock();
+				if(_delegate->getHudLayerForAction(this)->skill5Button){
+					_delegate->getHudLayerForAction(this)->skill5Button->unLock();
 				}
 			}
 
@@ -4500,17 +4500,17 @@ void ActionManager::resumeAction(float dt){
 		this->_isOnlySkillLocked=false;
 
 		if(strcmp(this->getRole()->getCString(),"Player")==0){
-			if(_delegate->getHudLayer()->skill4Button){
-				_delegate->getHudLayer()->skill4Button->unLock();
+			if(_delegate->getHudLayerForAction(this)->skill4Button){
+				_delegate->getHudLayerForAction(this)->skill4Button->unLock();
 			}
-			if(_delegate->getHudLayer()->skill5Button){
-				_delegate->getHudLayer()->skill5Button->unLock();
+			if(_delegate->getHudLayerForAction(this)->skill5Button){
+				_delegate->getHudLayerForAction(this)->skill5Button->unLock();
 			}
 		}
 		_gardValue-=5000;
 		_isBati=false;
 
-		
+
 		if(_actionState!=ACTION_STATE_DEAD){
 			_actionState=ACTION_STATE_WALK;
 			this->idle();
@@ -4520,22 +4520,22 @@ void ActionManager::resumeAction(float dt){
 		}
 
 	}else if(strcmp(this->_character->getCString(),"Konan")==0){
-		
-	
+
+
 		_isAllAttackLocked=false;
 		_isBati=false;
 
 		_originSpeed=224;
-		
+
 		this->setWalkSpeed(224);
-		
+
 
 		if(strcmp(this->getRole()->getCString(),"Player")==0){
-			if(_delegate->getHudLayer()->skill4Button){
-				_delegate->getHudLayer()->skill4Button->unLock();
+			if(_delegate->getHudLayerForAction(this)->skill4Button){
+				_delegate->getHudLayerForAction(this)->skill4Button->unLock();
 			}
-			if(_delegate->getHudLayer()->skill5Button){
-				_delegate->getHudLayer()->skill5Button->unLock();
+			if(_delegate->getHudLayerForAction(this)->skill5Button){
+				_delegate->getHudLayerForAction(this)->skill5Button->unLock();
 			}
 		}
 
@@ -4549,7 +4549,7 @@ void ActionManager::resumeAction(float dt){
 		if(_hpBar){
 		_hpBar->setPositionY(this->getHeight());
 		}
-	
+
 	}else if(strcmp(this->_character->getCString(),"Naruto")==0){
 
 		this->setIdleAction(createAnimation(idleArray,5.0f,true,false));
@@ -4559,24 +4559,24 @@ void ActionManager::resumeAction(float dt){
 		this->_isOnlySkillLocked=false;
 
 		if(strcmp(this->getRole()->getCString(),"Player")==0){
-			if(_delegate->getHudLayer()->skill4Button){
-				_delegate->getHudLayer()->skill4Button->unLock();
+			if(_delegate->getHudLayerForAction(this)->skill4Button){
+				_delegate->getHudLayerForAction(this)->skill4Button->unLock();
 			}
-			if(_delegate->getHudLayer()->skill5Button){
-				_delegate->getHudLayer()->skill5Button->unLock();
+			if(_delegate->getHudLayerForAction(this)->skill5Button){
+				_delegate->getHudLayerForAction(this)->skill5Button->unLock();
 			}
 		}
 
-		
+
 		this->setWalkSpeed(224);
-		
+
 		_originSpeed=224;
 		if(_tempAttackValue1){
 				this->setnAttackValue(CCString::createWithFormat("%d",atoi(this->_tempAttackValue1->getCString())));
 				_tempAttackValue1=NULL;
 		}
 		isPofang=false;
-	
+
 		_nattackRangeX=16;
 		_nattackRangeY=48;
 		_nattackType=_tempAttackType;
@@ -4602,16 +4602,16 @@ void ActionManager::resumeAction(float dt){
 		this->_isOnlySkillLocked=false;
 
 		if(strcmp(this->getRole()->getCString(),"Player")==0){
-			if(_delegate->getHudLayer()->skill4Button){
-				_delegate->getHudLayer()->skill4Button->unLock();
+			if(_delegate->getHudLayerForAction(this)->skill4Button){
+				_delegate->getHudLayerForAction(this)->skill4Button->unLock();
 			}
-			if(_delegate->getHudLayer()->skill5Button){
-				_delegate->getHudLayer()->skill5Button->unLock();
+			if(_delegate->getHudLayerForAction(this)->skill5Button){
+				_delegate->getHudLayerForAction(this)->skill5Button->unLock();
 			}
 		}
-	
+
 		this->setWalkSpeed(224);
-		
+
 		_originSpeed=224;
 
 		_gardValue-=5000;
@@ -4619,7 +4619,7 @@ void ActionManager::resumeAction(float dt){
 		isPofang=false;
 
 		if(_actionState!=ACTION_STATE_DEAD){
-			
+
 			if(strcmp(this->_character->getCString(),"SageNaruto")==0 && this->getLV()==6){
 				_actionState=ACTION_STATE_WALK;
 				this->setKnockDownAction(createAnimation(skillSPC5Array,10.0f,false,true));
@@ -4631,7 +4631,7 @@ void ActionManager::resumeAction(float dt){
 			_actionState=ACTION_STATE_WALK;
 			this->idle();
 		}
-		
+
 		if(_tempAttackValue1){
 			this->setnAttackValue(CCString::createWithFormat("%d",atoi(this->_tempAttackValue1->getCString())));
 			_tempAttackValue1=NULL;
@@ -4642,16 +4642,16 @@ void ActionManager::resumeAction(float dt){
 		this->setIdleAction(createAnimation(idleArray,5.0f,true,false));
 		this->setSkill1Action(createAnimation(skill1Array,10.0f,false,true));
 		this->setSkill2Action(createAnimation(skill2Array,10.0f,false,true));
-		
+
 		this->setsAttackValue1(CCString::createWithFormat("%d",atoi(_tempAttackValue1->getCString())));
 
 
 		if(strcmp(this->_role->getCString(),"Player")==0){
-			
-			CCSpriteFrame *frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("Kakashi_skill1.png"); 
-			_delegate->getHudLayer()->skill1Button->setDisplayFrame(frame);
-			frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("Kakashi_skill2.png"); 
-			_delegate->getHudLayer()->skill2Button->setDisplayFrame(frame);
+
+			CCSpriteFrame *frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("Kakashi_skill1.png");
+			_delegate->getHudLayerForAction(this)->skill1Button->setDisplayFrame(frame);
+			frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("Kakashi_skill2.png");
+			_delegate->getHudLayerForAction(this)->skill2Button->setDisplayFrame(frame);
 
 		}
 
@@ -4665,17 +4665,17 @@ void ActionManager::resumeAction(float dt){
 		this->_isOnlySkillLocked=false;
 
 		if(strcmp(this->getRole()->getCString(),"Player")==0){
-			if(_delegate->getHudLayer()->skill4Button){
-				_delegate->getHudLayer()->skill4Button->unLock();
+			if(_delegate->getHudLayerForAction(this)->skill4Button){
+				_delegate->getHudLayerForAction(this)->skill4Button->unLock();
 			}
-			if(_delegate->getHudLayer()->skill5Button){
-				_delegate->getHudLayer()->skill5Button->unLock();
+			if(_delegate->getHudLayerForAction(this)->skill5Button){
+				_delegate->getHudLayerForAction(this)->skill5Button->unLock();
 			}
 		}
 
-		
+
 		this->setWalkSpeed(224);
-		
+
 		_originSpeed=224;
 		if(_tempAttackValue1){
 		this->setnAttackValue(CCString::createWithFormat("%d",atoi(this->_tempAttackValue1->getCString())));
@@ -4719,9 +4719,9 @@ void ActionManager::resumeAction(float dt){
 					_actionState=ACTION_STATE_WALK;
 					this->idle();
 			}
-			
+
 	}else if(strcmp(this->_character->getCString(),"Akamaru")==0){
-	
+
 		if(_powerUPBuffValue){
 			this->setnAttackValue(CCString::createWithFormat("%d",atoi(this->_nattackValue->getCString())-_powerUPBuffValue));
 			this->setIdleAction(createAnimation(idleArray,5.0f,true,false));
@@ -4740,7 +4740,7 @@ void ActionManager::resumeAction(float dt){
 
 	}else if(strcmp(this->_character->getCString(),"Minato")==0){
 
-	
+
 		this->setnAttackValue(CCString::createWithFormat("%d",atoi(this->_nattackValue->getCString())-200));
 		_nattackRangeX=16;
 		_nattackRangeY=48;
@@ -4753,7 +4753,7 @@ void ActionManager::resumeAction(float dt){
 		strcmp(this->_character->getCString(),"ImmortalSasuke")==0) && this->_isTaunt){
 
 			this->_isTaunt=false;
-			this->setHurtAction(createAnimation(hurtArray,10.0f,false,true));		
+			this->setHurtAction(createAnimation(hurtArray,10.0f,false,true));
 	}else if(strcmp(this->_character->getCString(),"Sasuke")==0 && _skillChangeBuffValue==18){
 
 
@@ -4764,17 +4764,17 @@ void ActionManager::resumeAction(float dt){
 		this->_isOnlySkillLocked=false;
 
 		if(strcmp(this->getRole()->getCString(),"Player")==0){
-			if(_delegate->getHudLayer()->skill4Button){
-				_delegate->getHudLayer()->skill4Button->unLock();
+			if(_delegate->getHudLayerForAction(this)->skill4Button){
+				_delegate->getHudLayerForAction(this)->skill4Button->unLock();
 			}
-			if(_delegate->getHudLayer()->skill5Button){
-				_delegate->getHudLayer()->skill5Button->unLock();
+			if(_delegate->getHudLayerForAction(this)->skill5Button){
+				_delegate->getHudLayerForAction(this)->skill5Button->unLock();
 			}
 		}
 
-		
+
 		this->setWalkSpeed(224);
-		
+
 		_originSpeed=224;
 		if(_tempAttackValue1){
 		this->setnAttackValue(CCString::createWithFormat("%d",atoi(this->_tempAttackValue1->getCString())));
@@ -4802,19 +4802,19 @@ void ActionManager::resumeAction(float dt){
 		this->_isOnlySkillLocked=false;
 
 		if(strcmp(this->getRole()->getCString(),"Player")==0){
-			if(_delegate->getHudLayer()->skill4Button){
-				_delegate->getHudLayer()->skill4Button->unLock();
+			if(_delegate->getHudLayerForAction(this)->skill4Button){
+				_delegate->getHudLayerForAction(this)->skill4Button->unLock();
 			}
-			if(_delegate->getHudLayer()->skill5Button){
-				_delegate->getHudLayer()->skill5Button->unLock();
+			if(_delegate->getHudLayerForAction(this)->skill5Button){
+				_delegate->getHudLayerForAction(this)->skill5Button->unLock();
 			}
 		}
 
-		
 
-	
+
+
 		this->setWalkSpeed(224);
-		
+
 		_originSpeed=224;
 		if(_tempAttackValue1){
 		this->setnAttackValue(CCString::createWithFormat("%d",atoi(this->_tempAttackValue1->getCString())));
@@ -4840,22 +4840,22 @@ void ActionManager::resumeAction(float dt){
 			this->_actionState=ACTION_STATE_WALK;
 			this->idle();
 		}
-		
-		
-		
+
+
+
 	}else if(strcmp(this->_character->getCString(),"Tobi")==0){
 
 			this->setWalkAction(createAnimation(walkArray,10.0f,true,false));
-			
+
 			if (this->getOpacity()!=255){
 				this->setOpacity(255);
 			}
 
-			
+
 			this->setWalkSpeed(224);
-			
+
 			_originSpeed=224;
-			
+
 
 			if(this->_actionState==ACTION_STATE_WALK){
 				this->idle();
@@ -4871,11 +4871,11 @@ void ActionManager::resumeAction(float dt){
 		this->_isOnlySkillLocked=false;
 
 		if(strcmp(this->getRole()->getCString(),"Player")==0){
-			if(_delegate->getHudLayer()->skill4Button){
-				_delegate->getHudLayer()->skill4Button->unLock();
+			if(_delegate->getHudLayerForAction(this)->skill4Button){
+				_delegate->getHudLayerForAction(this)->skill4Button->unLock();
 			}
-			if(_delegate->getHudLayer()->skill5Button){
-				_delegate->getHudLayer()->skill5Button->unLock();
+			if(_delegate->getHudLayerForAction(this)->skill5Button){
+				_delegate->getHudLayerForAction(this)->skill5Button->unLock();
 			}
 		}
 		_isBati=false;
@@ -4898,7 +4898,7 @@ void ActionManager::resumeAction(float dt){
 					if(strcmp(tempHero->getRole()->getCString(),"Player")==0){
 						tempHero->_isAI=false;
 						tempHero->unschedule(schedule_selector(ActionManager::setAI));
-						this->_delegate->getHudLayer()->_isAllButtonLocked=false;
+						this->_delegate->getHudLayerForAction(this)->_isAllButtonLocked=false;
 					}
 					if(strcmp(this->getRole()->getCString(),"Player")==0){
 						this->_delegate->controlChar=NULL;
@@ -4918,11 +4918,11 @@ void ActionManager::resumeAction(float dt){
 		_isTaunt=false;
 		this->_isOnlySkillLocked=false;
 		if(strcmp(this->getRole()->getCString(),"Player")==0){
-			if(_delegate->getHudLayer()->skill4Button){
-				_delegate->getHudLayer()->skill4Button->unLock();
+			if(_delegate->getHudLayerForAction(this)->skill4Button){
+				_delegate->getHudLayerForAction(this)->skill4Button->unLock();
 			}
-			if(_delegate->getHudLayer()->skill5Button){
-				_delegate->getHudLayer()->skill5Button->unLock();
+			if(_delegate->getHudLayerForAction(this)->skill5Button){
+				_delegate->getHudLayerForAction(this)->skill5Button->unLock();
 			}
 		}
 
@@ -4941,18 +4941,18 @@ void ActionManager::resumeAction(float dt){
 				}
 				mo->setActionState(ACTION_STATE_DEAD);
 				CCNotificationCenter::sharedNotificationCenter()->removeObserver(mo,"acceptAttack");
-				mo->removeFromParent();	
+				mo->removeFromParent();
 				mo=NULL;
 
 			};
 
 			this->getMonsterArray()->removeAllObjects();
-			_monsterArray=NULL;			
-		}	
+			_monsterArray=NULL;
+		}
 
-	
+
 		if(strcmp(this->getRole()->getCString(),"Player")==0 ){
-			this->_delegate->getHudLayer()->skill1Button->unLock();
+			this->_delegate->getHudLayerForAction(this)->skill1Button->unLock();
 		}
 		if(_actionState!=ACTION_STATE_DEAD){
 			_actionState=ACTION_STATE_WALK;
@@ -4967,7 +4967,7 @@ void ActionManager::resumeAction(float dt){
 void ActionManager::setActionResume(){
 
 	if(strcmp(this->_character->getCString(),"Suigetsu")==0){
-	
+
 		if(_skillChangeBuffValue){
 
 			this->_isBati=false;
@@ -4977,11 +4977,11 @@ void ActionManager::setActionResume(){
 			}
 			_isOnlySkillLocked=false;
 			if(strcmp(this->getRole()->getCString(),"Player")==0){
-				if(_delegate->getHudLayer()->skill4Button){
-					_delegate->getHudLayer()->skill4Button->unLock();
+				if(_delegate->getHudLayerForAction(this)->skill4Button){
+					_delegate->getHudLayerForAction(this)->skill4Button->unLock();
 				}
-				if(_delegate->getHudLayer()->skill5Button){
-					_delegate->getHudLayer()->skill5Button->unLock();
+				if(_delegate->getHudLayerForAction(this)->skill5Button){
+					_delegate->getHudLayerForAction(this)->skill5Button->unLock();
 				}
 			}
 
@@ -4991,11 +4991,11 @@ void ActionManager::setActionResume(){
 			this->setIdleAction(createAnimation(idleArray,5.0f,true,false));
 			this->setWalkAction(createAnimation(walkArray,10.0f,true,false));
 			this->setNAttackAction(createAnimation(nattackArray,10.0f,false,true));
-			
+
 			_skillChangeBuffValue=NULL;
 
 		}
-	
+
 
 
 
@@ -5003,18 +5003,18 @@ void ActionManager::setActionResume(){
 
 		if(_skillChangeBuffValue){
 
-			
+
 			if(_tempAttackValue1){
 				this->setnAttackValue(CCString::createWithFormat("%d",atoi(this->_tempAttackValue1->getCString())));
 				_tempAttackValue1=NULL;
 			}
 			_isOnlySkillLocked=false;
 			if(strcmp(this->getRole()->getCString(),"Player")==0){
-				if(_delegate->getHudLayer()->skill4Button){
-					_delegate->getHudLayer()->skill4Button->unLock();
+				if(_delegate->getHudLayerForAction(this)->skill4Button){
+					_delegate->getHudLayerForAction(this)->skill4Button->unLock();
 				}
-				if(_delegate->getHudLayer()->skill5Button){
-					_delegate->getHudLayer()->skill5Button->unLock();
+				if(_delegate->getHudLayerForAction(this)->skill5Button){
+					_delegate->getHudLayerForAction(this)->skill5Button->unLock();
 				}
 			}
 
@@ -5028,9 +5028,9 @@ void ActionManager::setActionResume(){
 			_skillChangeBuffValue=NULL;
 
 
-			
+
 			this->setWalkSpeed(224);
-			
+
 			_originSpeed=224;
 
 
@@ -5048,11 +5048,11 @@ void ActionManager::setActionResume(){
 			}
 			_isOnlySkillLocked=false;
 			if(strcmp(this->getRole()->getCString(),"Player")==0){
-				if(_delegate->getHudLayer()->skill4Button){
-					_delegate->getHudLayer()->skill4Button->unLock();
+				if(_delegate->getHudLayerForAction(this)->skill4Button){
+					_delegate->getHudLayerForAction(this)->skill4Button->unLock();
 				}
-				if(_delegate->getHudLayer()->skill5Button){
-					_delegate->getHudLayer()->skill5Button->unLock();
+				if(_delegate->getHudLayerForAction(this)->skill5Button){
+					_delegate->getHudLayerForAction(this)->skill5Button->unLock();
 				}
 			}
 
@@ -5085,7 +5085,7 @@ void ActionManager::setActionResume(){
 				_tempAttackValue1=NULL;
 			}
 			_isOnlySkillLocked=false;
-			
+
 
 			_nattackRangeX=16;
 			_nattackRangeY=48;
@@ -5100,19 +5100,19 @@ void ActionManager::setActionResume(){
 			_originSpeed=224;
 
 			if(strcmp(this->getMaster()->getRole()->getCString(),"Player")==0){
-				if(this->_delegate->getHudLayer()->skill2Button){
-					this->_delegate->getHudLayer()->skill2Button->unLock();
+				if(this->_delegate->getHudLayerForAction(this)->skill2Button){
+					this->_delegate->getHudLayerForAction(this)->skill2Button->unLock();
 				}
 
 			}
-		
+
 
 		}
 
 
-	}else if(strcmp(this->_character->getCString(),"Kakuzu")==0 &&  _skillChangeBuffValue){	
+	}else if(strcmp(this->_character->getCString(),"Kakuzu")==0 &&  _skillChangeBuffValue){
 		this->unschedule(schedule_selector(ActionManager::resumeAction));
-		this->removeBuffEffect("sBuff");	
+		this->removeBuffEffect("sBuff");
 
 		_skillChangeBuffValue=NULL;
 
@@ -5125,9 +5125,9 @@ void ActionManager::setActionResume(){
 			this->setOpacity(255);
 		}
 
-		
+
 		this->setWalkSpeed(224);
-		
+
 		_originSpeed=224;
 
 		_skillChangeBuffValue=NULL;
@@ -5139,15 +5139,15 @@ void ActionManager::setActionResume(){
 			this->setnAttackValue(CCString::createWithFormat("%d",atoi(this->_nattackValue->getCString())-_powerUPBuffValue));
 			_powerUPBuffValue=NULL;
 		}
-		_isBati=true;		
+		_isBati=true;
 		this->setIdleAction(createAnimation(idleArray,5.0f,true,false));
 		this->setWalkAction(createAnimation(walkArray,10.0f,true,false));
 		this->setNAttackAction(createAnimation(nattackArray,10.0f,false,true));
 
 		if(strcmp(this->getRole()->getCString(),"Player")==0){
-			_delegate->getHudLayer()->skill1Button->unLock();
-			_delegate->getHudLayer()->skill2Button->setLock();
-			_delegate->getHudLayer()->skill3Button->setLock();
+			_delegate->getHudLayerForAction(this)->skill1Button->unLock();
+			_delegate->getHudLayerForAction(this)->skill2Button->setLock();
+			_delegate->getHudLayerForAction(this)->skill3Button->setLock();
 		}
 		if(_hpBar){
 		_hpBar->setPositionY(this->getHeight());
@@ -5177,31 +5177,31 @@ void ActionManager::setActionResume(){
 		this->setNAttackAction(createAnimation(nattackArray,10.0f,false,true));
 
 		if(strcmp(this->getRole()->getCString(),"Player")==0){
-			if(_delegate->getHudLayer()->skill4Button){
-				_delegate->getHudLayer()->skill4Button->unLock();
+			if(_delegate->getHudLayerForAction(this)->skill4Button){
+				_delegate->getHudLayerForAction(this)->skill4Button->unLock();
 			}
-			if(_delegate->getHudLayer()->skill5Button){
-				_delegate->getHudLayer()->skill5Button->unLock();
+			if(_delegate->getHudLayerForAction(this)->skill5Button){
+				_delegate->getHudLayerForAction(this)->skill5Button->unLock();
 			}
 		}
 
 		_skillChangeBuffValue=NULL;
-		
+
 
 	}else if(strcmp(this->_character->getCString(),"Kankuro")==0){
-			
-			if(strcmp(this->_role->getCString(),"Player")==0){				
-				_delegate->getHudLayer()->skill1Button->unLock();
-				_delegate->getHudLayer()->skill2Button->setLock();
+
+			if(strcmp(this->_role->getCString(),"Player")==0){
+				_delegate->getHudLayerForAction(this)->skill1Button->unLock();
+				_delegate->getHudLayerForAction(this)->skill2Button->setLock();
 			}
 			_skillChangeBuffValue=NULL;
 
 	}else if(strcmp(this->_character->getCString(),"Chiyo")==0){
 
-		if(strcmp(this->_role->getCString(),"Player")==0){	
-			_delegate->getHudLayer()->skill1Button->unLock();
-			_delegate->getHudLayer()->skill2Button->setLock();
-			_delegate->getHudLayer()->skill3Button->setLock();
+		if(strcmp(this->_role->getCString(),"Player")==0){
+			_delegate->getHudLayerForAction(this)->skill1Button->unLock();
+			_delegate->getHudLayerForAction(this)->skill2Button->setLock();
+			_delegate->getHudLayerForAction(this)->skill3Button->setLock();
 		}
 		_skillChangeBuffValue=NULL;
 	}else if(strcmp(this->_character->getCString(),"Minato")==0){
@@ -5226,23 +5226,23 @@ void ActionManager::setActionResume(){
 
 			this->_isOnlySkillLocked=false;
 			if(strcmp(this->getRole()->getCString(),"Player")==0){
-				if(_delegate->getHudLayer()->skill4Button){
-					_delegate->getHudLayer()->skill4Button->unLock();
+				if(_delegate->getHudLayerForAction(this)->skill4Button){
+					_delegate->getHudLayerForAction(this)->skill4Button->unLock();
 				}
-				if(_delegate->getHudLayer()->skill5Button){
-					_delegate->getHudLayer()->skill5Button->unLock();
+				if(_delegate->getHudLayerForAction(this)->skill5Button){
+					_delegate->getHudLayerForAction(this)->skill5Button->unLock();
 				}
 			}
 
-			
+
 			this->setWalkSpeed(224);
-			
+
 			_originSpeed=224;
 			if(_tempAttackValue1){
 				this->setnAttackValue(CCString::createWithFormat("%d",atoi(this->_tempAttackValue1->getCString())));
 				_tempAttackValue1=NULL;
-			
-			}	
+
+			}
 		_gardValue-=5000;
 			_isBati=false;
 
@@ -5251,7 +5251,7 @@ void ActionManager::setActionResume(){
 
 			_skillChangeBuffValue=NULL;
 		}
-		
+
 
 	}else if(strcmp(this->_character->getCString(),"Itachi")==0 && _skillChangeBuffValue){
 
@@ -5266,19 +5266,19 @@ void ActionManager::setActionResume(){
 
 			this->_isOnlySkillLocked=false;
 			if(strcmp(this->getRole()->getCString(),"Player")==0){
-				if(_delegate->getHudLayer()->skill4Button){
-					_delegate->getHudLayer()->skill4Button->unLock();
+				if(_delegate->getHudLayerForAction(this)->skill4Button){
+					_delegate->getHudLayerForAction(this)->skill4Button->unLock();
 				}
-				if(_delegate->getHudLayer()->skill5Button){
-					_delegate->getHudLayer()->skill5Button->unLock();
+				if(_delegate->getHudLayerForAction(this)->skill5Button){
+					_delegate->getHudLayerForAction(this)->skill5Button->unLock();
 				}
 			}
-			
+
 			this->setWalkSpeed(224);
-			
+
 			_originSpeed=224;
 			if(_tempAttackValue1){
-			this->setnAttackValue(CCString::createWithFormat("%d",atoi(this->_tempAttackValue1->getCString())));		
+			this->setnAttackValue(CCString::createWithFormat("%d",atoi(this->_tempAttackValue1->getCString())));
 			_tempAttackValue1=NULL;
 			}
 			_nattackRangeX=16;
@@ -5289,7 +5289,7 @@ void ActionManager::setActionResume(){
 			_skillChangeBuffValue=NULL;
 
 		}
-		
+
 
 	}else if(strcmp(this->_character->getCString(),"Choji")==0 && _skillChangeBuffValue){
 
@@ -5310,11 +5310,11 @@ void ActionManager::setActionResume(){
 		this->setNAttackAction(createAnimation(nattackArray,10.0f,false,true));
 
 		if(strcmp(this->getRole()->getCString(),"Player")==0){
-			if(_delegate->getHudLayer()->skill4Button){
-				_delegate->getHudLayer()->skill4Button->unLock();
+			if(_delegate->getHudLayerForAction(this)->skill4Button){
+				_delegate->getHudLayerForAction(this)->skill4Button->unLock();
 			}
-			if(_delegate->getHudLayer()->skill5Button){
-				_delegate->getHudLayer()->skill5Button->unLock();
+			if(_delegate->getHudLayerForAction(this)->skill5Button){
+				_delegate->getHudLayerForAction(this)->skill5Button->unLock();
 			}
 		}
 
@@ -5334,11 +5334,11 @@ void ActionManager::setActionResume(){
 		this->_isOnlySkillLocked=false;
 
 		if(strcmp(this->getRole()->getCString(),"Player")==0){
-			if(_delegate->getHudLayer()->skill4Button){
-				_delegate->getHudLayer()->skill4Button->unLock();
+			if(_delegate->getHudLayerForAction(this)->skill4Button){
+				_delegate->getHudLayerForAction(this)->skill4Button->unLock();
 			}
-			if(_delegate->getHudLayer()->skill5Button){
-				_delegate->getHudLayer()->skill5Button->unLock();
+			if(_delegate->getHudLayerForAction(this)->skill5Button){
+				_delegate->getHudLayerForAction(this)->skill5Button->unLock();
 			}
 		}
 		_gardValue-=5000;
@@ -5361,7 +5361,7 @@ void ActionManager::setActionResume(){
 				if(strcmp(tempHero->getRole()->getCString(),"Player")==0){
 					tempHero->unschedule(schedule_selector(ActionManager::setAI));
 					tempHero->_isAI=false;
-					this->_delegate->getHudLayer()->_isAllButtonLocked=false;
+					this->_delegate->getHudLayerForAction(this)->_isAllButtonLocked=false;
 				}
 				if(strcmp(this->getRole()->getCString(),"Player")==0){
 					this->_delegate->controlChar=NULL;
@@ -5379,11 +5379,11 @@ void ActionManager::setActionResume(){
 		_isTaunt=false;
 		this->_isOnlySkillLocked=false;
 		if(strcmp(this->getRole()->getCString(),"Player")==0){
-			if(_delegate->getHudLayer()->skill4Button){
-				_delegate->getHudLayer()->skill4Button->unLock();
+			if(_delegate->getHudLayerForAction(this)->skill4Button){
+				_delegate->getHudLayerForAction(this)->skill4Button->unLock();
 			}
-			if(_delegate->getHudLayer()->skill5Button){
-				_delegate->getHudLayer()->skill5Button->unLock();
+			if(_delegate->getHudLayerForAction(this)->skill5Button){
+				_delegate->getHudLayerForAction(this)->skill5Button->unLock();
 			}
 		}
 		this->setNAttackAction(createAnimation(nattackArray,10.0f,false,true));
@@ -5401,7 +5401,7 @@ void ActionManager::setActionResume(){
 				}
 				mo->setActionState(ACTION_STATE_DEAD);
 				CCNotificationCenter::sharedNotificationCenter()->removeObserver(mo,"acceptAttack");
-				mo->removeFromParent();	
+				mo->removeFromParent();
 				mo=NULL;
 
 			};
@@ -5410,7 +5410,7 @@ void ActionManager::setActionResume(){
 		}
 
 		if(strcmp(this->getRole()->getCString(),"Player")==0 ){
-			this->_delegate->getHudLayer()->skill1Button->unLock();
+			this->_delegate->getHudLayerForAction(this)->skill1Button->unLock();
 		}
 
 		if(_actionState!=ACTION_STATE_DEAD){
@@ -5435,15 +5435,15 @@ void ActionManager::setActionResume(){
 				this->_isAllAttackLocked=false;
 				_originSpeed=224;
 
-				
+
 				this->setWalkSpeed(224);
 
 				if(strcmp(this->getRole()->getCString(),"Player")==0){
-					if(_delegate->getHudLayer()->skill4Button){
-						_delegate->getHudLayer()->skill4Button->unLock();
+					if(_delegate->getHudLayerForAction(this)->skill4Button){
+						_delegate->getHudLayerForAction(this)->skill4Button->unLock();
 					}
-					if(_delegate->getHudLayer()->skill5Button){
-						_delegate->getHudLayer()->skill5Button->unLock();
+					if(_delegate->getHudLayerForAction(this)->skill5Button){
+						_delegate->getHudLayerForAction(this)->skill5Button->unLock();
 					}
 				}
 
@@ -5458,7 +5458,7 @@ void ActionManager::setActionResume(){
 
 			_skillChangeBuffValue=NULL;
 		}
-		
+
 	}
 
 
@@ -5475,7 +5475,7 @@ void ActionManager::setActionResume2(){
 
 void ActionManager::getCollider(){
 	this->schedule(schedule_selector(ActionManager::stopMove),0.0f);
-	
+
 }
 
 void ActionManager::stopMove(float dt){
@@ -5532,13 +5532,13 @@ void ActionManager::setBullet(CCNode* sender,void* date){
 	}else{
 		bullet->_master=(Hero*) this;
 	}
-	
+
 	if(this->_isFlipped){
 		bullet->setFlipX(true);
 		bullet->_isFlipped=true;
 	}
 
-	
+
 
 	_delegate->addChild(bullet,-this->getPositionY());
 
@@ -5571,12 +5571,12 @@ void ActionManager::setBullet(CCNode* sender,void* date){
 		bullet->setEaseIn(224,5.0f);
 	}
 	else if(strcmp(bulletType->getCString(),"FlyKnife")==0||
-		strcmp(bulletType->getCString(),"TentenSRK")==0 
+		strcmp(bulletType->getCString(),"TentenSRK")==0
 		){
 		bullet->setScale(0.8f);
 			bullet->setPosition(ccp(this->getPositionX()+(this->_isFlipped?-32:32),
 				this->getPositionY()+this->getHeight()/2));
-		
+
 		bullet->setEaseIn(224,2.0f);
 		bullet->attack(NAttack);
 
@@ -5597,22 +5597,22 @@ void ActionManager::setBullet(CCNode* sender,void* date){
 			bullet->setPosition(ccp(this->getPositionX()+(this->_isFlipped?-42:42),
 				this->getPositionY()));
 		}
-		
-		
+
+
 		bullet->_originY=this->getPositionY();
 		bullet->setEaseIn(196,2.0f);
 		bullet->attack(NAttack);
 		_monsterArray->addObject(bullet);
 	}else{
 
-		
+
 		bullet->setPosition(ccp(this->getPositionX()+(this->_isFlipped?-32:32),
 			this->getPositionY()+this->getContentSize().height/2));
-		
+
 		bullet->attack(NAttack);
 		bullet->setMove(192,2.0f,false);
-			
-		
+
+
 	}
 
 }
@@ -5622,13 +5622,13 @@ void ActionManager::setBulletGroup(float dt){
 		Bullet* bullet=Bullet::create();
 		bullet->setDelegate(_delegate);
 		float rangeX=0;
-		
+
 		bullet->setID(CCString::create("HugeSRK"),CCString::create("Bullet"),this->_group);
 		rangeX=76;
-		
+
 		bullet->_master=(Hero*) this;
 		bullet->setScale(0.8f);
-		
+
 		if(this->_isFlipped){
 			bullet->setFlipX(true);
 			bullet->_isFlipped=true;
@@ -5657,7 +5657,7 @@ void ActionManager::setBulletGroup(float dt){
 void ActionManager::setClone(CCNode* sender,void* date){
 	int cloneTime=(int) date;
 	Hero* clone=Hero::create();
-	
+
 	if(this->_master){
 		clone->setMaster((Hero*)this);
 		clone->setSecMaster(this->_master);
@@ -5665,18 +5665,18 @@ void ActionManager::setClone(CCNode* sender,void* date){
 	}else{
 		clone->setMaster((Hero*)this);
 	}
-			
+
 	clone->setDelegate(_delegate) ;
 	clone->setPosition(ccp(this->getPositionX()+(this->_isFlipped?-32:32),this->getPositionY()-1));
 	if(strcmp(this->getCharacter()->getCString(),"Nagato")==0){
 
 		clone->setID(CCString::create("DevaPath"),CCString::create("Clone"),this->_group);
-		clone->_isBati=true;		
+		clone->_isBati=true;
 		if(strcmp(this->getRole()->getCString(),"Player")==0 ){
-			if(this->_delegate->getHudLayer()->skill5Button){
-				this->_delegate->getHudLayer()->skill5Button->setLock();
+			if(this->_delegate->getHudLayerForAction(this)->skill5Button){
+				this->_delegate->getHudLayerForAction(this)->skill5Button->setLock();
 			}
-			
+
 		}
 
 		_skillChangeBuffValue=100;
@@ -5718,21 +5718,21 @@ void ActionManager::setClone(CCNode* sender,void* date){
 			}else if(!isKadon){
 				clone->setID(CCString::create("MaskKadon"),CCString::create("Kuilei"),this->_group);
 
-			}	
+			}
 			clone->_isBati=true;
 			_monsterArray->addObject(clone);
-			
+
 			this->hearts-=1;
 			if(this->_heartEffect){
-				CCSpriteFrame *frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(CCString::createWithFormat("Heart_Effect_%02d.png",this->hearts)->getCString()); 
+				CCSpriteFrame *frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(CCString::createWithFormat("Heart_Effect_%02d.png",this->hearts)->getCString());
 				this->_heartEffect->setDisplayFrame(frame);
 			}
-			
+
 			if(this->hearts<1 || countMon >=2){
-				
+
 				if(strcmp(this->getRole()->getCString(),"Player")==0){
-					if(_delegate->getHudLayer()->skill4Button){
-						_delegate->getHudLayer()->skill4Button->setLock();
+					if(_delegate->getHudLayerForAction(this)->skill4Button){
+						_delegate->getHudLayerForAction(this)->skill4Button->setLock();
 					}
 				}
 
@@ -5754,16 +5754,16 @@ void ActionManager::setClone(CCNode* sender,void* date){
 		}else if(cloneTime==1){
 			clone->setID(CCString::create("Sanshouuo"),CCString::create("Kuilei"),this->_group);
 			if(strcmp(this->getRole()->getCString(),"Player")==0 ){
-				if(this->_delegate->getHudLayer()->skill4Button){
-					this->_delegate->getHudLayer()->skill4Button->setLock();
+				if(this->_delegate->getHudLayerForAction(this)->skill4Button){
+					this->_delegate->getHudLayerForAction(this)->skill4Button->setLock();
 				}
-				
+
 			}
 		}else if(cloneTime==2){
 			clone->setID(CCString::create("Saso"),CCString::create("Kuilei"),this->_group);
 			if(strcmp(this->getRole()->getCString(),"Player")==0 ){
-				if(this->_delegate->getHudLayer()->skill5Button){
-				this->_delegate->getHudLayer()->skill5Button->setLock();
+				if(this->_delegate->getHudLayerForAction(this)->skill5Button){
+				this->_delegate->getHudLayerForAction(this)->skill5Button->setLock();
 				}
 			}
 		}
@@ -5776,7 +5776,7 @@ void ActionManager::setClone(CCNode* sender,void* date){
 			_monsterArray=CCArray::create();
 			_monsterArray->retain();
 		}
-	
+
 		clone->setID(CCString::create("Parents"),CCString::create("Kuilei"),this->_group);
 		clone->setPosition(ccp(this->getPositionX(),this->getPositionY()-3));
 		clone->_isBati=true;
@@ -5792,7 +5792,7 @@ void ActionManager::setClone(CCNode* sender,void* date){
 		clone->setID(CCString::create("Akamaru"),CCString::create("Clone"),this->_group);
 		clone->_isBati=true;
 		_monsterArray->addObject(clone);
-	
+
 	}else if(strcmp(this->getCharacter()->getCString(),"DevaPath")==0){
 		if(!_monsterArray){
 			_monsterArray=CCArray::create();
@@ -5818,13 +5818,13 @@ void ActionManager::setClone(CCNode* sender,void* date){
 		clone->_isBati=true;
 	}else if(strcmp(this->getCharacter()->getCString(),"Naruto")==0){
 		clone->setID(this->getCharacter(),CCString::create("Clone"),this->_group);
-		
+
 	}else if(strcmp(this->getCharacter()->getCString(),"SageNaruto")==0||
 		(strcmp(this->getCharacter()->getCString(),"RikudoNaruto")==0 && cloneTime==10)
 		){
 		//鸣人
 		clone->setID(this->getCharacter(),CCString::create("Clone"),this->_group);
-		clone->setSkill1Action(clone->createAnimation(clone->skillSPC1Array,10.0f,false,true));	
+		clone->setSkill1Action(clone->createAnimation(clone->skillSPC1Array,10.0f,false,true));
 		clone->_sattackValue1=_spcattackValue1;
 		clone->_sattackType1=_spcattackType1;
 		clone->_sattackcoldDown1=_spcattackcoldDown1;
@@ -5832,7 +5832,7 @@ void ActionManager::setClone(CCNode* sender,void* date){
 	}else if(strcmp(this->getCharacter()->getCString(),"RikudoNaruto")==0 && cloneTime==9){
 		clone->setID(CCString::create("Kurama"),CCString::create("Clone"),this->_group);
 		clone->_gardValue+=5000;
-		clone->_isBati=true;	
+		clone->_isBati=true;
 		clone->setWalkSpeed(320);
 		clone->_originSpeed=320;
 		clone->isPofang=true;
@@ -5845,8 +5845,8 @@ void ActionManager::setClone(CCNode* sender,void* date){
 		(strcmp(this->getCharacter()->getCString(),"RikudoNaruto")==0 && cloneTime==10)
 		){
 		clone->setHP(CCString::create(this->getHP()->getCString()));
-		
-	}else{	
+
+	}else{
 		clone->setHP(CCString::create(this->getMaxHP()->getCString()));
 	}
 
@@ -5857,7 +5857,7 @@ void ActionManager::setClone(CCNode* sender,void* date){
 	clone->_level=this->_level;
 	clone->setHPbar();
 	clone->_hpBar->getHPBAR()->setScaleX(clone->getHpPercent());
-	
+
 	if(strcmp(this->getCharacter()->getCString(),"RikudoNaruto")==0 && cloneTime==9){
 		if(clone->_hpBar){
 			clone->_hpBar->setPositionY(120);
@@ -5876,17 +5876,17 @@ void ActionManager::setClone(CCNode* sender,void* date){
 	}
 
 
-	
+
 	clone->setFlipX(this->_isFlipped);
 	clone->_isFlipped=this->_isFlipped;
-	CCDictionary* callValue = CCDictionary::create(); 
+	CCDictionary* callValue = CCDictionary::create();
 	callValue->setObject(CCString::create("smk"), 1);
 	clone->setSkillEffect(clone,callValue);
 	clone->idle();
 	_delegate->_CharacterArray->addObject(clone);
 	_delegate->addChild(clone,-clone->getPositionY());
 	clone->doAI();
-	
+
 
 
 	if(strcmp(this->getCharacter()->getCString(),"Naruto")==0 ||
@@ -5896,9 +5896,9 @@ void ActionManager::setClone(CCNode* sender,void* date){
 		strcmp(this->getCharacter()->getCString(),"Tsunade")==0 ||
 		strcmp(this->getCharacter()->getCString(),"Deidara")==0
 		){
-		clone->scheduleOnce(schedule_selector(Hero::removeClone),float(cloneTime));	
+		clone->scheduleOnce(schedule_selector(Hero::removeClone),float(cloneTime));
 	}
-	
+
 }
 
 void ActionManager::removeClone(float dt){
@@ -5916,7 +5916,7 @@ void ActionManager::setMon(CCNode* sender,void* date){
 
 
 	float monsterStayTime=_attackRangeY;
-	
+
 	if(!_monsterArray){
 		_monsterArray=CCArray::create();
 		_monsterArray->retain();
@@ -5928,7 +5928,7 @@ void ActionManager::setMon(CCNode* sender,void* date){
 
 
 	monster->setID(monsterType,CCString::create("Mon"),this->_group);
-	
+
 
 	if(this->getMaster()){
 		if(this->getSecMaster() ){
@@ -5938,7 +5938,7 @@ void ActionManager::setMon(CCNode* sender,void* date){
 			monster->setMaster(this->getMaster());
 			monster->setSecMaster((ActionManager*)this);
 		}
-		
+
 	}else{
 		monster->setMaster((Hero*)this);
 	}
@@ -5948,8 +5948,8 @@ void ActionManager::setMon(CCNode* sender,void* date){
 	monster->setFlipX(_isFlipped);
 	monster->_isFlipped=_isFlipped;
 
-	
-	
+
+
 
 	if(strcmp(monsterType->getCString(),"FakeDeidara")==0 ||
 		strcmp(monsterType->getCString(),"FakeKisame")==0 ||
@@ -5957,10 +5957,10 @@ void ActionManager::setMon(CCNode* sender,void* date){
 		strcmp(monsterType->getCString(),"ChuiDi")==0 ||
 		strcmp(monsterType->getCString(),"SakuraBom")==0 ||
 		strcmp(monsterType->getCString(),"Shoryu")==0 ||
-		strcmp(monsterType->getCString(),"Stream")==0 ||		
+		strcmp(monsterType->getCString(),"Stream")==0 ||
 		strcmp(monsterType->getCString(),"FakeMinato")==0
 		){
-	
+
 			monster->setPosition(ccp(this->getPositionX(),this->_originY?_originY:this->getPositionY()));
 			_monsterArray->addObject(monster);
 			monster->attack(NAttack);
@@ -5975,7 +5975,7 @@ void ActionManager::setMon(CCNode* sender,void* date){
 		monster->setPosition(ccp(this->getPositionX(),this->_originY?_originY:this->getPositionY()-4));
 		_monsterArray->addObject(monster);
 		monster->attack(NAttack);
-		
+
 	}else if(strcmp(monsterType->getCString(),"Tenmu")==0 ){
 		monster->setPosition(ccp(this->getPositionX(),this->_originY));
 		monster->setAnchorPoint(ccp(0.5,-0.1f));
@@ -5995,12 +5995,12 @@ void ActionManager::setMon(CCNode* sender,void* date){
 		monster->attack(NAttack);
 
 	}else if(strcmp(monsterType->getCString(),"SansyoRed")==0){
-		
+
 		monster->setPosition(ccp(_isFlipped?this->getPositionX()-240:this->getPositionX()+240,this->getPositionY()-32));
 		monster->attack(NAttack);
-	
+
 	}else if(strcmp(monsterType->getCString(),"SansyoGreen")==0){
-		
+
 		monster->setPosition(ccp(_isFlipped?this->getPositionX()-144:this->getPositionX()+144,this->getPositionY()-32+1));
 		monster->attack(NAttack);
 
@@ -6012,7 +6012,7 @@ void ActionManager::setMon(CCNode* sender,void* date){
 	}else if(strcmp(monsterType->getCString(),"SmallSlug")==0){
 
 		if(_monsterArray && _monsterArray->count()<3){
-			CCDictionary* callValue = CCDictionary::create(); 
+			CCDictionary* callValue = CCDictionary::create();
 			callValue->setObject(CCString::create("smk"), 1);
 			monster->setSkillEffect(monster,callValue);
 			_monsterArray->addObject(monster);
@@ -6023,7 +6023,7 @@ void ActionManager::setMon(CCNode* sender,void* date){
 		}
 
 	}else if(strcmp(monsterType->getCString(),"Kuroari")==0){
-		CCDictionary* callValue = CCDictionary::create(); 
+		CCDictionary* callValue = CCDictionary::create();
 		callValue->setObject(CCString::create("smk"), 1);
 		monster->setSkillEffect(monster,callValue);
 		_monsterArray->addObject(monster);
@@ -6033,7 +6033,7 @@ void ActionManager::setMon(CCNode* sender,void* date){
 		monster->setPosition(ccp(_isFlipped?this->getPositionX()-16:this->getPositionX()+16,this->_originY));
 		_monsterArray->addObject(monster);
 		monster->attack(NAttack);
-	}else if (strcmp(monsterType->getCString(),"FireRain")==0 
+	}else if (strcmp(monsterType->getCString(),"FireRain")==0
 		){
 		monster->setPosition(ccp(_isFlipped?this->getPositionX()-75:this->getPositionX()+75,this->_originY-1));
 		_monsterArray->addObject(monster);
@@ -6041,7 +6041,7 @@ void ActionManager::setMon(CCNode* sender,void* date){
 	}
 	else if(strcmp(monsterType->getCString(),"Tuji")==0||
 		strcmp(monsterType->getCString(),"Tuji2")==0 ||
-		strcmp(monsterType->getCString(),"Suiji")==0 
+		strcmp(monsterType->getCString(),"Suiji")==0
 		){
 		monster->setPositionY(this->getPositionY()-24);
 		monster->setPositionX(this->getPositionX()+(_isFlipped?-64:64));
@@ -6053,7 +6053,7 @@ void ActionManager::setMon(CCNode* sender,void* date){
 		monster->attack(NAttack);
 	}else if(strcmp(monsterType->getCString(),"Jibaku")==0||
 		strcmp(monsterType->getCString(),"JibakuEX")==0||
-		strcmp(monsterType->getCString(),"Shenwei")==0 
+		strcmp(monsterType->getCString(),"Shenwei")==0
 		){
 	    monster->setPosition(ccp(this->getPositionX()+(_isFlipped?-96:96),this->getPositionY()));
 		_monsterArray->addObject(monster);
@@ -6073,7 +6073,7 @@ void ActionManager::setMon(CCNode* sender,void* date){
 	}else if(strcmp(monsterType->getCString(),"SuiRyuDan")==0 ||
 		strcmp(monsterType->getCString(),"TodonPillar")==0 	||
 		strcmp(monsterType->getCString(),"Yataikuzu")==0  ||
-		strcmp(monsterType->getCString(),"Yominuma")==0	||	
+		strcmp(monsterType->getCString(),"Yominuma")==0	||
 		strcmp(monsterType->getCString(),"Dogs")==0 ||
 		strcmp(monsterType->getCString(),"SandHand")==0 ||
 		strcmp(monsterType->getCString(),"KageFeng")==0||
@@ -6082,7 +6082,7 @@ void ActionManager::setMon(CCNode* sender,void* date){
 		strcmp(monsterType->getCString(),"Sabaku")==0 ||
 		strcmp(monsterType->getCString(),"SandWave")==0 ||
 		strcmp(monsterType->getCString(),"Tsukuyomi")==0 ||
-		strcmp(monsterType->getCString(),"Shark")==0 
+		strcmp(monsterType->getCString(),"Shark")==0
 		){
 			monster->setPosition(ccp(this->getPositionX()+(this->_isFlipped==true?-48:48),this->getPositionY()-4));
 			monster->attack(NAttack);
@@ -6092,7 +6092,7 @@ void ActionManager::setMon(CCNode* sender,void* date){
 		monster->setPosition(ccp(this->getPositionX()+(this->_isFlipped==true?-64:64),this->getPositionY()+1));
 		monster->attack(NAttack);
 	}else if ( strcmp(monsterType->getCString(),"Mine")==0 ){
-		CCDictionary* callValue = CCDictionary::create(); 
+		CCDictionary* callValue = CCDictionary::create();
 		callValue->setObject(CCString::create("smk"), 1);
 		monster->setSkillEffect(monster,callValue);
 		_monsterArray->addObject(monster);
@@ -6109,17 +6109,17 @@ void ActionManager::setMon(CCNode* sender,void* date){
 		}else{
 			monster->setAnchorPoint(ccp(0,0));
 		}
-		
+
 		this->stopAllActions();
 		_monsterArray->addObject(monster);
 		monster->attack(NAttack);
 		monster->doAI();
-		
+
 	}else if( strcmp(monsterType->getCString(),"KageHand")==0){
 		CCPoint dir=CCPointMake(_isFlipped?this->getPositionX()- this->getContentSize().width:this->getPositionX()+ this->getContentSize().width,this->getPositionY());
 		monster->setPosition(dir);
 		this->stopAllActions();
-		
+
 		if(this->getMaster()){
 			_master->_monsterArray->addObject(monster);
 		}
@@ -6153,7 +6153,7 @@ void ActionManager::setMon(CCNode* sender,void* date){
 		monster->attack(NAttack);
 
 		if(strcmp(this->getRole()->getCString(),"Player")==0 ){
-			this->_delegate->getHudLayer()->skill1Button->setLock();
+			this->_delegate->getHudLayerForAction(this)->skill1Button->setLock();
 		}
 	}else if(strcmp(monsterType->getCString(),"InkDragon")==0 ){
 		monster->setPosition(ccp(_isFlipped?this->getPositionX()-128:this->getPositionX()+128,this->getPositionY()));
@@ -6163,11 +6163,11 @@ void ActionManager::setMon(CCNode* sender,void* date){
 		monster->attack(NAttack);
 		monster->setDirectMove(128,2.0f,false);
 	}else if(strcmp(monsterType->getCString(),"FudonSRK2")==0 ||
-		strcmp(monsterType->getCString(),"FudonSRK")==0 
+		strcmp(monsterType->getCString(),"FudonSRK")==0
 		){
 		monster->setPosition(ccp(this->getPositionX()+(this->_isFlipped==true?-48:48),this->getPositionY()));
-	
-		monster->attack(NAttack);	
+
+		monster->attack(NAttack);
 		bool isFollow=false;
 		CCPoint moveDirection;
 		if(_mainTarget){
@@ -6177,7 +6177,7 @@ void ActionManager::setMon(CCNode* sender,void* date){
 			}else if(_mainTarget->getPositionX()<=this->getPositionX() && _isFlipped){
 				isFollow=true;
 			}
-			
+
 		}
 
 		if(isFollow){
@@ -6195,7 +6195,7 @@ void ActionManager::setMon(CCNode* sender,void* date){
 
 		}
 
-		
+
 	}else if(strcmp(monsterType->getCString(),"Kubi")==0
 		){
 			monster->attack(NAttack);
@@ -6206,12 +6206,12 @@ void ActionManager::setMon(CCNode* sender,void* date){
 			monster->setEaseIn(224,3.0f);
 	}else if(strcmp(monsterType->getCString(),"WaterBullet")==0 ||
 		strcmp(monsterType->getCString(),"BoneBullet")==0 ||
-		strcmp(monsterType->getCString(),"WaterBom")==0 
+		strcmp(monsterType->getCString(),"WaterBom")==0
 		){
-		
+
 			monster->attack(NAttack);
 			monster->setEaseIn(224,1.0f);
-		
+
 	}else if(strcmp(monsterType->getCString(),"Hasan")==0){
 		monster->attack(NAttack);
 		monster->setAnchorPoint(ccp(0.5f,0.28f));
@@ -6227,7 +6227,7 @@ void ActionManager::setMon(CCNode* sender,void* date){
 	}else if(strcmp(monsterType->getCString(),"InkBird")==0 ||
 		strcmp(monsterType->getCString(),"FakeTobirama")==0||
 		strcmp(monsterType->getCString(),"TamaBomb")==0  ||
-		strcmp(monsterType->getCString(),"Shenwei2")==0 
+		strcmp(monsterType->getCString(),"Shenwei2")==0
 		){
 		_monsterArray->addObject(monster);
 		monster->attack(NAttack);
@@ -6256,7 +6256,7 @@ void ActionManager::setMon(CCNode* sender,void* date){
 		this->_delegate->addChild(monster,-monster->getPositionY());
 
 	}
-	
+
 
 }
 
@@ -6277,20 +6277,20 @@ void ActionManager::setMonPer(float dt){
 		monster->setID(CCString::create("Spider"),CCString::create("Mon"),this->_group);
 	}else if(strcmp(this->getCharacter()->getCString(),"Sai")==0){
 		monster->setID(CCString::create("Mouse"),CCString::create("Mon"),this->_group);
-		CCDictionary* callValue2 = CCDictionary::create(); 
+		CCDictionary* callValue2 = CCDictionary::create();
 		callValue2->setObject(CCString::create("Audio/Sai/ink_mouse.mp3"),1);
-		this->setSound(this,callValue2); 
+		this->setSound(this,callValue2);
 	}
-	
+
 	monster->setMaster((Hero*)this);
-	
+
 
 	monster->idle();
 	monster->setPosition(ccp(this->getPositionX()+(this->_isFlipped?-32:32),this->_originY?this->_originY:this->getPositionY()));
 	monster->setFlipX(_isFlipped);
 	monster->_isFlipped=_isFlipped;
 
-	
+
 	_monsterArray->addObject(monster);
 	monster->doAI();
 
@@ -6299,7 +6299,7 @@ void ActionManager::setMonPer(float dt){
 }
 
 void ActionManager::setTrap(CCNode* sender,void* date){
-	
+
 	CCDictionary* file=(CCDictionary*) date;
 	CCString* str = (CCString*)(file->objectForKey(1));
 	CCString* trapType=str;
@@ -6353,7 +6353,7 @@ void ActionManager::setTrap(CCNode* sender,void* date){
 
 			for(int z=0;z<3;z++){
 				if(z==0){
-					
+
 					Bullet* trap=Bullet::create();
 					trap->setDelegate(_delegate);
 					trap->_master=(Hero*)this;
@@ -6380,7 +6380,7 @@ void ActionManager::setTrap(CCNode* sender,void* date){
 					}
 
 				}else if(z==2){
-				
+
 					Bullet* trap=Bullet::create();
 					trap->setDelegate(_delegate);
 					trap->_master=(Hero*)this;
@@ -6396,7 +6396,7 @@ void ActionManager::setTrap(CCNode* sender,void* date){
 			return;
 
 		}
-		
+
 		for (int z=0;z<3;z++){
 			if(z==0){
 				for(int i=0;i<3;i++){
@@ -6439,12 +6439,12 @@ void ActionManager::setTrap(CCNode* sender,void* date){
 				this->_delegate->addChild(trap,-trap->getPositionY());
 
 			}
-			
+
 		}
 
-		
-		
-		
+
+
+
 
 	}else if( strcmp(trapType->getCString(),"Kusuri")==0 ){
 		for(int i=0;i<3;i++){
@@ -6535,7 +6535,7 @@ void ActionManager::setMonAttack(CCNode* sender,void* date){
 						if (strcmp(mo->getCharacter()->getCString(),"Karasu")==0){
 							if (skillNum==1){
 								//mo->attack(SKILL1);
-							}else if(skillNum==2){				
+							}else if(skillNum==2){
 								mo->attack(SKILL2);
 							}
 
@@ -6547,7 +6547,7 @@ void ActionManager::setMonAttack(CCNode* sender,void* date){
 							NSDebugLog("[Chiyo::setMonAttack] Parents=%p skillNum=%d state=%d skillChange=%u",mo,skillNum,mo->getActionState(),mo->_skillChangeBuffValue);
 							if (skillNum==1 && !mo->_skillChangeBuffValue){
 								mo->attack(SKILL1);
-							}else if(skillNum==2){				
+							}else if(skillNum==2){
 								mo->attack(SKILL2);
 							}
 
@@ -6592,10 +6592,10 @@ void ActionManager::setTransform(){
 		this->removeBuffEffect("all");
 
 	}
-	
+
 
 	int tempMaxHP=atoi(this->getMaxHP()->getCString());
-	
+
 	int tempHP=atoi(this->getHP()->getCString());
 	CCString* tempAttackValue=CCString::createWithFormat("%s",this->getnAttackValue()->getCString());
 	const char* charName;
@@ -6626,7 +6626,7 @@ void ActionManager::setTransform(){
 	_hpBar->setPositionY(this->getHeight());
 	_hpBar->loseHP(this->getHpPercent());
 	}
-	
+
 	if(isGearCD){
 		this->_sattackcoldDown1-=5;
 		this->_sattackcoldDown2-=5;
@@ -6636,51 +6636,51 @@ void ActionManager::setTransform(){
 	if(_role && strcmp(_role->getCString(),"Player")==0){
 		_delegate->setHPLose(this->getHpPercent());
 	}
-	
+
 	this->setnAttackValue(tempAttackValue);
 
 
-	if(strcmp(this->_role->getCString(),"Player")==0 && 
+	if(strcmp(this->_role->getCString(),"Player")==0 &&
 		strcmp(this->_character->getCString(),"RockLee")!=0 &&
 		strcmp(this->_character->getCString(),"Lee")!=0
 		){
-		_delegate->getHudLayer()->skill1Button->setCD(CCString::createWithFormat("%d",_sattackcoldDown1*1000));
-		_delegate->getHudLayer()->skill2Button->setCD(CCString::createWithFormat("%d",_sattackcoldDown2*1000));
-		_delegate->getHudLayer()->skill3Button->setCD(CCString::createWithFormat("%d",_sattackcoldDown3*1000));
+		_delegate->getHudLayerForAction(this)->skill1Button->setCD(CCString::createWithFormat("%d",_sattackcoldDown1*1000));
+		_delegate->getHudLayerForAction(this)->skill2Button->setCD(CCString::createWithFormat("%d",_sattackcoldDown2*1000));
+		_delegate->getHudLayerForAction(this)->skill3Button->setCD(CCString::createWithFormat("%d",_sattackcoldDown3*1000));
 
-		this->_delegate->getHudLayer()->skill1Button->_isColdChanged=true;
-		this->_delegate->getHudLayer()->skill2Button->_isColdChanged=true;
-		this->_delegate->getHudLayer()->skill3Button->_isColdChanged=true;
-
-
-		CCSpriteFrame *frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(CCString::createWithFormat("%s_skill1.png",charName)->getCString()); 
-		_delegate->getHudLayer()->skill1Button->setDisplayFrame(frame);
-		frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(CCString::createWithFormat("%s_skill2.png",charName)->getCString()); 
-		_delegate->getHudLayer()->skill2Button->setDisplayFrame(frame);
-	
-		
-
-		frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(CCString::createWithFormat("%s_skill3.png",charName)->getCString()); 
-		_delegate->getHudLayer()->skill3Button->setDisplayFrame(frame);
+		this->_delegate->getHudLayerForAction(this)->skill1Button->_isColdChanged=true;
+		this->_delegate->getHudLayerForAction(this)->skill2Button->_isColdChanged=true;
+		this->_delegate->getHudLayerForAction(this)->skill3Button->_isColdChanged=true;
 
 
-		frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(CCString::createWithFormat("%s_skill4.png",charName)->getCString()); 
-		if(_delegate->getHudLayer()->skill4Button){
-			_delegate->getHudLayer()->skill4Button->setDisplayFrame(frame);
+		CCSpriteFrame *frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(CCString::createWithFormat("%s_skill1.png",charName)->getCString());
+		_delegate->getHudLayerForAction(this)->skill1Button->setDisplayFrame(frame);
+		frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(CCString::createWithFormat("%s_skill2.png",charName)->getCString());
+		_delegate->getHudLayerForAction(this)->skill2Button->setDisplayFrame(frame);
+
+
+
+		frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(CCString::createWithFormat("%s_skill3.png",charName)->getCString());
+		_delegate->getHudLayerForAction(this)->skill3Button->setDisplayFrame(frame);
+
+
+		frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(CCString::createWithFormat("%s_skill4.png",charName)->getCString());
+		if(_delegate->getHudLayerForAction(this)->skill4Button){
+			_delegate->getHudLayerForAction(this)->skill4Button->setDisplayFrame(frame);
 		}
 
 
 
-		frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(CCString::createWithFormat("%s_skill5.png",charName)->getCString()); 
-		if(_delegate->getHudLayer()->skill5Button){
-			_delegate->getHudLayer()->skill5Button->setDisplayFrame(frame);
+		frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(CCString::createWithFormat("%s_skill5.png",charName)->getCString());
+		if(_delegate->getHudLayerForAction(this)->skill5Button){
+			_delegate->getHudLayerForAction(this)->skill5Button->setDisplayFrame(frame);
 		}
-		
+
 
 		//替换头像
-		this->_delegate->getHudLayer()->initGearButton();
+		this->_delegate->getHudLayerForAction(this)->initGearButton();
 
-		
+
 
 	}
 
@@ -6716,10 +6716,10 @@ void ActionManager::attack(abType type){
 		break;
 
 	case SKILL1:
-		
+
 		if(strcmp(_role->getCString(),"Player")==0){
 			if(_isControled)
-				_delegate->getHudLayer()->skill1Button->click();	
+				_delegate->getHudLayerForAction(this)->skill1Button->click();
 		}
 		_attackValue=atoi(_sattackValue1->getCString());
 		_attackType=_sattackType1;
@@ -6730,10 +6730,10 @@ void ActionManager::attack(abType type){
 		break;
 
 	case SKILL2:
-	
+
 		if(strcmp(_role->getCString(),"Player")==0){
 			if(_isControled)
-			_delegate->getHudLayer()->skill2Button->click();	
+			_delegate->getHudLayerForAction(this)->skill2Button->click();
 		}
 		_attackValue=atoi(_sattackValue2->getCString());
 		_attackType=_sattackType2;
@@ -6746,7 +6746,7 @@ void ActionManager::attack(abType type){
 	case SKILL3:
 		if(strcmp(_role->getCString(),"Player")==0){
 			if(_isControled)
-				_delegate->getHudLayer()->skill3Button->click();	
+				_delegate->getHudLayerForAction(this)->skill3Button->click();
 		}
 		_attackValue=atoi(_sattackValue3->getCString());
 		_attackType=_sattackType3;
@@ -6762,7 +6762,7 @@ void ActionManager::attack(abType type){
 			this->setCKR(CCString::createWithFormat("%f",newValue));
 			if(atof(this->getCKR()->getCString()) <15000){
 				_isCanOugis1=false;
-			}	
+			}
 		}
 
 		_attackValue=atoi(_sattackValue4->getCString());
@@ -6779,7 +6779,7 @@ void ActionManager::attack(abType type){
 			this->setCKR2(CCString::createWithFormat("%f",newValue));
 			if(atof(this->getCKR2()->getCString()) <25000){
 				_isCanOugis2=false;
-			}	
+			}
 		}
 
 		_attackValue=atoi(_sattackValue5->getCString());
@@ -6794,7 +6794,7 @@ void ActionManager::attack(abType type){
 
 void ActionManager::nAttack(){
 	if(_actionState ==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK){
-		
+
 		if(!_isAllAttackLocked || _isOnlySkillLocked ){
 			if(strcmp(_role->getCString(),"Player")==0){
 				_delegate->setSkillFinish(false);
@@ -6812,8 +6812,8 @@ void ActionManager::nAttack(){
 
 void ActionManager::sAttack(abType type){
 	if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-		
-	
+
+
 		//攻击取消隐身
 		if(!_isVisable){
 			if(strcmp(this->getCharacter()->getCString(),"Konan")==0 ||
@@ -6821,8 +6821,8 @@ void ActionManager::sAttack(abType type){
 				){
 				this->unschedule(schedule_selector(ActionManager::disableBuff));
 			}
-			
-			
+
+
 			this->setOpacity(255);
 			this->setVisible(true);
 
@@ -6836,20 +6836,20 @@ void ActionManager::sAttack(abType type){
 			_isVisable=true;
 		}
 
-		
+
 		this->stopAllActions();
-		
+
 			switch(type){
 			case SKILL1:
 				//if(_isCanSkill1){
 					_actionState = ACTION_STATE_SATTACK;
 					if(strcmp(_role->getCString(),"Player")==0){
 						_delegate->setSkillFinish(false);
-					};	
+					};
 					this->runAction(_skill1Action);
 				//}
 				_isCanSkill1=false;
-				
+
 				this->scheduleOnce(schedule_selector(Hero::enableSkill1),_sattackcoldDown1);
 				break;
 			case SKILL2:
@@ -6857,12 +6857,12 @@ void ActionManager::sAttack(abType type){
 					_actionState = ACTION_STATE_SATTACK;
 				if(strcmp(_role->getCString(),"Player")==0){
 					_delegate->setSkillFinish(false);
-				};	
+				};
 				this->runAction(_skill2Action);
 				}
-				
+
 				_isCanSkill2=false;
-				
+
 				this->scheduleOnce(schedule_selector(Hero::enableSkill2),_sattackcoldDown2);
 
 				break;
@@ -6871,16 +6871,16 @@ void ActionManager::sAttack(abType type){
 					_actionState = ACTION_STATE_SATTACK;
 				if(strcmp(_role->getCString(),"Player")==0){
 					_delegate->setSkillFinish(false);
-				};	
+				};
 				this->runAction(_skill3Action);
 				}
 				_isCanSkill3=false;
-				
+
 				this->scheduleOnce(schedule_selector(Hero::enableSkill3),_sattackcoldDown3);
 				break;
 
 			}
-			
+
 	}
 };
 
@@ -6893,8 +6893,8 @@ void ActionManager::oAttack(abType type){
 
 		if(strcmp(_role->getCString(),"Player")==0){
 			_delegate->setSkillFinish(false);
-		};	
-		
+		};
+
 		//攻击取消隐身
 		if(!_isVisable){
 			if(strcmp(this->getCharacter()->getCString(),"Konan")==0 ||
@@ -6903,10 +6903,10 @@ void ActionManager::oAttack(abType type){
 					this->unschedule(schedule_selector(ActionManager::disableBuff));
 			}
 
-			
+
 			this->setOpacity(255);
 			this->setVisible(true);
-			
+
 
 			if(_hpBar){
 				_hpBar->setVisible(true);
@@ -6944,8 +6944,8 @@ void ActionManager::oAttack(abType type){
 			break;
 
 		}
-	
-	
+
+
 	}
 
 }
@@ -6954,7 +6954,7 @@ void ActionManager::idle(){
 
 	if(_actionState!=ACTION_STATE_IDLE && _actionState!=ACTION_STATE_DEAD){
 
-		
+
 		_actionState=ACTION_STATE_IDLE;
 		this->stopAllActions();
 		_backY=NULL;
@@ -6976,8 +6976,8 @@ void ActionManager::idle(){
 			}
 		};
 
-		if(_delegate->_isAttackButtonRelease==false && 
-			strcmp(_role->getCString(),"Player")==0 && 
+		if(_delegate->_isAttackButtonRelease==false &&
+			strcmp(_role->getCString(),"Player")==0 &&
 			_attackType && !_isAllAttackLocked
 			){
 			_delegate->setSkillFinish(true);
@@ -6997,10 +6997,10 @@ void ActionManager::idle(){
 
 void ActionManager::walk(CCPoint direction){
 	if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || ( _actionState==ACTION_STATE_ATTACK && strcmp(this->getRole()->getCString(),"Player")!=0) ){
-		
+
 		isHurtingTower=false;
 
-		if(_actionState==ACTION_STATE_ATTACK && 
+		if(_actionState==ACTION_STATE_ATTACK &&
 			(strcmp(this->getCharacter()->getCString(),"Suigetsu")==0 ||
 			strcmp(this->getCharacter()->getCString(),"Jugo")==0 ||
 			strcmp(this->getCharacter()->getCString(),"Hiruzen")==0  ||
@@ -7014,17 +7014,17 @@ void ActionManager::walk(CCPoint direction){
 			this->runAction(_walkAction);
 		};
 
-		
+
 		_actionState=ACTION_STATE_WALK;
-		
+
 		_isFlipped=direction.x>0?false:true;
 		this->setFlipX(_isFlipped);
 		if(_healBuffEffect){
 			_healBuffEffect->setFlipX(_isFlipped);
-		} 
+		}
 
-		
-		
+
+
 		if(strcmp(this->_character->getCString(),"Itachi")==0 ||
 			strcmp(this->_character->getCString(),"ImmortalSasuke")==0 ||
 			strcmp(this->_character->getCString(),"Chiyo")==0
@@ -7047,28 +7047,28 @@ void ActionManager::walk(CCPoint direction){
 						}
 
 					}
-					
+
 				};
 			}
 		}
-		
-		
-		
+
+
+
 		_velocity = ccp(direction.x * _walkSpeed*winSize.width/1280, direction.y * _walkSpeed*winSize.width/1280);
-		
+
 	};
 };
 
 bool ActionManager::hurt(){
-	if(_actionState!=ACTION_STATE_SATTACK 
-		&& _actionState!=ACTION_STATE_JUMP 
+	if(_actionState!=ACTION_STATE_SATTACK
+		&& _actionState!=ACTION_STATE_JUMP
 		&& _actionState!=ACTION_STATE_OATTACK
 		&& _actionState!=ACTION_STATE_O2ATTACK
 		&& _actionState!=ACTION_STATE_FLOAT
 		&& _actionState!=ACTION_STATE_DEAD
 		&& _actionState!=ACTION_STATE_KOCKDOWN
 		&& _actionState!=ACTION_STATE_AIRHURT
-		&& !_isSticking 
+		&& !_isSticking
 		&& !_isCatchOne
 		&& !_isBati
 		){
@@ -7086,7 +7086,7 @@ bool ActionManager::hurt(){
 				CCPoint	sp=ccpSub(tempHero->getPosition(),this->getPosition());
 				if(sp.x<=winSize.width/2 && sp.x>=-winSize.width/2){
 					return false;
-				}		
+				}
 			}
 		}
 		if(strcmp(this->_character->getCString(),"Chiyo")==0 && this->getMonsterArray() && this->getMonsterArray()->count()>0){
@@ -7100,7 +7100,7 @@ bool ActionManager::hurt(){
 				if(strcmp(mo->getCharacter()->getCString(),"Parents")==0 && !mo->_skillChangeBuffValue && mo->getActionState()!=ACTION_STATE_SATTACK  && mo->getActionState()!=ACTION_STATE_DEAD){
 					CCPoint	sp=ccpSub(mo->getPosition(),this->getPosition());
 					if(sp.x<=48 && sp.x>=-48){
-					
+
 						return false;
 					}
 				}
@@ -7111,7 +7111,7 @@ bool ActionManager::hurt(){
 		if(strcmp(_role->getCString(),"Player")==0){
 			_delegate->setSkillFinish(false);
 		}
-		
+
 		_actionState=ACTION_STATE_HURT;
 		this->stopAllActions();
 		if(_hurtAction){
@@ -7143,7 +7143,7 @@ bool ActionManager::hardHurt(int delayTime,bool isHurtAction,bool isCatch,bool i
 		){
 			if(this->getActionState()==ACTION_STATE_FLOAT ||
 				this->getActionState()==ACTION_STATE_AIRHURT||
-				this->getActionState()==ACTION_STATE_JUMP 
+				this->getActionState()==ACTION_STATE_JUMP
 				){
 					this->setPositionY(_originY);
 					_originY=NULL;
@@ -7178,7 +7178,7 @@ bool ActionManager::hardHurt(int delayTime,bool isHurtAction,bool isCatch,bool i
 					if(strcmp(mo->getCharacter()->getCString(),"Parents")==0 && !mo->_skillChangeBuffValue && mo->getActionState()!=ACTION_STATE_SATTACK  && mo->getActionState()!=ACTION_STATE_DEAD){
 						CCPoint	sp=ccpSub(mo->getPosition(),this->getPosition());
 						if(sp.x<=48 && sp.x>=-48){
-							if(mo->_isCanSkill3){						
+							if(mo->_isCanSkill3){
 								mo->attack(SKILL3);
 							}
 							return false;
@@ -7204,11 +7204,11 @@ bool ActionManager::hardHurt(int delayTime,bool isHurtAction,bool isCatch,bool i
 				}
 			}
 
-			
+
 			_actionState=ACTION_STATE_HURT;
 			this->stopAllActions();
 			CCArray* list=CCArray::create();
-			
+
 			if(isHurtAction){
 			list->addObject(_hurtAction);
 			}else{
@@ -7220,7 +7220,7 @@ bool ActionManager::hardHurt(int delayTime,bool isHurtAction,bool isCatch,bool i
 				}else{
 					path=CCString::createWithFormat("%s_Hurt_02.png",this->getCharacter()->getCString());
 				}
-				
+
 				CCSpriteFrame* frame = CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(path->getCString());
 				CCArray* tempArray= CCArray::create();
 				tempArray->addObject(frame);
@@ -7228,9 +7228,9 @@ bool ActionManager::hardHurt(int delayTime,bool isHurtAction,bool isCatch,bool i
 				CCAction* tempAction=CCAnimate::create(tempAnimation);
 				list->addObject(tempAction);
 			}
-			
+
 			if(isStun){
-				CCDictionary* callValue = CCDictionary::create(); 
+				CCDictionary* callValue = CCDictionary::create();
 				callValue->setObject(CCString::create("stun"), 1);
 				callValue->retain();
 				CCFiniteTimeAction *call = CCCallFuncND::create(this,callfuncND_selector(ActionManager::setSkillEffect),(void*)callValue);
@@ -7249,7 +7249,7 @@ bool ActionManager::hardHurt(int delayTime,bool isHurtAction,bool isCatch,bool i
 			CCAction* seq=CCSequence::create(list);
 			this->runAction(seq);
 
-		return true;	
+		return true;
 	}
 
 	return false;
@@ -7270,7 +7270,7 @@ void ActionManager::airHurt(){
 	this->runAction(_airHurtAction);
 	this->getActionManager()->pauseTarget(this);
 	this->scheduleOnce(schedule_selector(ActionManager::resumePauseStuff),0.2f);
-			
+
 	}
 
 };
@@ -7284,8 +7284,8 @@ void ActionManager::resumePauseStuff(float dt){
 
 void ActionManager::absorb(CCPoint position,bool isImmediate){
 	if(_actionState==ACTION_STATE_IDLE ||
-		_actionState==ACTION_STATE_WALK || 
-		_actionState==ACTION_STATE_ATTACK 
+		_actionState==ACTION_STATE_WALK ||
+		_actionState==ACTION_STATE_ATTACK
 		){
 
 		if(_isBati || _isSticking){
@@ -7296,9 +7296,9 @@ void ActionManager::absorb(CCPoint position,bool isImmediate){
 			_delegate->setSkillFinish(false);
 		}
 		_actionState=ACTION_STATE_HURT;
-		
+
 		CCActionInterval* mv;
-	
+
 		CCArray* list=CCArray::create();
 		if(isImmediate){
 			this->stopAllActions();
@@ -7318,7 +7318,7 @@ void ActionManager::absorb(CCPoint position,bool isImmediate){
 		list->addObject(call);
 		CCAction* seq=CCSequence::create(list);
 		this->runAction(seq);
-	
+
 	}
 }
 
@@ -7329,13 +7329,13 @@ void ActionManager::floatUP(float floatHeight, bool isCancelSkill){
 	}
 
 	if(_actionState!=ACTION_STATE_JUMP &&
-		_actionState!=ACTION_STATE_FLOAT && 
+		_actionState!=ACTION_STATE_FLOAT &&
 		_actionState!=ACTION_STATE_O2ATTACK &&
 		_actionState!=ACTION_STATE_OATTACK &&
 		_actionState!=ACTION_STATE_AIRHURT &&
 		_actionState!=ACTION_STATE_DEAD &&
 		!_isSticking &&
-		!_isCatchOne && 
+		!_isCatchOne &&
 		!_isBati
 		){
 
@@ -7367,7 +7367,7 @@ void ActionManager::floatUP(float floatHeight, bool isCancelSkill){
 					if(strcmp(mo->getCharacter()->getCString(),"Parents")==0 && !mo->_skillChangeBuffValue && mo->getActionState()!=ACTION_STATE_SATTACK  && mo->getActionState()!=ACTION_STATE_DEAD){
 						CCPoint	sp=ccpSub(mo->getPosition(),this->getPosition());
 						if(sp.x<=48 && sp.x>=-48){
-							if(mo->_isCanSkill3){						
+							if(mo->_isCanSkill3){
 								mo->attack(SKILL3);
 							}
 							return ;
@@ -7396,7 +7396,7 @@ void ActionManager::floatUP(float floatHeight, bool isCancelSkill){
 			_floatAwayAction=CCJumpTo::create(0.3f, ccp(posX+(_isFlipped?8:-8),posY),16,1);
 		}
 
-		
+
 		CCFiniteTimeAction* call=CCCallFunc::create(this,callfunc_selector(ActionManager::knockDown));
 		_floatUPAction=CCSequence::create(_floatAwayAction,call,NULL);
 
@@ -7412,7 +7412,7 @@ void ActionManager::knockDown(){
 	if(_actionState!=ACTION_STATE_KOCKDOWN && _actionState!=ACTION_STATE_DEAD){
 		_actionState=ACTION_STATE_KOCKDOWN;
 		this->stopAllActions();
-		
+
 		this->runAction(_knockDownAction);
 	}
 
@@ -7429,13 +7429,13 @@ void ActionManager::dead(){
 	_isWudi=false;
 	_startPoint=ccp(0,0);
 	_markPoint=ccp(0,0);
-	
+
 	_sticker=NULL;
-	
+
 
 	this->setWalkSpeed(224);
 	this->_originSpeed=224;
-	
+
 	this->unscheduleUpdate();
 
 
@@ -7447,15 +7447,15 @@ void ActionManager::dead(){
 		}
 		if(strcmp(this->getRole()->getCString(),"Player")==0){
 			this->_isAI=false;
-			this->_delegate->getHudLayer()->_isAllButtonLocked=false;
+			this->_delegate->getHudLayerForAction(this)->_isAllButtonLocked=false;
 		}
 
 		if(this->_controler->getActionState()!=ACTION_STATE_DEAD){
 			this->_controler->unschedule(schedule_selector(ActionManager::resumeAction));
-			this->_controler->idle();								
+			this->_controler->idle();
 			this->_controler->_isBati=false;
 		}
-		
+
 		this->_controler=NULL;
 	}
 
@@ -7464,21 +7464,21 @@ void ActionManager::dead(){
 	}else{
 		this->setActionResume2();
 	}
-	
+
 	this->removeLostBlood(0.1f);
 	this->unschedule(schedule_selector(ActionManager::stopMove));
 	this->unschedule(schedule_selector(ActionManager::setAI));
 	this->unschedule(schedule_selector(ActionManager::disableHpBar));
-	
-    
+
+
 
 	if(strcmp(_role->getCString(),"Player")==0){
 		_delegate->setSkillFinish(false);
-		_delegate->getHudLayer()->hpLabel->setString("0");
-		_delegate->getHudLayer()->status_hpbar->setOpacity(0);
+		_delegate->getHudLayerForAction(this)->hpLabel->setString("0");
+		_delegate->getHudLayerForAction(this)->status_hpbar->setOpacity(0);
 	}
 
-	
+
 
 	//kill all buffEffect
 
@@ -7486,38 +7486,38 @@ void ActionManager::dead(){
 
 		this->unschedule(schedule_selector(ActionManager::healBuff));
 		this->_buffStartTime=NULL;
-		this->unschedule(schedule_selector(ActionManager::dehealBuff));	
+		this->unschedule(schedule_selector(ActionManager::dehealBuff));
 		if(strcmp(this->getCharacter()->getCString(),"RockLee")!=0 &&
 			strcmp(this->getCharacter()->getCString(),"Lee")!=0
 			){
 			this->removeBuffEffect("all");
 		}else{
 			this->removeBuffEffect("dhBuff");
-		}	
-	
+		}
+
 
 		if(_isSuicide){
 			_isSuicide=false;
 			rebornLabelTime=3;
-		}else{	
+		}else{
 			rebornLabelTime=0;
 			_deadNum++;
 
 			if(strcmp(this->_role->getCString(),"Player")==0){
-				const char* dl=_delegate->getHudLayer()->deadLabel->getString();
+				const char* dl=_delegate->getHudLayerForAction(this)->deadLabel->getString();
 				int deads=atoi(dl)+1;
-				_delegate->getHudLayer()->deadLabel->setString(CCString::createWithFormat("%d",deads)->getCString());
+				_delegate->getHudLayerForAction(this)->deadLabel->setString(CCString::createWithFormat("%d",deads)->getCString());
 			}
 		}
 
-		
+
 
 		if(!_isVisable){
 
-			
+
 			this->setOpacity(255);
-			
-			this->setVisible(true);	
+
+			this->setVisible(true);
 			if(_hpBar){
 			_hpBar->setVisible(true);
 			}
@@ -7528,29 +7528,29 @@ void ActionManager::dead(){
 			_isVisable=true;
 		};
 
-		
+
 
 	};
 	if(_hpBar){
 		_hpBar->removeFromParent();
 		_hpBar=NULL;
 	}
-	
-	
-	
+
+
+
 	if(hearts<1){
 		hearts+=1;
 	};
 
 	if(strcmp(this->getCharacter()->getCString(),"Kakuzu") ==0){
 		if(_heartEffect){
-			CCSpriteFrame *frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(CCString::createWithFormat("Heart_Effect_%02d.png",this->hearts)->getCString()); 
+			CCSpriteFrame *frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(CCString::createWithFormat("Heart_Effect_%02d.png",this->hearts)->getCString());
 			this->_heartEffect->setDisplayFrame(frame);
 		}
 
 		if(strcmp(this->getRole()->getCString(),"Player")==0 && this->getLV()>=2){
-			if(_delegate->getHudLayer()->skill4Button){
-				_delegate->getHudLayer()->skill4Button->unLock();
+			if(_delegate->getHudLayerForAction(this)->skill4Button){
+				_delegate->getHudLayerForAction(this)->skill4Button->unLock();
 			}
 		}
 	}
@@ -7562,7 +7562,7 @@ void ActionManager::dead(){
 		){
 
 			if(bamen==5){
-				
+
 				this->setWalkSpeed(224);
 				_originSpeed=224;
 				this->setWalkAction(createAnimation(walkArray,10.0f,true,false));
@@ -7576,8 +7576,8 @@ void ActionManager::dead(){
 				this->setTransform();
 
 				if(strcmp(this->getRole()->getCString(),"Player")==0 ){
-					if(_delegate->getHudLayer()->skill3Button){
-						_delegate->getHudLayer()->skill3Button->setLock();
+					if(_delegate->getHudLayerForAction(this)->skill3Button){
+						_delegate->getHudLayerForAction(this)->skill3Button->setLock();
 					}
 				}
 
@@ -7590,8 +7590,8 @@ void ActionManager::dead(){
 				this->setsAttackValue2(CCString::createWithFormat("%d",atoi(this->_sattackValue2->getCString())-100));
 			}else if(bamen==1){
 				if(strcmp(this->getRole()->getCString(),"Player")==0){
-					if(_delegate->getHudLayer()->skill4Button){
-						_delegate->getHudLayer()->skill4Button->setLock();
+					if(_delegate->getHudLayerForAction(this)->skill4Button){
+						_delegate->getHudLayerForAction(this)->skill4Button->setLock();
 					}
 				}
 				this->setnAttackValue(CCString::createWithFormat("%d",atoi(this->_nattackValue->getCString())-30));
@@ -7601,7 +7601,7 @@ void ActionManager::dead(){
 				this->_heartEffect->removeFromParent();
 				this->_heartEffect=NULL;
 			}else {
-				CCSpriteFrame *frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(CCString::createWithFormat("Bamen_Effect_%02d.png",this->bamen-1)->getCString()); 
+				CCSpriteFrame *frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(CCString::createWithFormat("Bamen_Effect_%02d.png",this->bamen-1)->getCString());
 				this->_heartEffect->setDisplayFrame(frame);
 			}
 
@@ -7609,30 +7609,30 @@ void ActionManager::dead(){
 
 	}
 
-	
+
 	if(_actionState==ACTION_STATE_FLOAT || _actionState==ACTION_STATE_AIRHURT){
-		_actionState=ACTION_STATE_DEAD;	
+		_actionState=ACTION_STATE_DEAD;
 		this->unschedule(schedule_selector(ActionManager::removeClone));
 		this->schedule(schedule_selector(ActionManager::checkActionFinish),0.0f);
 		return;
-		
+
 	}else if(_actionState==ACTION_STATE_JUMP){
 		this->setPositionY(_originY);
 		_originY=NULL;
 		_delegate->reorderChild(this,-this->getPositionY());
 	}
-	
 
-	
+
+
 	this->stopAllActions();
-	_actionState=ACTION_STATE_DEAD;	
+	_actionState=ACTION_STATE_DEAD;
 
 	if(strcmp(this->_role->getCString(),"Player")==0 ||  strcmp(this->_role->getCString(),"Com")==0){
 		CCNotificationCenter::sharedNotificationCenter()->postNotification("updateMap", this);
 	}
 
 
-	if(strcmp(_role->getCString(),"Clone")!=0 &&  
+	if(strcmp(_role->getCString(),"Clone")!=0 &&
 		strcmp(_role->getCString(),"Summon")!=0){
 
 		CCActionInterval* fadeOut=CCFadeOut::create(0.5);
@@ -7646,11 +7646,11 @@ void ActionManager::dead(){
 		seqArray->addObject(call);
 		CCAction* seq=CCSequence::create(seqArray);
 		this->runAction(seq);
-	
+
 	}else{
 		this->unschedule(schedule_selector(ActionManager::removeClone));
-		CCDictionary* callValue = CCDictionary::create(); 
-		callValue->setObject(CCString::create("smk"), 1);	
+		CCDictionary* callValue = CCDictionary::create();
+		callValue->setObject(CCString::create("smk"), 1);
 		this->setSkillEffect(this,callValue);
 		this->dealloc();
 	}
@@ -7681,7 +7681,7 @@ void ActionManager::checkActionFinish(float dt){
 }
 
 void ActionManager::dealloc(){
-	
+
 }
 
 void ActionManager::reborn(float dt){
@@ -7696,7 +7696,7 @@ void ActionManager::setAI(float dt){
 void ActionManager::doAI(){
 	this->_isAI=true;
 	this->schedule(schedule_selector(ActionManager::setAI),0.1f);
-	
+
 }
 
 bool ActionManager::findEnemy(const char* type,int searchRange,bool masterRange){
@@ -7709,7 +7709,7 @@ bool ActionManager::findEnemy(const char* type,int searchRange,bool masterRange)
 			list=_delegate->_KonohaFlogArray;
 		}else{
 			list=_delegate->_AkatsukiFlogArray;
-		} 
+		}
 	}else if(strcmp("Tower",type)==0){
 		list=_delegate->_TowerArray;
 	}
@@ -7722,15 +7722,15 @@ bool ActionManager::findEnemy(const char* type,int searchRange,bool masterRange)
 	CCARRAY_FOREACH(list,pObject){
 		ActionManager* target=(ActionManager*) pObject;
 
-		if(target->_actionState==ACTION_STATE_DEAD || 
-			target->_isVisable==false ||	
+		if(target->_actionState==ACTION_STATE_DEAD ||
+			target->_isVisable==false ||
 			target->_isWudi ||
 			strcmp(target->_role->getCString(),"Kuilei")==0){
 				continue;
 		}
 
 		//奥义定位技能跳过召唤物
-		if((this->getActionState()==ACTION_STATE_OATTACK || 
+		if((this->getActionState()==ACTION_STATE_OATTACK ||
 			this->getActionState()==ACTION_STATE_O2ATTACK) ||
 			(this->getMaster() && (
 			this->getMaster()->getActionState()==ACTION_STATE_OATTACK ||
@@ -7769,7 +7769,7 @@ bool ActionManager::findEnemy(const char* type,int searchRange,bool masterRange)
 							};
 						}
 
-				
+
 		}
 
 	};
@@ -7778,14 +7778,14 @@ bool ActionManager::findEnemy(const char* type,int searchRange,bool masterRange)
 	}else {
 		return false;
 	}
-	
+
 
 };
 
 
 
 bool ActionManager::findEnemy2(const char* type){
-	
+
 	CCArray* list;
 	if(strcmp("Hero",type)==0){
 		list=_delegate->_CharacterArray;
@@ -7794,17 +7794,17 @@ bool ActionManager::findEnemy2(const char* type){
 			list=_delegate->_KonohaFlogArray;
 		}else{
 			list=_delegate->_AkatsukiFlogArray;
-		} 
+		}
 	}else if(strcmp("Tower",type)==0){
 		list=_delegate->_TowerArray;
 	}
-	
+
 	CCObject* pObject;
 	float distance;
 	float curDistance=NULL ;
 	CCPoint sp;
 	bool findSome=false;
-	
+
 	enemyCombatPoint=0;
 	friendCombatPoint=0;
 
@@ -7812,8 +7812,8 @@ bool ActionManager::findEnemy2(const char* type){
 	CCARRAY_FOREACH(list,pObject){
 		ActionManager* target=(ActionManager*) pObject;
 
-		if(target->_actionState==ACTION_STATE_DEAD || 
-			target->_isVisable==false ||	
+		if(target->_actionState==ACTION_STATE_DEAD ||
+			target->_isVisable==false ||
 			strcmp(target->_role->getCString(),"Kuilei")==0 ){
 			continue;
 		}
@@ -7824,7 +7824,7 @@ bool ActionManager::findEnemy2(const char* type){
 		//计算combatpoint
 		if(abs(sp.x)<winSize.width/2){
 			if(strcmp(target->_role->getCString(),"Clone")!=0 &&
-				strcmp(target->_role->getCString(),"Summon")!=0 
+				strcmp(target->_role->getCString(),"Summon")!=0
 				){
 					int baseSkillCombatPoint=0;
 
@@ -7850,14 +7850,14 @@ bool ActionManager::findEnemy2(const char* type){
 							}
 
 						}
-			
+
 					}else{
 
 
 						if(strcmp(target->_character->getCString(),"Roshi")!=0
 							&& strcmp(target->_character->getCString(),"Han")!=0){
 						enemyCombatPoint+=baseSkillCombatPoint+atoi(target->getHP()->getCString())
-							+(atof(target->getCKR()->getCString())/15000)*target->_sattackCombatPoint4+ (atof(target->getCKR2()->getCString())/25000)*target->_sattackCombatPoint5;				
+							+(atof(target->getCKR()->getCString())/15000)*target->_sattackCombatPoint4+ (atof(target->getCKR2()->getCString())/25000)*target->_sattackCombatPoint5;
 						}
 
 						if(!target->_isWudi && (target->getPositionX()>=_delegate->currentMap->getTileSize().width*3 &&target->getPositionX()<=(_delegate->currentMap->getMapSize().width-3)*_delegate->currentMap->getTileSize().width) ){
@@ -7875,7 +7875,7 @@ bool ActionManager::findEnemy2(const char* type){
 
 					}
 				}
-			
+
 		}
 
 	}
@@ -7917,7 +7917,7 @@ bool ActionManager::checkBase(){
 		list=_delegate->_KonohaFlogArray;
 	}else{
 		list=_delegate->_AkatsukiFlogArray;
-	} 
+	}
 
 	CCARRAY_FOREACH(list,pObject){
 		ActionManager* target=(ActionManager*) pObject;
@@ -7957,7 +7957,7 @@ bool ActionManager::findTargetEnemy(const char* type,bool isTowerDected){
 			list=_delegate->_KonohaFlogArray;
 		}else{
 			list=_delegate->_AkatsukiFlogArray;
-		} 
+		}
 	}
 
 	CCObject* pObject;
@@ -8014,7 +8014,7 @@ bool ActionManager::findTargetEnemy(const char* type,bool isTowerDected){
 
 					}
 				}
-				
+
 
 		}
 	};
@@ -8032,7 +8032,7 @@ bool ActionManager::findTargetEnemy(const char* type,bool isTowerDected){
 };
 
 void ActionManager::stepOn(){
-	
+
 	CCPoint moveDirection;
 
 	if(strcmp("Konoha",_group->getCString())==0){
@@ -8050,18 +8050,18 @@ bool ActionManager::checkRetri(){
 			if(battleCondiction>=0){
 				if(!_isHealling){
 					if(atoi(this->getMaxHP()->getCString())- atoi(this->getHP()->getCString())>=3000+gearRecoverValue  && this->getGearArray()->count()>1){
-						this->setItem(Item1);					
+						this->setItem(Item1);
 					}else if(atoi(this->getHP()->getCString())<5000 && this->getGearArray()->count()>0){
-						this->setItem(Item1);					
+						this->setItem(Item1);
 					}else if(atoi(this->getHP()->getCString())<1500){
 						this->setItem(Item1);
 					}
 				}
-			}else{	
+			}else{
 				if(atoi(this->getMaxHP()->getCString())- atoi(this->getHP()->getCString())>=3000+gearRecoverValue && !_isHealling && this->getGearArray()->count()>0){
-					this->setItem(Item1);					
+					this->setItem(Item1);
 				}else if(atoi(this->getHP()->getCString())<3000){
-					this->setItem(Item1);	
+					this->setItem(Item1);
 				}
 			}
 		}else{
@@ -8074,8 +8074,8 @@ bool ActionManager::checkRetri(){
 
 		}
 	}
-	
-	
+
+
 	if(battleCondiction>=0){
 		if(strcmp("Konoha",_group->getCString())==0){
 			if(this->getPositionX()>=_delegate->currentMap->getTileSize().width*60){
@@ -8088,12 +8088,12 @@ bool ActionManager::checkRetri(){
 
 		}
 	}
-	
+
 	if(atoi(this->getHP()->getCString())<1500 && !_isControled ){
 		return true;
 	}
 	return false;
-	
+
 }
 
 bool ActionManager::stepBack(){
@@ -8101,7 +8101,7 @@ bool ActionManager::stepBack(){
 		return false;
 	}
 	CCPoint moveDirection;
-	
+
 	if(strcmp("Konoha",_group->getCString())==0){
 		 moveDirection =ccpNormalize(ccp(-1,0));
 	}else{
@@ -8123,14 +8123,14 @@ bool ActionManager::stepBack2(){
 		return false;
 	}
 	CCPoint moveDirection;
-	
+
 	srand((int)time(0));
 	int randomDirection=random(10);
 
 	if(!_backY){
-		
+
 		if(randomDirection>5){
-			
+
 			if(this->getPositionY()+96<_delegate->currentMap->getTileSize().height*5.5){
 				_DiretionY=1;
 				_backY=this->getPositionY()+96;
@@ -8140,7 +8140,7 @@ bool ActionManager::stepBack2(){
 			}
 
 		}else {
-		
+
 			if(this->getPositionY()-96>16){
 				_DiretionY=-1;
 				_backY=this->getPositionY()-96;
@@ -8149,7 +8149,7 @@ bool ActionManager::stepBack2(){
 				_backY=this->getPositionY()+96;
 			}
 		}
-		
+
 	}else{
 
 		if(randomDirection>5){
@@ -8171,9 +8171,9 @@ bool ActionManager::stepBack2(){
 			}
 
 		}
-		
-	} 
-	
+
+	}
+
 	if(strcmp("Konoha",_group->getCString())==0 && this->getPositionX()>=_delegate->currentMap->getTileSize().width*2 ){
 		moveDirection =CCPoint(ccp(-1,_DiretionY));
 		this->walk(moveDirection);
@@ -8207,9 +8207,9 @@ void ActionManager::changeSide(CCPoint sp){
 				CCARRAY_FOREACH(this->getMonsterArray(),pObject){
 					Monster* mo=(Monster*) pObject;
 					if(strcmp(mo->getCharacter()->getCString(),"ItachiSusano")==0 ||
-						strcmp(mo->getCharacter()->getCString(),"SasukeSusano")==0 
-						) 
-						
+						strcmp(mo->getCharacter()->getCString(),"SasukeSusano")==0
+						)
+
 						mo->_isFlipped=_isFlipped;
 						mo->setFlipX(_isFlipped);
 				};
@@ -8219,7 +8219,7 @@ void ActionManager::changeSide(CCPoint sp){
 }
 
 void ActionManager::changeGroup(){
-	
+
 	if(strcmp(this->getGroup()->getCString(),"Konoha")==0){
 		this->setGroup(CCString::create("Akatsuki"));
 	}else{
@@ -8231,7 +8231,7 @@ void ActionManager::changeGroup(){
 			this->_hpBar->changeBar("hp_bar_r.png");
 		} else if(strcmp(getRole()->getCString(),"Com")==0){
 			this->_hpBar->changeBar("hp_bar_b.png");
-		} 
+		}
 	}
 
 	if(strcmp(this->getRole()->getCString(),"Player")==0){
@@ -8272,7 +8272,7 @@ void ActionManager::changeGroup(){
 							if(strcmp(target->getRole()->getCString(),"Player")!=0){
 								target->_hpBar->changeBar("hp_bar_b.png");
 							}
-							
+
 						}
 
 					}
@@ -8281,8 +8281,8 @@ void ActionManager::changeGroup(){
 		}
 
 	};
-	
-	
+
+
 
 }
 

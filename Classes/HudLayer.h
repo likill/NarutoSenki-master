@@ -103,6 +103,7 @@ public:
 	void	setEXPLose(float percent);
 
 	void	setDelegate(GameLayer* layer);
+	Hero* getOwnerPlayer();
 	void	initHeroInterface();
 	void	applyLocalP2Layout();
 	void	attackButtonClick(abType type);

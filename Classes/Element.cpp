@@ -529,14 +529,14 @@ void HeroElement::changeHPbar(){
 				this->getDelegate()->removeOugisMark(1);
 
 				if(strcmp(this->getCharacter()->getCString(),"Kakuzu")==0 && this->hearts<1){
-					if(_delegate->getHudLayer()->skill4Button){
-						_delegate->getHudLayer()->skill4Button->setLock();
+					if(_delegate->getHudLayerForAction(this)->skill4Button){
+						_delegate->getHudLayerForAction(this)->skill4Button->setLock();
 					}
 				}
 				if(strcmp(this->getCharacter()->getCString(),"Lee")==0 ){
 						if(this->bamen<1){
-							if(_delegate->getHudLayer()->skill4Button){
-								_delegate->getHudLayer()->skill4Button->setLock();
+							if(_delegate->getHudLayerForAction(this)->skill4Button){
+								_delegate->getHudLayerForAction(this)->skill4Button->setLock();
 							}
 						}
 					
@@ -566,15 +566,15 @@ void HeroElement::changeHPbar(){
 				this->getDelegate()->removeOugisMark(2);
 
 				if(strcmp(this->getCharacter()->getCString(),"Kakuzu")==0){
-					if(_delegate->getHudLayer()->skill5Button){
-						_delegate->getHudLayer()->skill5Button->setLock();
+					if(_delegate->getHudLayerForAction(this)->skill5Button){
+						_delegate->getHudLayerForAction(this)->skill5Button->setLock();
 					}
 				}
 
 				if(strcmp(this->getCharacter()->getCString(),"Lee")==0 ){
 					if(this->bamen<3){
-						if(_delegate->getHudLayer()->skill5Button){
-							_delegate->getHudLayer()->skill5Button->setLock();
+						if(_delegate->getHudLayerForAction(this)->skill5Button){
+							_delegate->getHudLayerForAction(this)->skill5Button->setLock();
 						}
 					}
 				}
@@ -683,8 +683,8 @@ void HeroElement::dealloc(){
 				this->getMaster()->_skillChangeBuffValue=NULL;
 
 				if(strcmp(this->getMaster()->getRole()->getCString(),"Player")==0){
-					if(this->_delegate->getHudLayer()->skill5Button){
-						this->_delegate->getHudLayer()->skill5Button->unLock();
+					if(this->_delegate->getHudLayerForAction(this)->skill5Button){
+						this->_delegate->getHudLayerForAction(this)->skill5Button->unLock();
 					}
 
 				}
@@ -693,8 +693,8 @@ void HeroElement::dealloc(){
 				strcmp(this->getCharacter()->getCString(),"Karasu")==0||
 				strcmp(this->getCharacter()->getCString(),"Parents")==0
 				){
-				if(strcmp(this->getCharacter()->getCString(),"Parents")==0 && _master && strcmp(_master->getRole()->getCString(),"Player")==0 && _delegate && _delegate->getHudLayer()){
-				    _delegate->getHudLayer()->clearBuffDisplay("cBuff");
+				if(strcmp(this->getCharacter()->getCString(),"Parents")==0 && _master && strcmp(_master->getRole()->getCString(),"Player")==0 && _delegate && _delegate->getHudLayerForAction(this)){
+				    _delegate->getHudLayerForAction(this)->clearBuffDisplay("cBuff");
 				}
 				if(_master && _master->getActionState()!=ACTION_STATE_DEAD){
 				    NSDebugLog("[HeroElement::dealloc] resume master after puppet death this=%p master=%p",this,_master);
@@ -705,8 +705,8 @@ void HeroElement::dealloc(){
 
 				if(strcmp(this->getMaster()->getRole()->getCString(),"Player")==0){
 
-					if(this->_delegate->getHudLayer()->skill4Button){
-					this->_delegate->getHudLayer()->skill4Button->unLock();
+					if(this->_delegate->getHudLayerForAction(this)->skill4Button){
+					this->_delegate->getHudLayerForAction(this)->skill4Button->unLock();
 					}
 
 				}
@@ -718,8 +718,8 @@ void HeroElement::dealloc(){
 					
 				if(_master->hearts>0){
 					if(strcmp(_master->getRole()->getCString(),"Player")==0){
-						if(_delegate->getHudLayer()->skill4Button){
-							_delegate->getHudLayer()->skill4Button->unLock();
+						if(_delegate->getHudLayerForAction(this)->skill4Button){
+							_delegate->getHudLayerForAction(this)->skill4Button->unLock();
 						}
 					}
 				}
@@ -727,8 +727,8 @@ void HeroElement::dealloc(){
 
 				if(strcmp(this->getMaster()->getRole()->getCString(),"Player")==0){
 
-					if(this->_delegate->getHudLayer()->skill5Button){
-						this->_delegate->getHudLayer()->skill5Button->unLock();
+					if(this->_delegate->getHudLayerForAction(this)->skill5Button){
+						this->_delegate->getHudLayerForAction(this)->skill5Button->unLock();
 					}
 					
 				}
@@ -744,11 +744,11 @@ void HeroElement::dealloc(){
 
 				if(strcmp(this->getRole()->getCString(),"Player")==0){
 
-					if(this->_delegate->getHudLayer()->skill4Button){
-						this->_delegate->getHudLayer()->skill4Button->unLock();
+					if(this->_delegate->getHudLayerForAction(this)->skill4Button){
+						this->_delegate->getHudLayerForAction(this)->skill4Button->unLock();
 					}
-					if(this->_delegate->getHudLayer()->skill5Button){
-					this->_delegate->getHudLayer()->skill5Button->unLock();
+					if(this->_delegate->getHudLayerForAction(this)->skill5Button){
+					this->_delegate->getHudLayerForAction(this)->skill5Button->unLock();
 					}
 				}
 
@@ -771,7 +771,7 @@ void HeroElement::dealloc(){
 			}else if(strcmp(this->getCharacter()->getCString(),"Hidan")==0){
 
 				if(strcmp(this->getRole()->getCString(),"Player")==0 ){
-					this->_delegate->getHudLayer()->skill1Button->unLock();
+					this->_delegate->getHudLayerForAction(this)->skill1Button->unLock();
 				}
 			}
 
@@ -879,7 +879,7 @@ void HeroElement::reborn(float dt){
 			this->changeHPbar();
 
 			if(strcmp(this->getRole()->getCString(),"Player")==0){
-				_delegate->getHudLayer()->setEXPLose(NULL);
+				_delegate->getHudLayerForAction(this)->setEXPLose(NULL);
 			}
 			
 		}
@@ -910,7 +910,7 @@ void HeroElement::reborn(float dt){
 			if(this->_isAI){
 				this->doAI();
 			}
-			_delegate->getHudLayer()->status_hpbar->setOpacity(255);
+			_delegate->getHudLayerForAction(this)->status_hpbar->setOpacity(255);
 			_delegate->setHPLose(this->getHpPercent());
 		}
 		this->scheduleUpdate();
@@ -1332,7 +1332,7 @@ void Tower::dealloc(){
 
 	int index=_delegate->_TowerArray->indexOfObject(this);
 	_delegate->_TowerArray->removeObjectAtIndex(index);
-	_delegate->getHudLayer()->setTowerState(this->getCharNO());
+	_delegate->getHudLayerForAction(this)->setTowerState(this->getCharNO());
 	_delegate->checkTower();
 	this->removeFromParentAndCleanup(true);
 };
@@ -1700,8 +1700,8 @@ void Monster::dealloc(){
 
 		if(strcmp(_master->getRole()->getCString(),"Player")==0){
 			CCSpriteFrame *frame=CCSpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName("Minato_skill1.png"); 
-			_delegate->getHudLayer()->skill1Button->setDisplayFrame(frame);
-			_delegate->getHudLayer()->skill1Button->_clickNum++;
+			_delegate->getHudLayerForAction(this)->skill1Button->setDisplayFrame(frame);
+			_delegate->getHudLayerForAction(this)->skill1Button->_clickNum++;
 			_delegate->clearDoubleClick();
 		}
 

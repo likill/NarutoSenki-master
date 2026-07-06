@@ -190,7 +190,14 @@ bool HudLayer::init(){
 
 void HudLayer::setDelegate(GameLayer* layer){
 	_delegate=layer;
-};
+}
+
+Hero* HudLayer::getOwnerPlayer(){
+	if(_delegate){
+		return _delegate->getPlayerForHud(this);
+	}
+	return NULL;
+}
 
 
 void HudLayer::JoyStickRelease(){

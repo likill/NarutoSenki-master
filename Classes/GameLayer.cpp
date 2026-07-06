@@ -86,6 +86,37 @@ GameLayer::~GameLayer(void)
 	
 }
 
+HudLayer* GameLayer::getHudLayer(){
+	return _hudLayer;
+}
+
+void GameLayer::setHudLayer(HudLayer* hudLayer){
+	_hudLayer=hudLayer;
+}
+
+Hero* GameLayer::getPlayerForHud(HudLayer* hud){
+	if(_isLocalPvP){
+		if(hud==_p2HudLayer){
+			return player2;
+		}
+		if(hud==_p1HudLayer){
+			return player1;
+		}
+	}
+	return currentPlayer;
+}
+
+HudLayer* GameLayer::getHudLayerForAction(ActionManager* actor){
+	if(_isLocalPvP && actor){
+		if(actor==player2 || actor->getMaster()==player2 || actor->getControler()==player2){
+			return _p2HudLayer ? _p2HudLayer : _hudLayer;
+		}
+		if(actor==player1 || actor->getMaster()==player1 || actor->getControler()==player1){
+			return _p1HudLayer ? _p1HudLayer : _hudLayer;
+		}
+	}
+	return _hudLayer;
+}
 bool GameLayer::init(){
 	bool bRet=false;
 	do{

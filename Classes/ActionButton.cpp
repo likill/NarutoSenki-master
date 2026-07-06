@@ -1,6 +1,20 @@
 #include "ActionButton.h"
 #include "HudLayer.h"
 
+static Hero* getActionButtonOwner(HudLayer* hud){
+	if(hud){
+		Hero* owner=hud->getOwnerPlayer();
+		if(owner){
+			return owner;
+		}
+		if(hud->_delegate){
+			return hud->_delegate->currentPlayer;
+		}
+	}
+	return NULL;
+}
+
+
 ActionButton::ActionButton(void)
 {
 	_isDoubleSkill=false;
@@ -127,7 +141,7 @@ bool ActionButton::isCanClick(){
 	 // isSkillFinish consider the AttackAction is done or not to prevent the skill invalid release 
 			 if(this->getABType()==Item1 ){
 				
-				 if(!_delegate->ougisLayer &&!_timeCout  && !_isLock &&_delegate->_delegate->currentPlayer->getActionState()!=ACTION_STATE_DEAD){
+				 if(!_delegate->ougisLayer &&!_timeCout  && !_isLock &&getActionButtonOwner(_delegate)->getActionState()!=ACTION_STATE_DEAD){
 					 if(_delegate->offCoin(_cost)){
 						 return true;
 					 }
@@ -143,7 +157,7 @@ bool ActionButton::isCanClick(){
 			 }else if(this->_abType==GearItem ){
 
 				 if(!_delegate->ougisLayer &&!_timeCout  && !_isLock){
-					 if(this->_gearType== gear06  && _delegate->_delegate->currentPlayer->getActionState()!=ACTION_STATE_DEAD ){
+					 if(this->_gearType== gear06  && getActionButtonOwner(_delegate)->getActionState()!=ACTION_STATE_DEAD ){
 						 return true;
 					 }else if(this->_gearType== gear00 && _delegate->getSkillFinish()){
 						 return true;
@@ -157,13 +171,13 @@ bool ActionButton::isCanClick(){
 			 }
 			 //ougis click solution
 			 else if(this->_abType==OUGIS1){
-				 if(_delegate->_delegate->currentPlayer && _delegate->_delegate->currentPlayer->getSkill4Action() && _delegate->getSkillFinish() && _delegate->getOugisEnable(false) && !_isLock && !_delegate->ougisLayer && _delegate->_delegate->currentPlayer->getLV()>=2 ){
+				 if(getActionButtonOwner(_delegate) && getActionButtonOwner(_delegate)->getSkill4Action() && _delegate->getSkillFinish() && _delegate->getOugisEnable(false) && !_isLock && !_delegate->ougisLayer && getActionButtonOwner(_delegate)->getLV()>=2 ){
 					 _delegate->costCKR(15000,false);	
 					 return true;
 				 }
 			 }else if(this->_abType==OUGIS2){
 
-				 if(_delegate->_delegate->currentPlayer && _delegate->_delegate->currentPlayer->getSkill5Action() && _delegate->getSkillFinish() && _delegate->getOugisEnable(true) && !_isLock && !_delegate->ougisLayer && _delegate->_delegate->currentPlayer->getLV()>=4){
+				 if(getActionButtonOwner(_delegate) && getActionButtonOwner(_delegate)->getSkill5Action() && _delegate->getSkillFinish() && _delegate->getOugisEnable(true) && !_isLock && !_delegate->ougisLayer && getActionButtonOwner(_delegate)->getLV()>=4){
 					 _delegate->costCKR(25000,true);	
 					 return true;
 				 }
@@ -384,12 +398,18 @@ void ActionButton::setProgressMark(){
 }
 
 void ActionButton::updateProgressMark(){
-	if(!_delegate || !_delegate->_delegate || !_delegate->_delegate->currentPlayer){
+	if(!_delegate || !_delegate->_delegate || !getActionButtonOwner(_delegate)){
 		return;
 	}
 
-	float ckr=atof(_delegate->_delegate->currentPlayer->getCKR()->getCString());
-	float ckr2=atof(_delegate->_delegate->currentPlayer->getCKR2()->getCString());
+	Hero* owner=getActionButtonOwner(_delegate);
+	if(!owner){
+		_isLock=false;
+		return;
+	}
+
+	float ckr=atof(owner->getCKR()->getCString());
+	float ckr2=atof(owner->getCKR2()->getCString());
 	if (this->getABType()== OUGIS1){
 		if(ckr<15000){
 			if(proressblinkSprite){
@@ -519,8 +539,14 @@ void ActionButton::unLock(){
 		markSprite->setPercentage(0);
 	}
 
-	float ckr=atof(_delegate->_delegate->currentPlayer->getCKR()->getCString());
-	float ckr2=atof(_delegate->_delegate->currentPlayer->getCKR2()->getCString());
+	Hero* owner=getActionButtonOwner(_delegate);
+	if(!owner){
+		_isLock=false;
+		return;
+	}
+
+	float ckr=atof(owner->getCKR()->getCString());
+	float ckr2=atof(owner->getCKR2()->getCString());
 
 	if (this->getABType()== OUGIS1){
 		if(ckr>=15000){
