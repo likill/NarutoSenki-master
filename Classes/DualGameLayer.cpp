@@ -144,6 +144,10 @@ void DualGameLayer::drawGameView(float viewportX,float viewportWidth,Hero* targe
 	CCPoint centerPoint=ccp(viewportX+viewportWidth/2,y);
 	CCPoint viewPoint=ccpSub(centerPoint,actualPoint);
 
+	if(_gameLayer->blend) {
+		_gameLayer->blend->setPosition(ccp(viewportX-viewPoint.x,0));
+	}
+
 	_gameLayer->setPosition(viewPoint);
 	_gameLayer->visit();
 

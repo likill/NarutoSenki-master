@@ -1637,8 +1637,17 @@ void HudLayer::setOugis(CCString* character,CCString* group){
 
 		ougisLayer=CCLayer::create();
 		int startPosY=0;
-		int startPosX=0;
-		int endPosX=0;
+		float viewLeft=0;
+		float viewWidth=winSize.width;
+		if(_delegate && _delegate->_isLocalPvP){
+			viewWidth=_delegate->getGameplayViewWidth();
+			if(this==_delegate->_p2HudLayer){
+				viewLeft=winSize.width-viewWidth;
+			}
+		}
+		float viewRight=viewLeft+viewWidth;
+		float startPosX=0;
+		float endPosX=viewLeft;
 		CCSprite* CutBg;
 		const char* cutPath1;
 		const char* cutPath2;
@@ -1653,14 +1662,14 @@ void HudLayer::setOugis(CCString* character,CCString* group){
 
 		if(strcmp(group->getCString(),"Konoha")==0){
 			startPosY=0;
-			startPosX=-48;
-			endPosX=0;
+			startPosX=viewLeft-48;
+			endPosX=viewLeft;
 			CutBg=CCSprite::createWithSpriteFrameName(cutPath1);
 			CutBg->setAnchorPoint(ccp(0,0));
 		}else{
 			startPosY=winSize.height/2;
-			startPosX=winSize.width+48;
-			endPosX=winSize.width;
+			startPosX=viewRight+48;
+			endPosX=viewRight;
 			CutBg=CCSprite::createWithSpriteFrameName(cutPath2);
 			CutBg->setFlipX(true);
 			CutBg->setAnchorPoint(ccp(1,0.5f));
@@ -1684,15 +1693,15 @@ void HudLayer::setOugis(CCString* character,CCString* group){
 		CCSprite* CutLine=CCSprite::createWithSpriteFrameName("CutLine_01.png");
 		if(strcmp(group->getCString(),"Konoha")==0){
 			CutLine->setAnchorPoint(ccp(0,0));
-			CutLine->setPosition(ccp(-48,0));
+			CutLine->setPosition(ccp(viewLeft-48,0));
 			CutLine->runAction(tempAction);
-			CutLine->runAction(CCMoveTo::create(0.3f,ccp(0,0)));
+			CutLine->runAction(CCMoveTo::create(0.3f,ccp(viewLeft,0)));
 		}else{
 			CutLine->setFlipX(true);
 			CutLine->setAnchorPoint(ccp(1,0.5f));
-			CutLine->setPosition(ccp(winSize.width+48,winSize.height/2));
+			CutLine->setPosition(ccp(viewRight+48,winSize.height/2));
 			CutLine->runAction(tempAction);
-			CutLine->runAction(CCMoveTo::create(0.3f,ccp(winSize.width,winSize.height/2)));
+			CutLine->runAction(CCMoveTo::create(0.3f,ccp(viewRight,winSize.height/2)));
 		}
 
 		ougisLayer->addChild(CutLine);
@@ -1700,13 +1709,13 @@ void HudLayer::setOugis(CCString* character,CCString* group){
 		CCSprite* CutLineUP=CCSprite::createWithSpriteFrameName("CutLineUP.png");
 		if(strcmp(group->getCString(),"Konoha")==0){
 			CutLineUP->setAnchorPoint(ccp(0,0));
-			CutLineUP->setPosition(ccp(-48,2));
-			CutLineUP->runAction(CCMoveTo::create(0.3f,ccp(-1,1)));
+			CutLineUP->setPosition(ccp(viewLeft-48,2));
+			CutLineUP->runAction(CCMoveTo::create(0.3f,ccp(viewLeft-1,1)));
 		}else{
 			CutLineUP->setFlipX(true);
 			CutLineUP->setAnchorPoint(ccp(1,0.5f));
-			CutLineUP->setPosition(ccp(winSize.width+48,winSize.height/2+2));
-			CutLineUP->runAction(CCMoveTo::create(0.3f,ccp(winSize.width+1,winSize.height/2+1)));
+			CutLineUP->setPosition(ccp(viewRight+48,winSize.height/2+2));
+			CutLineUP->runAction(CCMoveTo::create(0.3f,ccp(viewRight+1,winSize.height/2+1)));
 		}
 
 		ougisLayer->addChild(CutLineUP);
@@ -1717,12 +1726,12 @@ void HudLayer::setOugis(CCString* character,CCString* group){
 		if(CutIn){
 			if(strcmp(group->getCString(),"Konoha")==0){
 				CutIn->setAnchorPoint(ccp(0,0));
-				CutIn->setPosition(ccp(-200,10));
-				CutIn->runAction(CCMoveTo::create(0.3f,ccp(0,10)));
+				CutIn->setPosition(ccp(viewLeft-200,10));
+				CutIn->runAction(CCMoveTo::create(0.3f,ccp(viewLeft,10)));
 			}else{
 				CutIn->setAnchorPoint(ccp(1,0));
-				CutIn->setPosition(ccp(winSize.width+200,winSize.height/2+10-CutBg->getContentSize().height/2));
-				CutIn->runAction(CCMoveTo::create(0.3f,ccp(winSize.width,winSize.height/2+10-CutBg->getContentSize().height/2)));
+				CutIn->setPosition(ccp(viewRight+200,winSize.height/2+10-CutBg->getContentSize().height/2));
+				CutIn->runAction(CCMoveTo::create(0.3f,ccp(viewRight,winSize.height/2+10-CutBg->getContentSize().height/2)));
 			}
 			ougisLayer->addChild(CutIn);
 		}
@@ -1732,13 +1741,13 @@ void HudLayer::setOugis(CCString* character,CCString* group){
 		CCSprite* CutLineDown=CCSprite::createWithSpriteFrameName("CutLineDown.png");
 		if(strcmp(group->getCString(),"Konoha")==0){
 			CutLineDown->setAnchorPoint(ccp(0,0));
-			CutLineDown->setPosition(ccp(-48,0));
-			CutLineDown->runAction(CCMoveTo::create(0.3f,ccp(0,0)));
+			CutLineDown->setPosition(ccp(viewLeft-48,0));
+			CutLineDown->runAction(CCMoveTo::create(0.3f,ccp(viewLeft,0)));
 		}else{
 			CutLineDown->setFlipX(true);
 			CutLineDown->setAnchorPoint(ccp(1,0));
-			CutLineDown->setPosition(ccp(winSize.width+48,winSize.height/2-CutBg->getContentSize().height/2));
-			CutLineDown->runAction(CCMoveTo::create(0.3f,ccp(winSize.width,winSize.height/2-CutBg->getContentSize().height/2)));
+			CutLineDown->setPosition(ccp(viewRight+48,winSize.height/2-CutBg->getContentSize().height/2));
+			CutLineDown->runAction(CCMoveTo::create(0.3f,ccp(viewRight,winSize.height/2-CutBg->getContentSize().height/2)));
 		}
 
 		ougisLayer->addChild(CutLineDown);

@@ -33,6 +33,7 @@ GameLayer::GameLayer(void)
 	_isExiting=false;
 	ougisChar=NULL;
 	controlChar=NULL;
+	blend=NULL;
 	_isOugis2Game=false;
 	_isHardCoreGame=false;
 	_isRandomChar=false;
@@ -114,6 +115,14 @@ HudLayer* GameLayer::getHudLayerForAction(ActionManager* actor){
 		}
 		if(actor==player1 || actor->getMaster()==player1 || actor->getControler()==player1){
 			return _p1HudLayer ? _p1HudLayer : _hudLayer;
+		}
+		if(actor->getGroup()){
+			if(player2 && player2->getGroup() && strcmp(actor->getGroup()->getCString(),player2->getGroup()->getCString())==0){
+				return _p2HudLayer ? _p2HudLayer : _hudLayer;
+			}
+			if(player1 && player1->getGroup() && strcmp(actor->getGroup()->getCString(),player1->getGroup()->getCString())==0){
+				return _p1HudLayer ? _p1HudLayer : _hudLayer;
+			}
 		}
 	}
 	return _hudLayer;
@@ -1007,7 +1016,7 @@ void GameLayer::checkTower(){
 	
 
 
-	//Í¨ÖªÕ½¶·¾ÖÊÆ
+	//Í¨ÖªÕ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	CCARRAY_FOREACH(_CharacterArray,pObject){
 		ActionManager* tmpHero=(ActionManager*) pObject;
 
@@ -1826,12 +1835,12 @@ void GameLayer::onLeft(){
 	CCObject* pObject;
 
 	CCARRAY_FOREACH(childArray,pObject){		
-		//Çå³ýÕìÌý
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿?
 		ActionManager* ac=(ActionManager*) pObject;
 		CCNotificationCenter::sharedNotificationCenter()->removeObserver(ac,"acceptAttack");
 	}
 
-	//Çå³ýµØÍ¼»º´æ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿?
 
 	if(randomMap==0) {
 		CCSpriteFrameCache::sharedSpriteFrameCache()->removeSpriteFramesFromFile("Element/Tower/Tower.plist");	
@@ -1857,11 +1866,11 @@ void GameLayer::onLeft(){
 				continue;
 		}
 
-		//É¾³ýÈËÎï»º´æ
+		//É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï»ºï¿½ï¿½
 		path=CCString::createWithFormat("Element/%s/%s.plist",player->getCharacter()->getCString(),player->getCharacter()->getCString())->getCString();
 		CCSpriteFrameCache::sharedSpriteFrameCache()->removeSpriteFramesFromFile(path);
 
-		//É¾³ýÔ¤¼ÓÔØÒôÐ§
+		//É¾ï¿½ï¿½Ô¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§
 		if(strcmp(player->getRole()->getCString(),"Com")==0 ||
 			strcmp(player->getRole()->getCString(),"Player")==0
 			){
@@ -1869,7 +1878,7 @@ void GameLayer::onLeft(){
 		}
 		
 
-		//É¾³ý¶îÍâ½ÇÉ«
+		//É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É?
 		if(strcmp(player->getCharacter()->getCString(),"Jiraiya")==0){
 			CCSpriteFrameCache::sharedSpriteFrameCache()->removeSpriteFramesFromFile("Element/SageJiraiya/SageJiraiya.plist");
 			tool->prepareFileOGG("SageJiraiya",1);
@@ -1897,7 +1906,7 @@ void GameLayer::onLeft(){
 
 	}
 
-	//¼ÓÔØÊØ»¤ÈÌ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ø»ï¿½ï¿½ï¿½
 	if(this->_isHardCoreGame){
 		CCSpriteFrameCache::sharedSpriteFrameCache()->removeSpriteFramesFromFile("Element/Roshi/Roshi.plist");
 		CCSpriteFrameCache::sharedSpriteFrameCache()->removeSpriteFramesFromFile("Element/Han/Han.plist");
@@ -2021,14 +2030,19 @@ void GameLayer::checkBackgroundMusic(float dt){
 
 void GameLayer::setOugis(CCNode* sender){
 
-	if(!_hudLayer || !sender){
+	if(!sender){
 		return;
 	}
 
-	if(!this->_hudLayer->ougisLayer){
+	ActionManager* Sender=(ActionManager*) sender;
+	HudLayer* ougisHud=this->getHudLayerForAction(Sender);
+	if(!ougisHud){
+		return;
+	}
+
+	if(!ougisHud->ougisLayer){
 		CCArray* childArray=this->getChildren();
 		ougisChar=sender;
-		ActionManager* Sender=(ActionManager*) sender;
 		CCObject* pObject;
 		CCARRAY_FOREACH(childArray,pObject){
 
@@ -2052,7 +2066,7 @@ void GameLayer::setOugis(CCNode* sender){
 			SimpleAudioEngine::sharedEngine()->playEffect(CCString::createWithFormat("Audio/Ougis/%s_ougis.mp3",Sender->getCharacter()->getCString())->getCString());
 		}
 
-		_hudLayer->setOugis(Sender->getCharacter(),Sender->getGroup());
+		ougisHud->setOugis(Sender->getCharacter(),Sender->getGroup());
 	}
 
 
