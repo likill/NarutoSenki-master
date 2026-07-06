@@ -97,7 +97,7 @@ void HPBar::loseHP(float percent){
 		ActionManager* currentSlayer;
 
 
-		//É±ËÀÇàÍÜ
+		//É±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if(strcmp(_delegate->getRole()->getCString(),"Flog")==0){
 
 			if(_slayer->getSecMaster()  && strcmp(_slayer->getCharacter()->getCString(),"KageHand")!=0
@@ -123,12 +123,12 @@ void HPBar::loseHP(float percent){
 				}
 			}
 
-			//È«¶î¾­Ñé
+			//È«ï¿½î¾­ï¿½ï¿½
 
 
 			if(currentSlayer->getLV()!=6){
 
-				const int kTestFlogDeathEXP=2500;
+				const int kTestFlogDeathEXP=5;
 				currentSlayer->setEXP(currentSlayer->getEXP()+kTestFlogDeathEXP);
 				CCLOG("[TestEXP] Flog death grants %d EXP to %s",kTestFlogDeathEXP,currentSlayer->getCharacter()->getCString());
 
@@ -175,7 +175,7 @@ void HPBar::loseHP(float percent){
 			currentSlayer->addCoin(10);
 		}
 
-		}//²ðËþ
+		}//ï¿½ï¿½ï¿½ï¿½
 		else if(strcmp(_delegate->getRole()->getCString(),"Tower")==0){
 
 
@@ -254,7 +254,7 @@ void HPBar::loseHP(float percent){
 			}
 
 
-			//Í¬¶Ó·ÖÏí
+			//Í¬ï¿½Ó·ï¿½ï¿½ï¿½
 			CCObject* pObject;
 			CCARRAY_FOREACH(_delegate->getDelegate()->_CharacterArray,pObject){
 				Hero* otherSlayer=(Hero*) pObject;
@@ -445,7 +445,7 @@ void HPBar::loseHP(float percent){
 					_delegate->getDelegate()->setReport(currentSlayer->getCharacter()->getCString(),_delegate->getCharacter()->getCString(),currentSlayer->getKillNum());
 
 
-					//¼Ç·ÖÅÆ
+					//ï¿½Ç·ï¿½ï¿½ï¿½
 					const char* currentTeam;
 					if(_delegate->getDelegate()->zhenying>0){
 						 currentTeam="Konoha";
@@ -536,7 +536,7 @@ void HPBar::loseHP(float percent){
 
 				}
 
-				//Í¬¶Ó·ÖÏí
+				//Í¬ï¿½Ó·ï¿½ï¿½ï¿½
 				CCObject* pObject;
 				CCARRAY_FOREACH(_delegate->getDelegate()->_CharacterArray,pObject){
 					Hero* otherSlayer=(Hero*) pObject;
