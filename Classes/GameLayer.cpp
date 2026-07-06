@@ -1614,7 +1614,12 @@ void GameLayer::syncLocalPvPHuds(float dt){
 		}else if(percent>1){
 			percent=1;
 		}
-		hud->status_hpbar->setRotation(-((1-percent)*180));
+		bool isP2Hud=(hud==_p2HudLayer);
+		if(isP2Hud){
+			hud->status_hpbar->setRotation((1-percent)*180);
+		}else{
+			hud->status_hpbar->setRotation(-((1-percent)*180));
+		}
 		hud->hpLabel->setString(CCString::createWithFormat("%d",atoi(hero->getHP()->getCString()))->getCString());
 		hud->coinLabel->setString(hero->getCoin()->getCString());
 
@@ -1626,9 +1631,13 @@ void GameLayer::syncLocalPvPHuds(float dt){
 		}else if(expPercent>100){
 			expPercent=100;
 		}
-		hud->status_expbar->setPercentage((1+expPercent/100)*50);
+		if(isP2Hud){
+			hud->status_expbar->setPercentage((1-expPercent/100)*50);
+		}else{
+			hud->status_expbar->setPercentage((1+expPercent/100)*50);
+		}
 		if(exp>=2500){
-			hud->status_expbar->setPercentage(100);
+			hud->status_expbar->setPercentage(isP2Hud ? 0 : 100);
 			hud->expLabel->setString("Max");
 		}else{
 			hud->expLabel->setString(CCString::createWithFormat("%d%%",int(expPercent))->getCString());
