@@ -97,7 +97,7 @@ void HPBar::loseHP(float percent){
 		ActionManager* currentSlayer;
 
 
-		//ɱ������
+
 		if(strcmp(_delegate->getRole()->getCString(),"Flog")==0){
 
 			if(_slayer->getSecMaster()  && strcmp(_slayer->getCharacter()->getCString(),"KageHand")!=0
@@ -123,7 +123,7 @@ void HPBar::loseHP(float percent){
 				}
 			}
 
-			//ȫ���
+
 
 
 			if(currentSlayer->getLV()!=6){
@@ -175,7 +175,7 @@ void HPBar::loseHP(float percent){
 			currentSlayer->addCoin(10);
 		}
 
-		}//����
+		}
 		else if(strcmp(_delegate->getRole()->getCString(),"Tower")==0){
 
 
@@ -254,7 +254,7 @@ void HPBar::loseHP(float percent){
 			}
 
 
-			//ͬ�ӷ���
+	
 			CCObject* pObject;
 			CCARRAY_FOREACH(_delegate->getDelegate()->_CharacterArray,pObject){
 				Hero* otherSlayer=(Hero*) pObject;
@@ -445,7 +445,6 @@ void HPBar::loseHP(float percent){
 					_delegate->getDelegate()->setReport(currentSlayer->getCharacter()->getCString(),_delegate->getCharacter()->getCString(),currentSlayer->getKillNum());
 
 
-					//�Ƿ���
 					const char* currentTeam;
 					if(_delegate->getDelegate()->zhenying>0){
 						 currentTeam="Konoha";
@@ -536,7 +535,6 @@ void HPBar::loseHP(float percent){
 
 				}
 
-				//ͬ�ӷ���
 				CCObject* pObject;
 				CCARRAY_FOREACH(_delegate->getDelegate()->_CharacterArray,pObject){
 					Hero* otherSlayer=(Hero*) pObject;
