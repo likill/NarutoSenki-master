@@ -353,9 +353,9 @@ void ActionManager::update(float dt){
 						if (rect.containsPoint(_desiredPosition)){
 							float anchorYpoint=metaY+metaHeight/2;
 							if(this->getPositionY()>anchorYpoint){
-								_velocity =ccp(0,1 * this->_walkSpeed*winSize.width/1280);
+								_velocity =ccp(0,1 * this->_walkSpeed*_delegate->getGameplayViewWidthScale());
 							}else{
-								_velocity =ccp(0,-1 * this->_walkSpeed*winSize.width/1280);
+								_velocity =ccp(0,-1 * this->_walkSpeed*_delegate->getGameplayViewWidthScale());
 							}
 							_desiredPosition=ccpAdd(this->getPosition(), ccpMult(_velocity,dt));
 						};
@@ -1703,7 +1703,7 @@ void ActionManager::setDamage(CCString* effectType,unsigned int attackValue,bool
 
 
 	if(strcmp(_role->getCString(),"Player")==0 || ( strcmp(_role->getCString(),"Tower")!=0 &&
-		abs(ccpSub(this->getPosition(),_delegate->currentPlayer->getPosition()).x)<winSize.width/2)
+		abs(ccpSub(this->getPosition(),_delegate->currentPlayer->getPosition()).x)<_delegate->getGameplayViewHalfWidth())
 		){
 
 
@@ -1840,7 +1840,7 @@ void ActionManager::removeDamageDisplay(){
 
 void ActionManager::setDamgeEffect(CCString* type){
 	CCString* str=type;
-	if(strcmp(_role->getCString(),"Player")==0 || abs(ccpSub(this->getPosition(),_delegate->currentPlayer->getPosition()).x)<winSize.width/2){
+	if(strcmp(_role->getCString(),"Player")==0 || abs(ccpSub(this->getPosition(),_delegate->currentPlayer->getPosition()).x)<_delegate->getGameplayViewHalfWidth()){
 
 			if (damageEffectCount<2){
 
@@ -1868,7 +1868,7 @@ void ActionManager::setSkillEffect(CCNode* sender,void* date){
 	CCString* str = (CCString*)(file->objectForKey(1));
 
 	if(strcmp(_role->getCString(),"Player")==0 ||
-		abs(ccpSub(this->getPosition(),_delegate->currentPlayer->getPosition()).x)<winSize.width/2){
+		abs(ccpSub(this->getPosition(),_delegate->currentPlayer->getPosition()).x)<_delegate->getGameplayViewHalfWidth()){
 
 			Effect* ef=Effect::create(str->getCString(),this);
 			if(strcmp(str->getCString(),"Bagua")==0 ||
@@ -2350,12 +2350,12 @@ void ActionManager::setSound(CCNode* sender,void* date){
 	if(CCUserDefault::sharedUserDefault()->getBoolForKey("isVoice")!=false){
 		bool _isPlayable=false;
 		if(strcmp(_role->getCString(),"Player")==0 ||
-			abs(ccpSub(this->getPosition(),_delegate->currentPlayer->getPosition()).x)<winSize.width/2
+			abs(ccpSub(this->getPosition(),_delegate->currentPlayer->getPosition()).x)<_delegate->getGameplayViewHalfWidth()
 			){
 				_isPlayable=true;
 		}
 		if(_delegate->controlChar){
-			if(abs(ccpSub(this->getPosition(),_delegate->controlChar->getPosition()).x)<winSize.width/2 ){
+			if(abs(ccpSub(this->getPosition(),_delegate->controlChar->getPosition()).x)<_delegate->getGameplayViewHalfWidth() ){
 
 			_isPlayable=true;
 			}
@@ -2375,12 +2375,12 @@ void ActionManager::setDSound(CCNode* sender,void* date){
 	if(CCUserDefault::sharedUserDefault()->getBoolForKey("isVoice")!=false){
 		bool _isPlayable=false;
 		if(strcmp(_role->getCString(),"Player")==0 ||
-			abs(ccpSub(this->getPosition(),_delegate->currentPlayer->getPosition()).x)<winSize.width/2
+			abs(ccpSub(this->getPosition(),_delegate->currentPlayer->getPosition()).x)<_delegate->getGameplayViewHalfWidth()
 			){
 				_isPlayable=true;
 		}
 		if(_delegate->controlChar){
-			if(abs(ccpSub(this->getPosition(),_delegate->controlChar->getPosition()).x)<winSize.width/2 ){
+			if(abs(ccpSub(this->getPosition(),_delegate->controlChar->getPosition()).x)<_delegate->getGameplayViewHalfWidth() ){
 				_isPlayable=true;
 			}
 		}
@@ -2551,7 +2551,7 @@ void ActionManager::setCharge(CCNode* sender,void* date){
 		){
 			return;
 	}else{
-		_moveAction=CCMoveBy::create(0.1f,ccp(_isFlipped?-moveLength*winSize.width/1280:moveLength*winSize.width/1280,0));
+		_moveAction=CCMoveBy::create(0.1f,ccp(_isFlipped?-moveLength*_delegate->getGameplayViewWidthScale():moveLength*_delegate->getGameplayViewWidthScale(),0));
 		this->runAction(_moveAction);
 
 	}
@@ -2574,7 +2574,7 @@ void ActionManager::setChargeB(CCNode* sender,void* date){
 		){
 		return;
 	}else{
-			_moveAction=CCMoveBy::create(delay,ccp(_isFlipped?-moveLength*winSize.width/1280:moveLength*winSize.width/1280,0));
+			_moveAction=CCMoveBy::create(delay,ccp(_isFlipped?-moveLength*_delegate->getGameplayViewWidthScale():moveLength*_delegate->getGameplayViewWidthScale(),0));
 			this->runAction(_moveAction);
 	}
 
@@ -2966,7 +2966,7 @@ void ActionManager::setBuff(CCNode* sender,void* date){
 					&& tempHero->_actionState!=ACTION_STATE_DEAD
 					){
 						float distanceX=ccpSub(tempHero->getPosition(),this->getPosition()).x;
-						if(distanceX<winSize.width/2){
+						if(distanceX<_delegate->getGameplayViewHalfWidth()){
 							//取消隐身
 							if(!tempHero->_isVisable){
 								if(strcmp(tempHero->getCharacter()->getCString(),"Konan")==0 ||
@@ -3351,7 +3351,7 @@ void ActionManager::healBuff(float dt){
 			}
 
 			CCPoint	sp=ccpSub(tempHero->getPosition(),this->getPosition());
-			if(sp.x<=winSize.width/2 && sp.x>=-winSize.width/2){
+			if(sp.x<=_delegate->getGameplayViewHalfWidth() && sp.x>=-_delegate->getGameplayViewHalfWidth()){
 
 
 				if(tempHero->getCKR()){
@@ -3797,7 +3797,7 @@ void ActionManager::changeAction(){
 					&& tempHero->_actionState!=ACTION_STATE_DEAD
 					){
 						float distanceX=ccpSub(tempHero->getPosition(),this->getPosition()).x;
-						if(distanceX<winSize.width/2){
+						if(distanceX<_delegate->getGameplayViewHalfWidth()){
 							//取消隐身
 							if(!tempHero->_isVisable){
 								if(strcmp(tempHero->getCharacter()->getCString(),"Konan")==0 ||
@@ -3877,7 +3877,7 @@ void ActionManager::changeAction(){
 					&& tempHero->_actionState!=ACTION_STATE_DEAD
 					){
 						float distanceX=ccpSub(tempHero->getPosition(),this->getPosition()).x;
-						if(distanceX<winSize.width/2){
+						if(distanceX<_delegate->getGameplayViewHalfWidth()){
 							//取消隐身
 							if(!tempHero->_isVisable){
 								if(strcmp(tempHero->getCharacter()->getCString(),"Konan")==0 ||
@@ -3951,7 +3951,7 @@ void ActionManager::changeAction(){
 				&& tempHero->_actionState!=ACTION_STATE_DEAD
 				){
 					float distanceX=ccpSub(tempHero->getPosition(),this->getPosition()).x;
-					if(distanceX<winSize.width/2){
+					if(distanceX<_delegate->getGameplayViewHalfWidth()){
 						//取消隐身
 						if(!tempHero->_isVisable){
 							if(strcmp(tempHero->getCharacter()->getCString(),"Konan")==0 ||
@@ -4050,7 +4050,7 @@ void ActionManager::changeAction(){
 				&& tempHero->_actionState!=ACTION_STATE_DEAD
 				){
 					float distanceX=ccpSub(tempHero->getPosition(),this->getPosition()).x;
-					if(distanceX<winSize.width/2){
+					if(distanceX<_delegate->getGameplayViewHalfWidth()){
 						//取消隐身
 						if(!tempHero->_isVisable){
 							if(strcmp(tempHero->getCharacter()->getCString(),"Konan")==0 ||
@@ -6314,7 +6314,7 @@ void ActionManager::setTrap(CCNode* sender,void* date){
 				&& tempHero->_actionState!=ACTION_STATE_DEAD
 				){
 					float distanceX=ccpSub(tempHero->getPosition(),this->getPosition()).x;
-					if(distanceX<winSize.width/2){
+					if(distanceX<_delegate->getGameplayViewHalfWidth()){
 						//取消隐身
 						if(!tempHero->_isVisable){
 							if(strcmp(tempHero->getCharacter()->getCString(),"Konan")==0 ||
@@ -6482,7 +6482,7 @@ void ActionManager::setTrap(CCNode* sender,void* date){
 				&& !tempHero->_isSticking
 				){
 					float distanceX=ccpSub(tempHero->getPosition(),this->getPosition()).x;
-					float tempRange1=winSize.width/2;
+					float tempRange1=_delegate->getGameplayViewHalfWidth();
 					if(abs(distanceX)<=tempRange1){
 						Monster* trap=Monster::create();
 						trap->setDelegate(_delegate);
@@ -7054,7 +7054,7 @@ void ActionManager::walk(CCPoint direction){
 
 
 
-		_velocity = ccp(direction.x * _walkSpeed*winSize.width/1280, direction.y * _walkSpeed*winSize.width/1280);
+		_velocity = ccp(direction.x * _walkSpeed*_delegate->getGameplayViewWidthScale(), direction.y * _walkSpeed*_delegate->getGameplayViewWidthScale());
 
 	};
 };
@@ -7084,7 +7084,7 @@ bool ActionManager::hurt(){
 				){
 
 				CCPoint	sp=ccpSub(tempHero->getPosition(),this->getPosition());
-				if(sp.x<=winSize.width/2 && sp.x>=-winSize.width/2){
+				if(sp.x<=_delegate->getGameplayViewHalfWidth() && sp.x>=-_delegate->getGameplayViewHalfWidth()){
 					return false;
 				}
 			}
@@ -7160,7 +7160,7 @@ bool ActionManager::hardHurt(int delayTime,bool isHurtAction,bool isCatch,bool i
 					tempHero->_buffStartTime
 					){
 						CCPoint	sp=ccpSub(tempHero->getPosition(),this->getPosition());
-						if(sp.x<=winSize.width/2 && sp.x>=-winSize.width/2){
+						if(sp.x<=_delegate->getGameplayViewHalfWidth() && sp.x>=-_delegate->getGameplayViewHalfWidth()){
 							return false;
 						}
 
@@ -7349,7 +7349,7 @@ void ActionManager::floatUP(float floatHeight, bool isCancelSkill){
 					tempHero->_buffStartTime
 					){
 						CCPoint	sp=ccpSub(tempHero->getPosition(),this->getPosition());
-						if(sp.x<=winSize.width/2 && sp.x>=-winSize.width/2){
+						if(sp.x<=_delegate->getGameplayViewHalfWidth() && sp.x>=-_delegate->getGameplayViewHalfWidth()){
 							return ;
 						}
 
@@ -7754,7 +7754,7 @@ bool ActionManager::findEnemy(const char* type,int searchRange,bool masterRange)
 							sp=ccpSub(target->getPosition(),this->getPosition());
 						}
 
-						if(abs(sp.x)<(searchRange?searchRange:winSize.width/2)){
+						if(abs(sp.x)<(searchRange?searchRange:_delegate->getGameplayViewHalfWidth())){
 							if(target->_isTaunt){
 								_mainTarget=target;
 								return true;
@@ -7822,7 +7822,7 @@ bool ActionManager::findEnemy2(const char* type){
 		sp=ccpSub(target->getPosition(),this->getPosition());
 
 		//计算combatpoint
-		if(abs(sp.x)<winSize.width/2){
+		if(abs(sp.x)<_delegate->getGameplayViewHalfWidth()){
 			if(strcmp(target->_role->getCString(),"Clone")!=0 &&
 				strcmp(target->_role->getCString(),"Summon")!=0
 				){

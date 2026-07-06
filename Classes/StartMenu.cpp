@@ -1,5 +1,6 @@
 #include "StartMenu.h"
 #include "DualSelectLayer.h"
+#include "LocalPvPResolution.h"
 using namespace CocosDenshion;
 USING_NS_CC_EXT;
 
@@ -274,6 +275,7 @@ bool StartMenu::init()
 	bool bRet = false;
 	do{
 		CC_BREAK_IF(!CCLayer::init());
+		LocalPvPResolution::applyNormal();
 		
 		
 

@@ -3,6 +3,7 @@
 #include "BGLayer.h"
 #include "HudLayer.h"
 #include "StartMenu.h"
+#include "LocalPvPResolution.h"
 
 int CError=0;
 
@@ -116,6 +117,21 @@ HudLayer* GameLayer::getHudLayerForAction(ActionManager* actor){
 		}
 	}
 	return _hudLayer;
+}
+
+float GameLayer::getGameplayViewWidth(){
+	if(_isLocalPvP){
+		return LocalPvPResolution::kPvPSingleViewWidth;
+	}
+	return winSize.width;
+}
+
+float GameLayer::getGameplayViewHalfWidth(){
+	return this->getGameplayViewWidth()/2;
+}
+
+float GameLayer::getGameplayViewWidthScale(){
+	return this->getGameplayViewWidth()/1280;
 }
 bool GameLayer::init(){
 	bool bRet=false;
@@ -896,13 +912,15 @@ void GameLayer::updateViewPoint(float dt){
 		playerPoint=currentPlayer->getPosition();
 	}
 
-	int x=MAX(playerPoint.x,winSize.width/2);
-	int y=MAX(playerPoint.y,winSize.width/2);
-	x=MIN(x,(currentMap->getMapSize().width*currentMap->getTileSize().width)-winSize.width/2);
-	y=MIN(y,(currentMap->getMapSize().height*currentMap->getTileSize().height)-winSize.height/2);
+	float viewHalfWidth=this->getGameplayViewHalfWidth();
+	float viewHalfHeight=winSize.height/2;
+	float x=MAX(playerPoint.x,viewHalfWidth);
+	float y=MAX(playerPoint.y,viewHalfHeight);
+	x=MIN(x,(currentMap->getMapSize().width*currentMap->getTileSize().width)-viewHalfWidth);
+	y=MIN(y,(currentMap->getMapSize().height*currentMap->getTileSize().height)-viewHalfHeight);
 
 	CCPoint actualPoint=ccp(x,y);
-	CCPoint centerPoint=ccp(winSize.width/2,y);
+	CCPoint centerPoint=ccp(viewHalfWidth,y);
 	CCPoint viewPoint=ccpSub(centerPoint,actualPoint);
 
 	this->setPosition(viewPoint);

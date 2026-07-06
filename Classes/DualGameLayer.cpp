@@ -1,6 +1,7 @@
 #include "DualGameLayer.h"
 #include "Characters.h"
 #include "CCEGLView.h"
+#include "LocalPvPResolution.h"
 
 DualGameLayer::DualGameLayer(void)
 {
@@ -17,6 +18,20 @@ DualGameLayer::~DualGameLayer(void)
 {
 }
 
+static bool isCameraNodeOwnedByPlayer(CCNode* node,Hero* player)
+{
+	if(!node || !player) {
+		return false;
+	}
+
+	ActionManager* actor=dynamic_cast<ActionManager*>(node);
+	if(!actor) {
+		return false;
+	}
+
+	return actor==player || actor->getMaster()==player || actor->getControler()==player || actor->getSecMaster()==player;
+}
+
 bool DualGameLayer::init()
 {
 	bool bRet=false;
@@ -29,6 +44,7 @@ bool DualGameLayer::init()
 
 void DualGameLayer::initGame()
 {
+	LocalPvPResolution::applyLocalPvP();
 	_gameLayer=GameLayer::create();
 	_gameLayer->Heros=tempHeros;
 	_gameLayer->_isHardCoreGame=_isHardCoreMode;
@@ -53,8 +69,8 @@ void DualGameLayer::initGame()
 	this->addChild(_hudLayer1,HudTag);
 	this->addChild(_hudLayer2,HudTag+1);
 
-	_divider=CCLayerColor::create(ccc4(255,255,255,180),2,winSize.height);
-	_divider->setPosition(ccp(winSize.width/2-1,0));
+	_divider=CCLayerColor::create(ccc4(255,255,255,180),2,LocalPvPResolution::kPvPSingleViewHeight);
+	_divider->setPosition(ccp(LocalPvPResolution::kPvPSingleViewWidth-1,0));
 	this->addChild(_divider,1000);
 
 	this->schedule(schedule_selector(DualGameLayer::syncHud),0.2f);
@@ -100,7 +116,7 @@ void DualGameLayer::drawGameView(float viewportX,float viewportWidth,Hero* targe
 		return;
 	}
 
-	CCDirector::sharedDirector()->getOpenGLView()->setScissorInPoints(viewportX,0,viewportWidth,winSize.height);
+	CCDirector::sharedDirector()->getOpenGLView()->setScissorInPoints(viewportX,0,viewportWidth,LocalPvPResolution::kPvPSingleViewHeight);
 	glEnable(GL_SCISSOR_TEST);
 
 	if(_bgLayer) {
@@ -109,9 +125,9 @@ void DualGameLayer::drawGameView(float viewportX,float viewportWidth,Hero* targe
 	}
 
 	CCPoint playerPoint;
-	if(_gameLayer->ougisChar) {
+	if(isCameraNodeOwnedByPlayer(_gameLayer->ougisChar,target)) {
 		playerPoint=_gameLayer->ougisChar->getPosition();
-	} else if(_gameLayer->controlChar) {
+	} else if(isCameraNodeOwnedByPlayer(_gameLayer->controlChar,target)) {
 		playerPoint=_gameLayer->controlChar->getPosition();
 	} else {
 		playerPoint=target->getPosition();
@@ -120,9 +136,9 @@ void DualGameLayer::drawGameView(float viewportX,float viewportWidth,Hero* targe
 	float mapWidth=_gameLayer->currentMap->getMapSize().width*_gameLayer->currentMap->getTileSize().width;
 	float mapHeight=_gameLayer->currentMap->getMapSize().height*_gameLayer->currentMap->getTileSize().height;
 	float x=MAX(playerPoint.x,viewportWidth/2);
-	float y=MAX(playerPoint.y,winSize.height/2);
+	float y=MAX(playerPoint.y,LocalPvPResolution::kPvPSingleViewHeight/2);
 	x=MIN(x,mapWidth-viewportWidth/2);
-	y=MIN(y,mapHeight-winSize.height/2);
+	y=MIN(y,mapHeight-LocalPvPResolution::kPvPSingleViewHeight/2);
 
 	CCPoint actualPoint=ccp(x,y);
 	CCPoint centerPoint=ccp(viewportX+viewportWidth/2,y);
@@ -144,10 +160,10 @@ void DualGameLayer::visit()
 	this->transform();
 	this->draw();
 
-	float halfWidth=winSize.width/2;
+	float viewWidth=LocalPvPResolution::kPvPSingleViewWidth;
 	if(_gameLayer) {
-		this->drawGameView(0,halfWidth,_gameLayer->player1 ? _gameLayer->player1 : _gameLayer->currentPlayer);
-		this->drawGameView(halfWidth,halfWidth,_gameLayer->player2 ? _gameLayer->player2 : _gameLayer->currentPlayer);
+		this->drawGameView(0,viewWidth,_gameLayer->player1 ? _gameLayer->player1 : _gameLayer->currentPlayer);
+		this->drawGameView(viewWidth,viewWidth,_gameLayer->player2 ? _gameLayer->player2 : _gameLayer->currentPlayer);
 	}
 
 	if(_hudLayer1) {

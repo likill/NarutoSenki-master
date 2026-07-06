@@ -1,5 +1,6 @@
 #include "LoadLayer.h"
 #include "DualGameLayer.h"
+#include "LocalPvPResolution.h"
 
 
 #include<time.h>
@@ -427,6 +428,7 @@ void LoadLayer::onLoadFinish(float dt){
 	
 
 	if(_isLocalPvP){
+		LocalPvPResolution::applyLocalPvP();
 		CCScene* gameScene=CCScene::create();
 		DualGameLayer* dualLayer=DualGameLayer::create();
 		dualLayer->tempHeros=tempHeros;

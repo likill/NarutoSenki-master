@@ -66,6 +66,9 @@
     <ClCompile Include="..\Classes\LoadLayer.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\LocalPvPResolution.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
     <ClCompile Include="..\Classes\SelectLayer.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
@@ -171,6 +174,9 @@
       <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\LoadLayer.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\LocalPvPResolution.h">
       <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\SelectLayer.h">

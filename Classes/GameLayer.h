@@ -107,6 +107,9 @@ public:
 	void activatePlayerControl(Hero* player,HudLayer* hud);
 	void restoreDefaultControl();
 	void syncLocalPvPHuds(float dt);
+	float getGameplayViewWidth();
+	float getGameplayViewHalfWidth();
+	float getGameplayViewWidthScale();
 	
 
 	void JoyStickRelease();

@@ -155,6 +155,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\HudLayer.cpp" />
     <ClCompile Include="..\Classes\JoyStick.cpp" />
     <ClCompile Include="..\Classes\LoadLayer.cpp" />
+    <ClCompile Include="..\Classes\LocalPvPResolution.cpp" />
     <ClCompile Include="..\Classes\MyUtils\CCScrewLayer.cpp" />
     <ClCompile Include="..\Classes\MyUtils\CCShake.cpp" />
     <ClCompile Include="..\Classes\MyUtils\CCStrokeLabel.cpp" />
@@ -189,6 +190,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\HudLayer.h" />
     <ClInclude Include="..\Classes\JoyStick.h" />
     <ClInclude Include="..\Classes\LoadLayer.h" />
+    <ClInclude Include="..\Classes\LocalPvPResolution.h" />
     <ClInclude Include="..\Classes\MyUtils\CCScrewLayer.h" />
     <ClInclude Include="..\Classes\MyUtils\CCStrokeLabel.h" />
     <ClInclude Include="..\Classes\MyUtils\CMD5Checksum.h" />

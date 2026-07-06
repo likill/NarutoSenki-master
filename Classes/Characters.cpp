@@ -413,9 +413,9 @@ void Hero::AI_AnimalPath(){
 
 void Hero::AI_Akamaru(){
 
-	if(!this->findEnemy("Hero",winSize.width/2 -32,true)){
-		if(!this->findEnemy("Flog",winSize.width/2 -32,true)){
-			if(!this->findEnemy("Tower",winSize.width/2 -32,true)){
+	if(!this->findEnemy("Hero",_delegate->getGameplayViewHalfWidth() -32,true)){
+		if(!this->findEnemy("Flog",_delegate->getGameplayViewHalfWidth() -32,true)){
+			if(!this->findEnemy("Tower",_delegate->getGameplayViewHalfWidth() -32,true)){
 				this->_mainTarget=NULL;
 			}
 		}
@@ -424,7 +424,7 @@ void Hero::AI_Akamaru(){
 
 	CCPoint moveDirection;
 
-	if(abs(ccpSub(_master->getPosition(),this->getPosition()).x) >winSize.width/2 -48){
+	if(abs(ccpSub(_master->getPosition(),this->getPosition()).x) >_delegate->getGameplayViewHalfWidth() -48){
 		if( this->getActionState()==ACTION_STATE_IDLE ||  this->getActionState()==ACTION_STATE_WALK || this->getActionState()==ACTION_STATE_ATTACK){
 			moveDirection =ccpNormalize(ccpSub(_master->getPosition(),this->getPosition()));	
 			this->walk(moveDirection);
@@ -496,7 +496,7 @@ void Hero::AI_Akamaru(){
 
 	};
 
-	if(abs(ccpSub(_master->getPosition(),this->getPosition()).x) >winSize.width/2 -64){
+	if(abs(ccpSub(_master->getPosition(),this->getPosition()).x) >_delegate->getGameplayViewHalfWidth() -64){
 
 		CCPoint moveDirection =ccpNormalize(ccpSub(_master->getPosition(),this->getPosition()));	
 		this->walk(moveDirection);
@@ -513,8 +513,8 @@ void Hero::AI_Karasu(){
 
 	
 
-	if(!this->findEnemy("Hero",winSize.width/2 -32,true)){
-		if(!this->findEnemy("Flog",winSize.width/2 -32,true)){
+	if(!this->findEnemy("Hero",_delegate->getGameplayViewHalfWidth() -32,true)){
+		if(!this->findEnemy("Flog",_delegate->getGameplayViewHalfWidth() -32,true)){
 				this->_mainTarget=NULL;
 		}
 	};
@@ -522,7 +522,7 @@ void Hero::AI_Karasu(){
 	
 	if(_mainTarget){
 			CCPoint moveDirection;
-			if(abs(ccpSub(_master->getPosition(),this->getPosition()).x) >winSize.width/2 -48){
+			if(abs(ccpSub(_master->getPosition(),this->getPosition()).x) >_delegate->getGameplayViewHalfWidth() -48){
 			    if( this->getActionState()==ACTION_STATE_IDLE ||  this->getActionState()==ACTION_STATE_WALK || this->getActionState()==ACTION_STATE_ATTACK){
 				moveDirection =ccpNormalize(ccpSub(_master->getPosition(),this->getPosition()));	
 				this->walk(moveDirection);
@@ -615,7 +615,7 @@ void Hero::AI_Karasu(){
 
 	};
 
-	if(abs(ccpSub(_master->getPosition(),this->getPosition()).x) >winSize.width/2 -64){
+	if(abs(ccpSub(_master->getPosition(),this->getPosition()).x) >_delegate->getGameplayViewHalfWidth() -64){
 		CCPoint moveDirection =ccpNormalize(ccpSub(_master->getPosition(),this->getPosition()));	
 		this->walk(moveDirection);
 		return;
@@ -643,8 +643,8 @@ void Hero::AI_Saso(){
 
 
 
-	if(!this->findEnemy("Hero",winSize.width/2 -32,true)){
-		if(!this->findEnemy("Flog",winSize.width/2 -32,true)){
+	if(!this->findEnemy("Hero",_delegate->getGameplayViewHalfWidth() -32,true)){
+		if(!this->findEnemy("Flog",_delegate->getGameplayViewHalfWidth() -32,true)){
 			this->_mainTarget=NULL;
 		}
 	};
@@ -725,7 +725,7 @@ void Hero::AI_Saso(){
 
 	};
 
-	if(abs(ccpSub(_master->getPosition(),this->getPosition()).x) >winSize.width/2 -64){
+	if(abs(ccpSub(_master->getPosition(),this->getPosition()).x) >_delegate->getGameplayViewHalfWidth() -64){
 		CCPoint moveDirection =ccpNormalize(ccpSub(_master->getPosition(),this->getPosition()));	
 		this->walk(moveDirection);
 		return;
@@ -745,7 +745,7 @@ void Hero::AI_Parents(){
 
 
 
-	if(!this->findEnemy("Hero",winSize.width/2 -32,true)){
+	if(!this->findEnemy("Hero",_delegate->getGameplayViewHalfWidth() -32,true)){
 
 		if(!this->findEnemy("Flog",48,true)){
 			if(!this->findEnemy("Tower",48,true)){
@@ -844,15 +844,15 @@ void Hero::AI_Parents(){
 void Hero::AI_Sanshouuo(){
 
 
-	if(!this->findEnemy("Hero",winSize.width/2 -32,true)){
-		if(!this->findEnemy("Flog",winSize.width/2 -32,true)){
+	if(!this->findEnemy("Hero",_delegate->getGameplayViewHalfWidth() -32,true)){
+		if(!this->findEnemy("Flog",_delegate->getGameplayViewHalfWidth() -32,true)){
 			this->_mainTarget=NULL;
 		}
 	};
 
 	if(_mainTarget){
 			CCPoint moveDirection;
-			if(abs(ccpSub(_master->getPosition(),this->getPosition()).x) >winSize.width/2 -64){
+			if(abs(ccpSub(_master->getPosition(),this->getPosition()).x) >_delegate->getGameplayViewHalfWidth() -64){
 				if(this->getActionState()==ACTION_STATE_IDLE ||  this->getActionState()==ACTION_STATE_WALK || this->getActionState()==ACTION_STATE_ATTACK){
 				moveDirection =ccpNormalize(ccpSub(_master->getPosition(),this->getPosition()));	
 				this->walk(moveDirection);
@@ -932,7 +932,7 @@ void Hero::AI_Sanshouuo(){
 
 	};
 
-	if(abs(ccpSub(_master->getPosition(),this->getPosition()).x) >winSize.width/2 -64){
+	if(abs(ccpSub(_master->getPosition(),this->getPosition()).x) >_delegate->getGameplayViewHalfWidth() -64){
 		CCPoint moveDirection =ccpNormalize(ccpSub(_master->getPosition(),this->getPosition()));	
 		this->walk(moveDirection);
 		return;
@@ -5150,7 +5150,7 @@ void Hero::AI_Chiyo(){
 						&& strcmp(tempHero->getCharacter()->getCString(),"Chiyo")!=0
 						){
 							CCPoint	sp=ccpSub(tempHero->getPosition(),this->getPosition());
-							if(sp.x<=winSize.width/2){
+							if(sp.x<=_delegate->getGameplayViewHalfWidth()){
 								countNum++;
 							}
 
@@ -5279,7 +5279,7 @@ void Hero::AI_Kakuzu(){
 						distance=ccpDistance(target->getPosition(),this->getPosition());
 						sp=ccpSub(target->getPosition(),this->getPosition());
 
-						if(abs(sp.x)<(winSize.width/2)){
+						if(abs(sp.x)<(_delegate->getGameplayViewHalfWidth())){
 							if(target->_isTaunt){
 								_mainTarget=target;
 						
