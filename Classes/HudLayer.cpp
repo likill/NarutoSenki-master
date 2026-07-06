@@ -126,8 +126,11 @@ HudLayer::HudLayer(void)
 	coinLabel=NULL;
 	killLabel=NULL;
 	deadLabel=NULL;
+	killIcon=NULL;
+	deadIcon=NULL;
 	KonoLabel=NULL;
 	AkaLabel=NULL;
+	scoreSplitLabel=NULL;
 	gameClock=NULL;
 	pauseNenu=NULL;
 	miniLayer=NULL;
@@ -199,6 +202,70 @@ Hero* HudLayer::getOwnerPlayer(){
 	return NULL;
 }
 
+static void moveLocalPvPNodeBy(CCNode* node,CCPoint delta){
+	if(node){
+		node->setPosition(ccpAdd(node->getPosition(),delta));
+	}
+}
+
+static void layoutLocalPvPButton(ActionButton* button,CCPoint position){
+	if(!button){
+		return;
+	}
+
+	CCPoint delta=ccpSub(position,button->getPosition());
+	button->setPosition(position);
+	moveLocalPvPNodeBy(button->markSprite,delta);
+	moveLocalPvPNodeBy(button->ougismarkSprite,delta);
+	moveLocalPvPNodeBy(button->progressPointSprite,delta);
+	moveLocalPvPNodeBy(button->proressblinkMask,delta);
+	moveLocalPvPNodeBy(button->clipper,delta);
+	moveLocalPvPNodeBy(button->gearSign,delta);
+	moveLocalPvPNodeBy(button->cdLabel,delta);
+	moveLocalPvPNodeBy(button->lockLabel1,delta);
+	moveLocalPvPNodeBy(button->lockLabel2,delta);
+}
+
+static void showLocalPvPButton(ActionButton* button){
+	if(button){
+		button->setVisible(true);
+	}
+}
+
+static void activateLocalPvPHudOwner(HudLayer* hud){
+	if(!hud || !hud->_delegate || !hud->_delegate->_isLocalPvP){
+		return;
+	}
+
+	Hero* owner=hud->getOwnerPlayer();
+	if(owner){
+		hud->_delegate->activatePlayerControl(owner,hud);
+	}
+}
+static void layoutLocalPvPCombatButtons(HudLayer* hud,float panelLeft,float panelRight){
+	if(!hud || !hud->nAttackButton || !hud->skill1Button || !hud->skill2Button || !hud->skill3Button || !hud->skill4Button || !hud->skill5Button || !hud->item1Button){
+		return;
+	}
+
+	layoutLocalPvPButton(hud->nAttackButton,ccp(panelRight-60,8));
+	layoutLocalPvPButton(hud->skill1Button,ccp(panelRight-hud->skill1Button->getContentSize().width-64,2));
+	layoutLocalPvPButton(hud->skill2Button,ccp(panelRight-95,50));
+	layoutLocalPvPButton(hud->skill3Button,ccp(panelRight-44,8+hud->nAttackButton->getContentSize().height+8));
+	layoutLocalPvPButton(hud->skill4Button,ccp(hud->skill1Button->getPositionX()-hud->skill4Button->getContentSize().width-8,2));
+	layoutLocalPvPButton(hud->skill5Button,ccp(hud->skill4Button->getPositionX()-hud->skill5Button->getContentSize().width-8,2));
+	layoutLocalPvPButton(hud->item1Button,ccp(panelLeft+8,hud->skill3Button->getPositionY()+hud->skill3Button->getContentSize().height));
+	layoutLocalPvPButton(hud->getItem2Button(),ccp(panelRight-44,hud->skill3Button->getPositionY()+hud->skill3Button->getContentSize().height+8));
+	layoutLocalPvPButton(hud->getItem3Button(),ccp(hud->skill5Button->getPositionX()-hud->skill5Button->getContentSize().width-8,2));
+	layoutLocalPvPButton(hud->getItem4Button(),ccp(hud->skill2Button->getPositionX()-hud->skill2Button->getContentSize().width-8,hud->skill2Button->getPositionY()));
+
+	showLocalPvPButton(hud->nAttackButton);
+	showLocalPvPButton(hud->skill1Button);
+	showLocalPvPButton(hud->skill2Button);
+	showLocalPvPButton(hud->skill3Button);
+	showLocalPvPButton(hud->skill4Button);
+	showLocalPvPButton(hud->skill5Button);
+	showLocalPvPButton(hud->item1Button);
+}
 
 void HudLayer::JoyStickRelease(){
 	_delegate->JoyStickRelease();
@@ -214,12 +281,23 @@ void HudLayer::initGearButton(){
 		gearMenu->removeFromParentAndCleanup(true);
 	}
 
-	CCMenuItem* gear_button=CCMenuItemSprite::create(CCSprite::createWithSpriteFrameName(CCString::createWithFormat("%s_avator.png",_delegate->currentPlayer->getCharacter()->getCString())->getCString()),NULL,NULL,this,menu_selector(HudLayer::gearButtonClick));
+	Hero* gearOwner=this->getOwnerPlayer();
+	if(!gearOwner){
+		gearOwner=_delegate->currentPlayer;
+	}
+	CCMenuItem* gear_button=CCMenuItemSprite::create(CCSprite::createWithSpriteFrameName(CCString::createWithFormat("%s_avator.png",gearOwner->getCharacter()->getCString())->getCString()),NULL,NULL,this,menu_selector(HudLayer::gearButtonClick));
 	gear_button->setAnchorPoint(ccp(0,0));
 	gearMenu=CCMenu::create(gear_button,NULL);
 	gearMenu->setPosition(ccp(0,winSize.height-gear_button->getContentSize().height));
 	gearMenu->setTouchPriority(10);
 	this->addChild(gearMenu,100);
+	if(_delegate && _delegate->_isLocalPvP){
+		if(this==_delegate->_p2HudLayer){
+			gearMenu->setPosition(ccp(winSize.width-gear_button->getContentSize().width,winSize.height-gear_button->getContentSize().height));
+		}else if(this==_delegate->_p1HudLayer){
+			gearMenu->setPosition(ccp(0,winSize.height-gear_button->getContentSize().height));
+		}
+	}
 }
 
 
@@ -289,7 +367,7 @@ void HudLayer::initHeroInterface(){
 	this->addChild(status_expbar,50);
 
 
-	//ÔÝÍ£²Ëµ¥
+	//ï¿½ï¿½Í£ï¿½Ëµï¿½
 	CCMenuItem* menu_button=CCMenuItemSprite::create(CCSprite::createWithSpriteFrameName("minimap_bg.png"),NULL,NULL,this,menu_selector(HudLayer::pauseButtonClick));
 	menu_button->setAnchorPoint(ccp(1,1));
 	pauseNenu=CCMenu::create(menu_button,NULL);
@@ -297,7 +375,7 @@ void HudLayer::initHeroInterface(){
 	this->addChild(pauseNenu);
 
 
-	CCSprite* killIcon=CCSprite::createWithSpriteFrameName("kill_icon.png");
+	killIcon=CCSprite::createWithSpriteFrameName("kill_icon.png");
 	killIcon->setAnchorPoint(ccp(0,1));
 	killIcon->setPosition(ccp(winSize.width-114,winSize.height-46));
 	this->addChild(killIcon,5000);
@@ -308,7 +386,7 @@ void HudLayer::initHeroInterface(){
 	killLabel->setPosition(ccp(killIcon->getPositionX()+killIcon->getContentSize().width/2+5,winSize.height-56));
 	this->addChild(killLabel,5001);
 
-	CCSprite* deadIcon=CCSprite::createWithSpriteFrameName("dead_icon.png");
+	deadIcon=CCSprite::createWithSpriteFrameName("dead_icon.png");
 	deadIcon->setAnchorPoint(ccp(0,1));
 	deadIcon->setPosition(ccp(winSize.width-114+26,winSize.height-47));
 	this->addChild(deadIcon,5000);
@@ -351,11 +429,11 @@ void HudLayer::initHeroInterface(){
 
 	this->addChild(KonoLabel,5000);
 	this->addChild(AkaLabel,5000);
-	CCLabelBMFont* hengLabel=CCLabelBMFont::create(":","Fonts/1.fnt");
-	hengLabel->setScale(0.5f);
-	hengLabel->setAnchorPoint(ccp(0.5f,1));
-	hengLabel->setPosition(ccp(winSize.width-37,KonoLabel->getPositionY()+2));
-	this->addChild(hengLabel,5000);
+	scoreSplitLabel=CCLabelBMFont::create(":","Fonts/1.fnt");
+	scoreSplitLabel->setScale(0.5f);
+	scoreSplitLabel->setAnchorPoint(ccp(0.5f,1));
+	scoreSplitLabel->setPosition(ccp(winSize.width-114,KonoLabel->getPositionY()+2));
+	this->addChild(scoreSplitLabel,5000);
 
 	this->initGearButton();
 
@@ -533,12 +611,12 @@ void HudLayer::initHeroInterface(){
 	//init gear
 	this->updateGears();
 
-	//³õÊ¼»¯ÃÔÄãµØÍ¼
+	//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?
 	miniLayer=CCLayer::create();
 	miniLayer->setAnchorPoint(ccp(0,0));
 	miniLayer->setPosition(ccp(winSize.width-112,winSize.height-38));
 
-	//Ìí¼ÓµØÍ¼icon
+	//ï¿½ï¿½ï¿½Óµï¿½Í¼icon
 	CCObject* pObject;
 	CCARRAY_FOREACH(_delegate->_TowerArray,pObject){
 		ActionManager* player=(ActionManager*) pObject;
@@ -565,7 +643,7 @@ void HudLayer::initHeroInterface(){
 	}
 
 
-	//Ìí¼ÓÍæ¼Òicon
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½icon
 
 	CCARRAY_FOREACH(_delegate->_CharacterArray,pObject){
 		ActionManager* player=(ActionManager*) pObject;
@@ -607,8 +685,83 @@ void HudLayer::initHeroInterface(){
 
 }
 
+void HudLayer::applyLocalP1Layout(){
+	float halfRight=winSize.width/2-8;
+	float mapCenter=winSize.width/2;
+	float mapLeft=mapCenter-56;
+	float mapRight=mapCenter+56;
+	float scoreY=winSize.height-42;
+	layoutLocalPvPCombatButtons(this,0,halfRight);
+
+	if(gearMenu){
+		gearMenu->setPosition(ccp(0,winSize.height-80));
+	}
+	if(gear1Button){
+		layoutLocalPvPButton(gear1Button,ccp(0,winSize.height-92));
+	}
+	if(gear2Button){
+		layoutLocalPvPButton(gear2Button,ccp(35,winSize.height-112));
+	}
+	if(gear3Button){
+		layoutLocalPvPButton(gear3Button,ccp(70,winSize.height-92));
+	}
+
+	if(pauseNenu){
+		pauseNenu->setVisible(true);
+		pauseNenu->setPosition(ccp(mapRight,winSize.height));
+	}
+	if(miniLayer){
+		miniLayer->setVisible(true);
+		miniLayer->setPosition(ccp(mapLeft,winSize.height-38));
+	}
+	if(killIcon){
+		killIcon->setVisible(true);
+		killIcon->setScale(0.75f);
+		killIcon->setAnchorPoint(ccp(0,1));
+		killIcon->setPosition(ccp(winSize.width/2-94, winSize.height-46));
+	}
+	if(killLabel){
+		killLabel->setVisible(true);
+		killLabel->setScale(0.3f);
+		killLabel->setAnchorPoint(ccp(0,1));
+		killLabel->setPosition(ccp(killIcon->getPositionX()+killIcon->getContentSize().width/2+5, winSize.height-56));
+	}
+	if(deadIcon){
+		deadIcon->setVisible(true);
+		deadIcon->setScale(0.75f);
+		deadIcon->setAnchorPoint(ccp(0,1));
+		deadIcon->setPosition(ccp(winSize.width/2-94+26, winSize.height-47));
+	}
+	if(deadLabel){
+		deadLabel->setVisible(true);
+		deadLabel->setScale(0.3f);
+		deadLabel->setAnchorPoint(ccp(0,1));
+		deadLabel->setPosition(ccp(deadIcon->getPositionX()+deadIcon->getContentSize().width/2+5, winSize.height-56));
+	}
+	if(KonoLabel){
+		KonoLabel->setVisible(true);
+		KonoLabel->setScale(0.35f);
+		KonoLabel->setAnchorPoint(ccp(1,1));
+		KonoLabel->setPosition(ccp(mapCenter-10,scoreY+2));
+	}
+	if(AkaLabel){
+		AkaLabel->setVisible(true);
+		AkaLabel->setScale(0.35f);
+		AkaLabel->setAnchorPoint(ccp(0,1));
+		AkaLabel->setPosition(ccp(mapCenter+10,scoreY+2));
+	}
+	if(scoreSplitLabel){
+		scoreSplitLabel->setVisible(true);
+		scoreSplitLabel->setAnchorPoint(ccp(0.5f,1));
+		scoreSplitLabel->setPosition(ccp(mapCenter,scoreY+3));
+	}
+}
+
 void HudLayer::applyLocalP2Layout(){
+	float halfLeft=winSize.width/2;
 	float right=winSize.width;
+	float mapCenter=winSize.width/2;
+	float scoreY=winSize.height-42;
 
 	if(status_bar){
 		status_bar->setAnchorPoint(ccp(1,0));
@@ -637,40 +790,53 @@ void HudLayer::applyLocalP2Layout(){
 		coinLabel->setAnchorPoint(ccp(1,0));
 		coinLabel->setPosition(ccp(right-121,winSize.height-61));
 	}
+
+	layoutLocalPvPCombatButtons(this,halfLeft,right);
+
 	if(gearMenu){
-		gearMenu->setPosition(ccp(right-40,winSize.height-40));
+		gearMenu->setPosition(ccp(right-100,winSize.height-80));
 	}
 	if(gear1Button){
-		gear1Button->setPosition(ccp(right-105,winSize.height-92));
+		layoutLocalPvPButton(gear1Button,ccp(right-105,winSize.height-92));
 	}
 	if(gear2Button){
-		gear2Button->setPosition(ccp(right-70,winSize.height-112));
+		layoutLocalPvPButton(gear2Button,ccp(right-70,winSize.height-112));
 	}
 	if(gear3Button){
-		gear3Button->setPosition(ccp(right-35,winSize.height-92));
+		layoutLocalPvPButton(gear3Button,ccp(right-35,winSize.height-92));
 	}
 
 	if(_joyStick){ _joyStick->setVisible(false); _joyStick->setPosition(ccp(-1000,-1000)); }
 	if(pauseNenu){ pauseNenu->setVisible(false); }
 	if(miniLayer){ miniLayer->setVisible(false); miniLayer->setPosition(ccp(-1000,-1000)); }
 	if(gameClock){ gameClock->setVisible(false); }
-	if(killLabel){ killLabel->setVisible(false); }
-	if(deadLabel){ deadLabel->setVisible(false); }
+	if(killIcon){
+		killIcon->setVisible(true);
+		killIcon->setScale(0.75f);
+		killIcon->setAnchorPoint(ccp(0,1));
+		killIcon->setPosition(ccp(winSize.width/2+37, winSize.height-46));
+	}
+	if(killLabel){
+		killLabel->setVisible(true);
+		killLabel->setScale(0.3f);
+		killLabel->setAnchorPoint(ccp(0,1));
+		killLabel->setPosition(ccp(killIcon->getPositionX()+killIcon->getContentSize().width/2+5, winSize.height-56));
+	}
+	if(deadIcon){
+		deadIcon->setVisible(true);
+		deadIcon->setScale(0.75f);
+		deadIcon->setAnchorPoint(ccp(0,1));
+		deadIcon->setPosition(ccp(winSize.width/2+37+26, winSize.height-47));
+	}
+	if(deadLabel){
+		deadLabel->setVisible(true);
+		deadLabel->setScale(0.3f);
+		deadLabel->setAnchorPoint(ccp(0,1));
+		deadLabel->setPosition(ccp(deadIcon->getPositionX()+deadIcon->getContentSize().width/2+5, winSize.height-56));
+    }
 	if(KonoLabel){ KonoLabel->setVisible(false); }
 	if(AkaLabel){ AkaLabel->setVisible(false); }
-
-#define HIDE_LOCAL_P2_BUTTON(button) if(button){ button->setVisible(false); button->setPosition(ccp(-1000,-1000)); }
-	HIDE_LOCAL_P2_BUTTON(nAttackButton);
-	HIDE_LOCAL_P2_BUTTON(skill1Button);
-	HIDE_LOCAL_P2_BUTTON(skill2Button);
-	HIDE_LOCAL_P2_BUTTON(skill3Button);
-	HIDE_LOCAL_P2_BUTTON(skill4Button);
-	HIDE_LOCAL_P2_BUTTON(skill5Button);
-	HIDE_LOCAL_P2_BUTTON(item1Button);
-	HIDE_LOCAL_P2_BUTTON(getItem2Button());
-	HIDE_LOCAL_P2_BUTTON(getItem3Button());
-	HIDE_LOCAL_P2_BUTTON(getItem4Button());
-#undef HIDE_LOCAL_P2_BUTTON
+	if(scoreSplitLabel){ scoreSplitLabel->setVisible(false); }
 }
 void HudLayer::addMapIcon(){
 
@@ -726,14 +892,27 @@ void HudLayer::updateGears(){
 		gear3Button->setMarkSprite("gear_freeze.png");
 		this->addChild(gear3Button,200);
 
+		if(_delegate && _delegate->_isLocalPvP){
+			if(this==_delegate->_p2HudLayer){
+				this->applyLocalP2Layout();
+			}else if(this==_delegate->_p1HudLayer){
+				this->applyLocalP1Layout();
+			}
+		}
+
 		return;
 	}
 
 
-	if(_delegate->currentPlayer->getGearArray() && _delegate->currentPlayer->getGearArray()->count()>0){
+	Hero* gearOwner=this->getOwnerPlayer();
+	if(!gearOwner){
+		gearOwner=_delegate->currentPlayer;
+	}
+
+	if(gearOwner && gearOwner->getGearArray() && gearOwner->getGearArray()->count()>0){
 		CCObject* pObject;
 		int i=0;
-		CCARRAY_FOREACH(_delegate->currentPlayer->getGearArray(),pObject){
+		CCARRAY_FOREACH(gearOwner->getGearArray(),pObject){
 			CCString* tmpGear=(CCString*) pObject;
 			if(tmpGear->intValue()!=gear1Button->_gearType && i==0){
 				gear1Button->setGearType(tmpGear->intValue());
@@ -771,6 +950,14 @@ void HudLayer::updateGears(){
 
 
 
+
+	if(_delegate && _delegate->_isLocalPvP){
+		if(this==_delegate->_p2HudLayer){
+			this->applyLocalP2Layout();
+		}else if(this==_delegate->_p1HudLayer){
+			this->applyLocalP1Layout();
+		}
+	}
 }
 
 
@@ -1167,7 +1354,7 @@ void HudLayer::setReportCache(){
 					}
 				}
 
-				// ÌØÊâ»÷É±
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?
 				if(num2==1){
 
 					if(reportSPCSprite){
@@ -1352,6 +1539,7 @@ void HudLayer::attackButtonClick(abType type){
 
 
 void HudLayer::gearButtonClick(gearType type){
+	activateLocalPvPHudOwner(this);
 	_delegate->gearButtonClick(type);
 }
 
@@ -1365,6 +1553,7 @@ void HudLayer::pauseButtonClick(CCObject* sender){
 
 void HudLayer::gearButtonClick(CCObject* sender){
 	if(!_isAllButtonLocked){
+		activateLocalPvPHudOwner(this);
 		_delegate->onGear();
 	}
 

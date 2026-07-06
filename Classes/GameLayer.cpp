@@ -625,6 +625,9 @@ void GameLayer::onGameStart(float dt){
 	this->getHudLayer()->Kaichang->removeFromParent();
 	this->getHudLayer()->Kaichang=NULL;
 	this->getHudLayer()->initHeroInterface();
+	if(_isLocalPvP && _p1HudLayer){
+		_p1HudLayer->applyLocalP1Layout();
+	}
 	if(_isLocalPvP && _p2HudLayer && player2){
 		if(_p2HudLayer->Kaichang){
 			_p2HudLayer->Kaichang->removeFromParent();
@@ -1632,6 +1635,44 @@ void GameLayer::syncLocalPvPHuds(float dt){
 		}
 	}
 
+	if(player1 && player2 && _p1HudLayer){
+		int p1TeamKills=0;
+		int p2TeamKills=0;
+		CCObject* pObject=NULL;
+		if(_CharacterArray){
+			CCARRAY_FOREACH(_CharacterArray,pObject){
+				ActionManager* actor=(ActionManager*)pObject;
+				if(!actor || !actor->getGroup() || !actor->getKillNum()){
+					continue;
+				}
+				int kills=atoi(actor->getKillNum()->getCString());
+				if(actor->getGroup() && player1->getGroup() && strcmp(actor->getGroup()->getCString(),player1->getGroup()->getCString())==0){
+					p1TeamKills+=kills;
+				}else if(actor->getGroup() && player2->getGroup() && strcmp(actor->getGroup()->getCString(),player2->getGroup()->getCString())==0){
+					p2TeamKills+=kills;
+				}
+			}
+		}
+
+		if(_p1HudLayer->KonoLabel){
+			_p1HudLayer->KonoLabel->setString(CCString::createWithFormat("%d",p1TeamKills)->getCString());
+		}
+		if(_p1HudLayer->AkaLabel){
+			_p1HudLayer->AkaLabel->setString(CCString::createWithFormat("%d",p2TeamKills)->getCString());
+		}
+		if(_p1HudLayer->killLabel && player1->getKillNum()){
+			_p1HudLayer->killLabel->setString(player1->getKillNum()->getCString());
+		}
+		if(_p1HudLayer->deadLabel){
+			_p1HudLayer->deadLabel->setString(CCString::createWithFormat("%d",player1->_deadNum)->getCString());
+		}
+		if(_p2HudLayer && _p2HudLayer->killLabel && player2->getKillNum()){
+			_p2HudLayer->killLabel->setString(player2->getKillNum()->getCString());
+		}
+		if(_p2HudLayer && _p2HudLayer->deadLabel){
+			_p2HudLayer->deadLabel->setString(CCString::createWithFormat("%d",player2->_deadNum)->getCString());
+		}
+	}
 	currentPlayer=oldPlayer;
 	_hudLayer=oldHud;
 }

@@ -3276,7 +3276,7 @@ void ActionManager::healBuff(float dt){
 
 							//Èº²¹ÌØÐ§
 
-							if(tempHero->_isVisable){
+						if(tempHero->_isVisable){
 								Effect* tmpEffect=Effect::create("Kagura",tempHero);
 								if(strcmp(tempHero->getRole()->getCString(),"Player")==0){
 									tmpEffect->setOpacity(150);

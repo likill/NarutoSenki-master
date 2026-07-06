@@ -81,9 +81,12 @@ public:
 	CCLabelBMFont*		coinLabel;
 	CCLabelBMFont*		killLabel;
 	CCLabelBMFont*		deadLabel;
+	CCSprite*			killIcon;
+	CCSprite*			deadIcon;
 
 	CCLabelBMFont*		KonoLabel;
 	CCLabelBMFont*		AkaLabel;
+	CCLabelBMFont*		scoreSplitLabel;
 
 
     CCLabelBMFont*		gameClock;
@@ -105,6 +108,7 @@ public:
 	void	setDelegate(GameLayer* layer);
 	Hero* getOwnerPlayer();
 	void	initHeroInterface();
+	void	applyLocalP1Layout();
 	void	applyLocalP2Layout();
 	void	attackButtonClick(abType type);
 	void	gearButtonClick(gearType type);
@@ -165,4 +169,3 @@ protected:
 	virtual void	onExit();
   
 };
-

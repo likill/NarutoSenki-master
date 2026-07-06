@@ -356,13 +356,16 @@ bool GearLayer::init(CCRenderTexture* snapshoot){
 void GearLayer::onResume(CCObject* sender){
 	
 	this->getDelegate()->getHudLayer()->updateGears();
-	if(this->getDelegate()->_isLocalPvP && this->getDelegate()->getHudLayer()==this->getDelegate()->_p2HudLayer){
-		this->getDelegate()->getHudLayer()->applyLocalP2Layout();
+	if(this->getDelegate()->_isLocalPvP){
+		if(this->getDelegate()->getHudLayer()==this->getDelegate()->_p2HudLayer){
+			this->getDelegate()->getHudLayer()->applyLocalP2Layout();
+		}else if(this->getDelegate()->getHudLayer()==this->getDelegate()->_p1HudLayer){
+			this->getDelegate()->getHudLayer()->applyLocalP1Layout();
+		}
 	}
 	CCDirector::sharedDirector()->popScene();
 	
 };
-
 
 void GearLayer::resumeByKeyboard(){
 	this->onResume(NULL);
