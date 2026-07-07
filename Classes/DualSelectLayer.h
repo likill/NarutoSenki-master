@@ -17,6 +17,7 @@ public:
 	bool init();
 	CREATE_FUNC(DualSelectLayer);
 
+	void setLocalCoop(bool isLocalCoop);
 	void setSelected(CCObject* sender);
 	void keyBackClicked();
 
@@ -34,6 +35,8 @@ protected:
 	void updatePhaseDisplay();
 	void addHero(CCArray* heros, const char* character, const char* role, const char* group);
 	CCString* takeRandomHero(CCArray* heros);
+	void buildLocalPvPTeams(CCArray* tempHeros,CCArray* realHero);
+	void buildLocalCoopTeams(CCArray* tempHeros,CCArray* realHero);
 
 	CCArray* selectArray;
 	CCArray* _selectList;
@@ -49,10 +52,12 @@ protected:
 	CCSprite* _p2HeroHalf;
 	CCSprite* _p2HeroName;
 	CCSprite* _selectImg;
+	CCLabelTTF* _titleLabel;
 	CCLabelTTF* _phaseLabel;
 
 	const char* _p1SelectHero;
 	const char* _p2SelectHero;
 	SelectPhase _phase;
 	bool isStart;
+	bool _isLocalCoop;
 };

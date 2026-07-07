@@ -46,6 +46,7 @@ public:
 	bool _isHardCoreMode;
 	bool _isRandomChar;
 	bool _isLocalPvP;
+	bool _isLocalCoop;
 
 	void preloadAudio();
 	void preloadIMG();

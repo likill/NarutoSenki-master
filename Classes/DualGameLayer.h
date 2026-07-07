@@ -17,6 +17,7 @@ public:
 
 	CCArray* tempHeros;
 	bool _isHardCoreMode;
+	bool _isLocalCoop;
 
 	void initGame();
 	bool handleKeyboard(unsigned int keyCode,bool isPressed);

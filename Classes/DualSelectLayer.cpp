@@ -20,11 +20,13 @@ DualSelectLayer::DualSelectLayer(void)
 	_p2HeroHalf=NULL;
 	_p2HeroName=NULL;
 	_selectImg=NULL;
+	_titleLabel=NULL;
 	_phaseLabel=NULL;
 	_p1SelectHero=NULL;
 	_p2SelectHero=NULL;
 	_phase=PHASE_P1_SELECT;
 	isStart=false;
+	_isLocalCoop=false;
 }
 
 DualSelectLayer::~DualSelectLayer(void)
@@ -96,10 +98,10 @@ bool DualSelectLayer::init()
 		menu_bar_t->setPosition(ccp(0,winSize.height-menu_bar_t->getContentSize().height));
 		this->addChild(menu_bar_t,2);
 
-		CCLabelTTF* select_title=CCLabelTTF::create("LOCAL PVP",FONT_TYPE,18);
-		select_title->setAnchorPoint(ccp(0,1));
-		select_title->setPosition(ccp(8,winSize.height-6));
-		this->addChild(select_title,3);
+		_titleLabel=CCLabelTTF::create("LOCAL PVP",FONT_TYPE,18);
+		_titleLabel->setAnchorPoint(ccp(0,1));
+		_titleLabel->setPosition(ccp(8,winSize.height-6));
+		this->addChild(_titleLabel,3);
 
 		_selectList=CCArray::create();
 		selectArray=CCArray::create();
@@ -198,6 +200,14 @@ bool DualSelectLayer::init()
 	} while(0);
 
 	return bRet;
+}
+
+void DualSelectLayer::setLocalCoop(bool isLocalCoop)
+{
+	_isLocalCoop=isLocalCoop;
+	if(_titleLabel){
+		_titleLabel->setString(_isLocalCoop ? "LOCAL COOP" : "LOCAL PVP");
+	}
 }
 
 void DualSelectLayer::setSelected(CCObject* sender)
@@ -300,6 +310,37 @@ CCString* DualSelectLayer::takeRandomHero(CCArray* heros)
 	return result;
 }
 
+void DualSelectLayer::buildLocalPvPTeams(CCArray* tempHeros,CCArray* realHero)
+{
+	this->addHero(tempHeros,_p1SelectHero,"Player","Konoha");
+
+	for(int i=0;i<2;i++) {
+		CCString* hero=this->takeRandomHero(realHero);
+		this->addHero(tempHeros,hero->getCString(),"Com","Konoha");
+	}
+
+	this->addHero(tempHeros,_p2SelectHero,"Player","Akatsuki");
+
+	for(int i=0;i<2;i++) {
+		CCString* hero=this->takeRandomHero(realHero);
+		this->addHero(tempHeros,hero->getCString(),"Com","Akatsuki");
+	}
+}
+
+void DualSelectLayer::buildLocalCoopTeams(CCArray* tempHeros,CCArray* realHero)
+{
+	this->addHero(tempHeros,_p1SelectHero,"Player","Konoha");
+	this->addHero(tempHeros,_p2SelectHero,"Player","Konoha");
+
+	CCString* ally=this->takeRandomHero(realHero);
+	this->addHero(tempHeros,ally->getCString(),"Com","Konoha");
+
+	for(int i=0;i<3;i++) {
+		CCString* hero=this->takeRandomHero(realHero);
+		this->addHero(tempHeros,hero->getCString(),"Com","Akatsuki");
+	}
+}
+
 void DualSelectLayer::onGameStart(float dt)
 {
 	if(isStart || !_p1SelectHero || !_p2SelectHero) {
@@ -334,18 +375,11 @@ void DualSelectLayer::onGameStart(float dt)
 
 	srand((int)time(0));
 	CCArray* tempHeros=CCArray::create();
-	this->addHero(tempHeros,_p1SelectHero,"Player","Konoha");
 
-	for(int i=0;i<2;i++) {
-		CCString* hero=this->takeRandomHero(realHero);
-		this->addHero(tempHeros,hero->getCString(),"Com","Konoha");
-	}
-
-	this->addHero(tempHeros,_p2SelectHero,"Player","Akatsuki");
-
-	for(int i=0;i<2;i++) {
-		CCString* hero=this->takeRandomHero(realHero);
-		this->addHero(tempHeros,hero->getCString(),"Com","Akatsuki");
+	if(_isLocalCoop) {
+		this->buildLocalCoopTeams(tempHeros,realHero);
+	} else {
+		this->buildLocalPvPTeams(tempHeros,realHero);
 	}
 
 	CCScene* loadScene=CCScene::create();
@@ -353,6 +387,7 @@ void DualSelectLayer::onGameStart(float dt)
 	loadLayer->tempHeros=tempHeros;
 	loadLayer->_isHardCoreMode=true;
 	loadLayer->_isLocalPvP=true;
+	loadLayer->_isLocalCoop=_isLocalCoop;
 	loadScene->addChild(loadLayer);
 	loadLayer->preloadAudio();
 	CCDirector::sharedDirector()->replaceScene(CCTransitionFade::create(1.5f,loadScene));

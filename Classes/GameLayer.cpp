@@ -38,6 +38,7 @@ GameLayer::GameLayer(void)
 	_isHardCoreGame=false;
 	_isRandomChar=false;
 	_isLocalPvP=false;
+	_isLocalCoop=false;
 	_p1HudLayer=NULL;
 	_p2HudLayer=NULL;
 	zhenying=1;
@@ -110,6 +111,15 @@ Hero* GameLayer::getPlayerForHud(HudLayer* hud){
 
 HudLayer* GameLayer::getHudLayerForAction(ActionManager* actor){
 	if(_isLocalPvP && actor){
+		if(_isLocalCoop){
+			if(actor==player2 || actor->getMaster()==player2 || actor->getControler()==player2 || actor->getSecMaster()==player2){
+				return _p2HudLayer ? _p2HudLayer : _hudLayer;
+			}
+			if(actor==player1 || actor->getMaster()==player1 || actor->getControler()==player1 || actor->getSecMaster()==player1){
+				return _p1HudLayer ? _p1HudLayer : _hudLayer;
+			}
+			return _p1HudLayer ? _p1HudLayer : _hudLayer;
+		}
 		if(actor==player2 || actor->getMaster()==player2 || actor->getControler()==player2){
 			return _p2HudLayer ? _p2HudLayer : _hudLayer;
 		}
@@ -127,7 +137,6 @@ HudLayer* GameLayer::getHudLayerForAction(ActionManager* actor){
 	}
 	return _hudLayer;
 }
-
 float GameLayer::getGameplayViewWidth(){
 	if(_isLocalPvP){
 		return LocalPvPResolution::kPvPSingleViewWidth;
@@ -1682,7 +1691,13 @@ void GameLayer::syncLocalPvPHuds(float dt){
 					continue;
 				}
 				int kills=atoi(actor->getKillNum()->getCString());
-				if(actor->getGroup() && player1->getGroup() && strcmp(actor->getGroup()->getCString(),player1->getGroup()->getCString())==0){
+				if(_isLocalCoop){
+					if(strcmp(actor->getGroup()->getCString(),"Konoha")==0){
+						p1TeamKills+=kills;
+					}else if(strcmp(actor->getGroup()->getCString(),"Akatsuki")==0){
+						p2TeamKills+=kills;
+					}
+				}else if(actor->getGroup() && player1->getGroup() && strcmp(actor->getGroup()->getCString(),player1->getGroup()->getCString())==0){
 					p1TeamKills+=kills;
 				}else if(actor->getGroup() && player2->getGroup() && strcmp(actor->getGroup()->getCString(),player2->getGroup()->getCString())==0){
 					p2TeamKills+=kills;

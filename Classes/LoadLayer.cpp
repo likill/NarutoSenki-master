@@ -25,6 +25,7 @@ LoadLayer::LoadLayer(void)
 	_isHardCoreMode=false;
 	_isRandomChar=false;
 	_isLocalPvP=false;
+	_isLocalCoop=false;
 	isPosting=false;
 	DLCArray=NULL;
 }
@@ -433,6 +434,7 @@ void LoadLayer::onLoadFinish(float dt){
 		DualGameLayer* dualLayer=DualGameLayer::create();
 		dualLayer->tempHeros=tempHeros;
 		dualLayer->_isHardCoreMode=_isHardCoreMode;
+		dualLayer->_isLocalCoop=_isLocalCoop;
 		dualLayer->initGame();
 		gameScene->addChild(dualLayer,GlTag);
 		CCDirector::sharedDirector()->replaceScene(CCTransitionFade::create(0.5f,gameScene));

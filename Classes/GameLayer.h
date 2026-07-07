@@ -151,6 +151,7 @@ public:
 	bool _isHardCoreGame;
 	bool _isRandomChar;
 	bool _isLocalPvP;
+	bool _isLocalCoop;
 	HudLayer* _p1HudLayer;
 	HudLayer* _p2HudLayer;
 

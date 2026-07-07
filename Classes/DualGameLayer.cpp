@@ -7,6 +7,7 @@ DualGameLayer::DualGameLayer(void)
 {
 	tempHeros=NULL;
 	_isHardCoreMode=false;
+	_isLocalCoop=false;
 	_gameLayer=NULL;
 	_bgLayer=NULL;
 	_hudLayer1=NULL;
@@ -49,6 +50,7 @@ void DualGameLayer::initGame()
 	_gameLayer->Heros=tempHeros;
 	_gameLayer->_isHardCoreGame=_isHardCoreMode;
 	_gameLayer->_isLocalPvP=true;
+	_gameLayer->_isLocalCoop=_isLocalCoop;
 	_gameLayer->initHeros();
 
 	_bgLayer=BGLayer::create();
