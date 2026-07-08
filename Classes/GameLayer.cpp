@@ -139,7 +139,7 @@ HudLayer* GameLayer::getHudLayerForAction(ActionManager* actor){
 }
 float GameLayer::getGameplayViewWidth(){
 	if(_isLocalPvP){
-		return LocalPvPResolution::kPvPSingleViewWidth;
+		return LocalPvPResolution::getPvPSingleViewWidth();
 	}
 	return winSize.width;
 }
@@ -1850,12 +1850,12 @@ void GameLayer::onLeft(){
 	CCObject* pObject;
 
 	CCARRAY_FOREACH(childArray,pObject){		
-		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿?
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?
 		ActionManager* ac=(ActionManager*) pObject;
 		CCNotificationCenter::sharedNotificationCenter()->removeObserver(ac,"acceptAttack");
 	}
 
-	//ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿?
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½?
 
 	if(randomMap==0) {
 		CCSpriteFrameCache::sharedSpriteFrameCache()->removeSpriteFramesFromFile("Element/Tower/Tower.plist");	
@@ -1893,7 +1893,7 @@ void GameLayer::onLeft(){
 		}
 		
 
-		//É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É?
+		//É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?
 		if(strcmp(player->getCharacter()->getCString(),"Jiraiya")==0){
 			CCSpriteFrameCache::sharedSpriteFrameCache()->removeSpriteFramesFromFile("Element/SageJiraiya/SageJiraiya.plist");
 			tool->prepareFileOGG("SageJiraiya",1);

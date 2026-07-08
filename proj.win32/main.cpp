@@ -5,8 +5,108 @@
 #include "DualGameLayer.h"
 #include "GearLayer.h"
 #include "PauseLayer.h"
+#include "LocalPvPResolution.h"
+#include <windows.h>
 
 USING_NS_CC;
+
+// ============================================================================
+// Window size selection (runs BEFORE Cocos2d-x engine initializes)
+// ============================================================================
+static HWND s_hCombo = NULL;
+
+static LRESULT CALLBACK SizeSelectWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+    switch (msg)
+    {
+    case WM_CREATE:
+    {
+        HINSTANCE hInst = ((CREATESTRUCT*)lParam)->hInstance;
+        HWND hLabel = CreateWindowA("STATIC", "Select your window size:",
+            WS_CHILD | WS_VISIBLE | SS_CENTER,
+            20, 15, 310, 20, hWnd, NULL, hInst, NULL);
+
+        s_hCombo = CreateWindowA("COMBOBOX", "",
+            WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST,
+            80, 45, 200, 120, hWnd, (HMENU)1001, hInst, NULL);
+        SendMessageA(s_hCombo, CB_ADDSTRING, 0, (LPARAM)"720 x 480");
+        SendMessageA(s_hCombo, CB_ADDSTRING, 0, (LPARAM)"960 x 640");
+        SendMessage(s_hCombo, CB_SETCURSEL, 1, 0);
+
+        HWND hOK = CreateWindowA("BUTTON", "OK",
+            WS_CHILD | WS_VISIBLE | BS_DEFPUSHBUTTON,
+            130, 90, 100, 30, hWnd, (HMENU)IDOK, hInst, NULL);
+
+        HFONT hFont = CreateFontA(-13, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
+            DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
+            DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, "MS Shell Dlg");
+        SendMessage(hLabel, WM_SETFONT, (WPARAM)hFont, TRUE);
+        SendMessage(s_hCombo, WM_SETFONT, (WPARAM)hFont, TRUE);
+        SendMessage(hOK, WM_SETFONT, (WPARAM)hFont, TRUE);
+        return 0;
+    }
+    case WM_COMMAND:
+        if (LOWORD(wParam) == IDOK)
+        {
+            int sel = (int)SendMessage(s_hCombo, CB_GETCURSEL, 0, 0);
+            LocalPvPResolution::g_selectedSmallSize = (sel == 0);
+            DestroyWindow(hWnd);
+            return 0;
+        }
+        break;
+    case WM_CLOSE:
+        LocalPvPResolution::g_selectedSmallSize = false;
+        DestroyWindow(hWnd);
+        return 0;
+    case WM_DESTROY:
+        PostQuitMessage(0);
+        return 0;
+    }
+    return DefWindowProc(hWnd, msg, wParam, lParam);
+}
+
+static void showSizeSelectDialog()
+{
+    HINSTANCE hInst = GetModuleHandle(NULL);
+    s_hCombo = NULL;
+
+    WNDCLASSEXA wc;
+    ZeroMemory(&wc, sizeof(wc));
+    wc.cbSize = sizeof(WNDCLASSEXA);
+    wc.lpfnWndProc = SizeSelectWndProc;
+    wc.hInstance = hInst;
+    wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+    wc.hbrBackground = (HBRUSH)(COLOR_BTNFACE + 1);
+    wc.lpszClassName = "NarutoSizeSelect";
+    RegisterClassExA(&wc);
+
+    HWND hWnd = CreateWindowExA(
+        WS_EX_DLGMODALFRAME, "NarutoSizeSelect",
+        "NarutoSenki - Select Window Size",
+        WS_POPUP | WS_CAPTION | WS_SYSMENU,
+        CW_USEDEFAULT, CW_USEDEFAULT, 360, 180,
+        NULL, NULL, hInst, NULL);
+    if (!hWnd) return;
+
+    RECT rc;
+    GetWindowRect(hWnd, &rc);
+    int screenW = GetSystemMetrics(SM_CXSCREEN);
+    int screenH = GetSystemMetrics(SM_CYSCREEN);
+    SetWindowPos(hWnd, HWND_TOP,
+        (screenW - (rc.right - rc.left)) / 2,
+        (screenH - (rc.bottom - rc.top)) / 2, 0, 0, SWP_NOSIZE);
+
+    ShowWindow(hWnd, SW_SHOW);
+    UpdateWindow(hWnd);
+
+    MSG msg;
+    while (GetMessage(&msg, NULL, 0, 0))
+    {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+    }
+    UnregisterClassA("NarutoSizeSelect", hInst);
+}
 
 static bool s_keyDown[256] = { false };
 
@@ -221,11 +321,15 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
+    // Show window size selection BEFORE engine initializes
+    showSizeSelectDialog();
+
     // create the application instance
     AppDelegate app;
     CCEGLView* eglView = CCEGLView::sharedOpenGLView();
     eglView->setViewName("NarutoSenki");
-    eglView->setFrameSize(960,640);
+    eglView->setFrameSize(LocalPvPResolution::getNormalFrameWidth(),
+                          LocalPvPResolution::getNormalFrameHeight());
     eglView->setWndProc(gameWindowProc);
     return CCApplication::sharedApplication()->run();
 }

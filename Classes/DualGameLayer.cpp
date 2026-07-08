@@ -71,8 +71,8 @@ void DualGameLayer::initGame()
 	this->addChild(_hudLayer1,HudTag);
 	this->addChild(_hudLayer2,HudTag+1);
 
-	_divider=CCLayerColor::create(ccc4(255,255,255,180),2,LocalPvPResolution::kPvPSingleViewHeight);
-	_divider->setPosition(ccp(LocalPvPResolution::kPvPSingleViewWidth-1,0));
+	_divider=CCLayerColor::create(ccc4(255,255,255,180),2,LocalPvPResolution::getPvPSingleViewHeight());
+	_divider->setPosition(ccp(LocalPvPResolution::getPvPSingleViewWidth()-1,0));
 	this->addChild(_divider,1000);
 
 	this->schedule(schedule_selector(DualGameLayer::syncHud),0.2f);
@@ -118,7 +118,7 @@ void DualGameLayer::drawGameView(float viewportX,float viewportWidth,Hero* targe
 		return;
 	}
 
-	CCDirector::sharedDirector()->getOpenGLView()->setScissorInPoints(viewportX,0,viewportWidth,LocalPvPResolution::kPvPSingleViewHeight);
+	CCDirector::sharedDirector()->getOpenGLView()->setScissorInPoints(viewportX,0,viewportWidth,LocalPvPResolution::getPvPSingleViewHeight());
 	glEnable(GL_SCISSOR_TEST);
 
 	if(_bgLayer) {
@@ -138,9 +138,9 @@ void DualGameLayer::drawGameView(float viewportX,float viewportWidth,Hero* targe
 	float mapWidth=_gameLayer->currentMap->getMapSize().width*_gameLayer->currentMap->getTileSize().width;
 	float mapHeight=_gameLayer->currentMap->getMapSize().height*_gameLayer->currentMap->getTileSize().height;
 	float x=MAX(playerPoint.x,viewportWidth/2);
-	float y=MAX(playerPoint.y,LocalPvPResolution::kPvPSingleViewHeight/2);
+	float y=MAX(playerPoint.y,LocalPvPResolution::getPvPSingleViewHeight()/2);
 	x=MIN(x,mapWidth-viewportWidth/2);
-	y=MIN(y,mapHeight-LocalPvPResolution::kPvPSingleViewHeight/2);
+	y=MIN(y,mapHeight-LocalPvPResolution::getPvPSingleViewHeight()/2);
 
 	CCPoint actualPoint=ccp(x,y);
 	CCPoint centerPoint=ccp(viewportX+viewportWidth/2,y);
@@ -166,7 +166,7 @@ void DualGameLayer::visit()
 	this->transform();
 	this->draw();
 
-	float viewWidth=LocalPvPResolution::kPvPSingleViewWidth;
+	float viewWidth=LocalPvPResolution::getPvPSingleViewWidth();
 	if(_gameLayer) {
 		this->drawGameView(0,viewWidth,_gameLayer->player1 ? _gameLayer->player1 : _gameLayer->currentPlayer);
 		this->drawGameView(viewWidth,viewWidth,_gameLayer->player2 ? _gameLayer->player2 : _gameLayer->currentPlayer);

@@ -4,17 +4,22 @@
 
 namespace LocalPvPResolution
 {
-	static const float kNormalDesignWidth = 480.0f;
-	static const float kNormalDesignHeight = 320.0f;
-	static const float kNormalFrameWidth = 960.0f;
-	static const float kNormalFrameHeight = 640.0f;
+	// Selected window size (set before engine init)
+	extern bool g_selectedSmallSize;
 
-	static const float kPvPDesignWidth = 960.0f;
-	static const float kPvPDesignHeight = 320.0f;
-	static const float kPvPFrameWidth = 1920.0f;
-	static const float kPvPFrameHeight = 640.0f;
-	static const float kPvPSingleViewWidth = 480.0f;
-	static const float kPvPSingleViewHeight = 320.0f;
+	// Normal mode
+	float getNormalFrameWidth();
+	float getNormalFrameHeight();
+	float getNormalDesignWidth();
+	float getNormalDesignHeight();
+
+	// PvP mode (width doubles from normal, height same)
+	float getPvPFrameWidth();
+	float getPvPFrameHeight();
+	float getPvPDesignWidth();
+	float getPvPDesignHeight();
+	float getPvPSingleViewWidth();
+	float getPvPSingleViewHeight();
 
 	void applyNormal();
 	void applyLocalPvP();
