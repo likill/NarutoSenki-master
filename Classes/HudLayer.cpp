@@ -1534,6 +1534,7 @@ CCSprite* HudLayer::createReport(const char* name1,const char* name2,float &leng
 
 
 void HudLayer::attackButtonClick(abType type){
+	activateLocalPvPHudOwner(this);
 	_delegate->attackButtonClick(type);
 }
 
@@ -1562,6 +1563,27 @@ void HudLayer::gearButtonClick(CCObject* sender){
 
 
 bool HudLayer::getSkillFinish(){
+
+	if(_delegate && _delegate->_isLocalPvP){
+		Hero* owner=this->getOwnerPlayer();
+		if(owner){
+			int actionState=owner->getActionState();
+			if(actionState==ACTION_STATE_ATTACK ||
+				actionState==ACTION_STATE_SATTACK ||
+				actionState==ACTION_STATE_OATTACK ||
+				actionState==ACTION_STATE_O2ATTACK ||
+				actionState==ACTION_STATE_HURT ||
+				actionState==ACTION_STATE_ABHURT ||
+				actionState==ACTION_STATE_KOCKDOWN ||
+				actionState==ACTION_STATE_FLOAT ||
+				actionState==ACTION_STATE_JUMP ||
+				actionState==ACTION_STATE_AIRHURT ||
+				actionState==ACTION_STATE_DEAD){
+				return false;
+			}
+			return true;
+		}
+	}
 
 	if(!_delegate->getSkillFinish()){
 		return false;

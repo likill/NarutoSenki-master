@@ -296,7 +296,7 @@ void Hero::AI_AsuraPath(){
 					return;
 				}else if(this->getActionState()==ACTION_STATE_IDLE ||  this->getActionState()==ACTION_STATE_WALK || this->getActionState()==ACTION_STATE_ATTACK ){
 
-					//ºó³·¶¯×÷
+					//ï¿½ó³·¶ï¿½ï¿½ï¿½
 					if(_isCanSkill1){
 
 						if(abs(sp.x)<64 && this->getPositionX()>64 &&
@@ -1087,7 +1087,7 @@ void Hero::AI_SageNarutoClone(){
 					return;
 				}else if(this->getActionState()==ACTION_STATE_IDLE ||  this->getActionState()==ACTION_STATE_WALK || this->getActionState()==ACTION_STATE_ATTACK){
 
-					//ºó³·¶¯×÷
+					//ï¿½ó³·¶ï¿½ï¿½ï¿½
 					if(_isCanSkill1 && abs(sp.x)<32){
 						this->stepBack();
 						return;
@@ -1376,7 +1376,7 @@ void Hero::AI_Naruto(){
 	_mainTarget=NULL;
 	this->findEnemy2("Hero");
 
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear03);
@@ -1402,7 +1402,7 @@ void Hero::AI_Naruto(){
 		}
 	};
 	
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -1439,12 +1439,12 @@ void Hero::AI_Naruto(){
 				this->attack(OUGIS2);
 				return;
 			}else if(_isCanSkill2 && !_isBati){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				this->changeSide(sp);
 				this->attack(SKILL2);
 				return;
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isBati && !_isControled){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -1454,7 +1454,7 @@ void Hero::AI_Naruto(){
 				}
 			}else if(abs(sp.x)<128){
 
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				if(abs(sp.x)> 96 || abs(sp.y)> 32){
 					moveDirection =ccpNormalize(sp);
 					this->walk(moveDirection);
@@ -1487,7 +1487,7 @@ void Hero::AI_Naruto(){
 			
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	
 	_mainTarget=NULL;
 	if(!this->findEnemy2("Flog")){
@@ -1513,7 +1513,7 @@ void Hero::AI_Naruto(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(_isCanSkill2 && !_isBati){
 				this->changeSide(sp);
 				this->attack(SKILL2);
@@ -1542,7 +1542,7 @@ void Hero::AI_SageNaruto(){
 	_mainTarget=NULL;
 	this->findEnemy2("Hero");
 
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear03);
@@ -1568,7 +1568,7 @@ void Hero::AI_SageNaruto(){
 	};
 	
 	
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -1606,7 +1606,7 @@ void Hero::AI_SageNaruto(){
 				this->attack(OUGIS2);
 				return;
 			}else if(_isCanSkill2 && !_isBati){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				this->changeSide(sp);
 				this->attack(SKILL2);
 				return;
@@ -1615,7 +1615,7 @@ void Hero::AI_SageNaruto(){
 				this->attack(SKILL3);
 				return;
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isBati && !_isControled){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -1625,7 +1625,7 @@ void Hero::AI_SageNaruto(){
 				}
 			}else if(abs(sp.x)<128){
 
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				if(abs(sp.x)> 96 || abs(sp.y)> 32){				
 					moveDirection =ccpNormalize(sp);
 					this->walk(moveDirection);
@@ -1652,7 +1652,7 @@ void Hero::AI_SageNaruto(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_mainTarget=NULL;
 		if(!this->findEnemy2("Flog")){
 			this->findEnemy2("Tower");
@@ -1677,7 +1677,7 @@ void Hero::AI_SageNaruto(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(_isCanSkill2 && !_isBati){
 				this->changeSide(sp);
 				this->attack(SKILL2);
@@ -1710,7 +1710,7 @@ void Hero::AI_RikudoNaruto(){
 	_mainTarget=NULL;
 	this->findEnemy2("Hero");
 
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear03);
@@ -1738,7 +1738,7 @@ void Hero::AI_RikudoNaruto(){
 	};
 
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -1776,7 +1776,7 @@ void Hero::AI_RikudoNaruto(){
 				this->attack(OUGIS2);
 				return;
 			}else if(_isCanSkill2 && !_isBati){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				this->changeSide(sp);
 				this->attack(SKILL2);
 				return;
@@ -1792,7 +1792,7 @@ void Hero::AI_RikudoNaruto(){
 			}else if(_isCanGear03){
 				this->useGear(gear03);
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isBati && !_isControled){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -1802,7 +1802,7 @@ void Hero::AI_RikudoNaruto(){
 				}
 			}else if(abs(sp.x)<128){
 
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				if(abs(sp.x)> 32 || abs(sp.y)> 32){	
 					moveDirection =ccpNormalize(sp);
 					this->walk(moveDirection);
@@ -1821,7 +1821,7 @@ void Hero::AI_RikudoNaruto(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_mainTarget=NULL;
 		if(!this->findEnemy2("Flog")){
 			this->findEnemy2("Tower");
@@ -1846,7 +1846,7 @@ void Hero::AI_RikudoNaruto(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(_isCanSkill1  && !_isBati && strcmp(_mainTarget->getRole()->getCString(),"Flog")==0){
 				this->changeSide(sp);
 				this->attack(SKILL1);
@@ -1891,7 +1891,7 @@ void Hero::AI_Asuma(){
 				this->useGear(gear06);
 		}
 	}
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear06);
@@ -1915,7 +1915,7 @@ void Hero::AI_Asuma(){
 	};
 
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -1952,7 +1952,7 @@ void Hero::AI_Asuma(){
 				this->attack(OUGIS1);
 				return;
 			}else if(_isCanSkill3 && _mainTarget->getGP()<5000){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				if((abs(sp.x)> 96 || abs(sp.y)> 32) ){
 					moveDirection =ccpNormalize(sp);
 					this->walk(moveDirection);
@@ -1962,7 +1962,7 @@ void Hero::AI_Asuma(){
 				this->attack(SKILL3);
 				return;
 			}else if(_isCanSkill2 && _mainTarget->getGP()<5000){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				if((abs(sp.x)> 96 || abs(sp.y)> 32) ){
 					moveDirection =ccpNormalize(sp);
 					this->walk(moveDirection);
@@ -1972,7 +1972,7 @@ void Hero::AI_Asuma(){
 				this->attack(SKILL2);
 				return;
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isControled){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -1982,7 +1982,7 @@ void Hero::AI_Asuma(){
 				}
 			}else if(abs(sp.x)<128){
 
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				if(abs(sp.x)> 96 || abs(sp.y)> 32){
 					moveDirection =ccpNormalize(sp);
 					this->walk(moveDirection);
@@ -2012,7 +2012,7 @@ void Hero::AI_Asuma(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_mainTarget=NULL;
 		if(!this->findEnemy2("Flog")){
 			this->findEnemy2("Tower");
@@ -2037,7 +2037,7 @@ void Hero::AI_Asuma(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(_isCanSkill2 && strcmp(_mainTarget->getRole()->getCString(),"Flog")==0 && isBaseDanger){
 				this->changeSide(sp);
 				this->attack(SKILL2);
@@ -2080,7 +2080,7 @@ void Hero::AI_Kakashi(){
 				this->useGear(gear06);
 		}
 	}
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear06);
@@ -2104,7 +2104,7 @@ void Hero::AI_Kakashi(){
 	};
 	
 	
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -2137,17 +2137,17 @@ void Hero::AI_Kakashi(){
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
 			
 			if(_isCanSkill3){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				this->changeSide(sp);
 				this->attack(SKILL3);
 				return;
 			}else if(_isCanSkill2 && _mainTarget->getGP()<5000){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				this->changeSide(sp);
 				this->attack(SKILL2);
 				return;
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isControled){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -2157,7 +2157,7 @@ void Hero::AI_Kakashi(){
 				}
 			}else if(abs(sp.x)<128){
 	
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				if((abs(sp.x)> 64 || abs(sp.y)> 32 ) ){
 					moveDirection =ccpNormalize(sp);
 					this->walk(moveDirection);
@@ -2186,7 +2186,7 @@ void Hero::AI_Kakashi(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_mainTarget=NULL;
 	if(!this->findEnemy2("Flog")){
 		this->findEnemy2("Tower");
@@ -2211,7 +2211,7 @@ void Hero::AI_Kakashi(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(_isCanSkill3 && strcmp(_mainTarget->getRole()->getCString(),"Flog")==0){
 				this->changeSide(sp);
 				this->attack(SKILL3);
@@ -2247,7 +2247,7 @@ void Hero::AI_Konan(){
 	this->findEnemy2("Hero");
 
 
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear03);
@@ -2272,7 +2272,7 @@ void Hero::AI_Konan(){
 	};
 	
 	
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -2305,7 +2305,7 @@ void Hero::AI_Konan(){
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK ){
 			
 			if(_isCanSkill1 && !_isBati){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				this->changeSide(sp);
 				this->attack(SKILL1);
 				return;
@@ -2329,7 +2329,7 @@ void Hero::AI_Konan(){
 				&& (_isCanSkill3 || _isCanSkill2)  &&
 				_mainTarget->getActionState()!=ACTION_STATE_KOCKDOWN
 				){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 			
 				if((abs(sp.x)> 128 || abs(sp.y)> 16)){
 					moveDirection =ccpNormalize(sp);
@@ -2351,7 +2351,7 @@ void Hero::AI_Konan(){
 				return;
 		
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isControled){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -2361,7 +2361,7 @@ void Hero::AI_Konan(){
 				}
 			}else if(abs(sp.x)<128){
 
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				if((abs(sp.x)> 8 || abs(sp.y)> 8) && _isBati){
 					moveDirection =ccpNormalize(sp);
 					this->walk(moveDirection);
@@ -2397,7 +2397,7 @@ void Hero::AI_Konan(){
 			}
 		}
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_mainTarget=NULL;
 		if(!this->findEnemy2("Flog")){
 			this->findEnemy2("Tower");
@@ -2428,7 +2428,7 @@ void Hero::AI_Konan(){
 			if(_isCanGear03){
 				this->useGear(gear03);
 			}
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(_isCanOugis1  && !_isControled && !_isBati 
 				&& strcmp(_mainTarget->getRole()->getCString(),"Flog")==0 && isBaseDanger){
 				this->changeSide(sp);
@@ -2464,7 +2464,7 @@ void Hero::AI_Deidara(){
 	_mainTarget=NULL;
 	this->findEnemy2("Hero");
 
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear00);
@@ -2528,7 +2528,7 @@ void Hero::AI_Deidara(){
 				this->attack(OUGIS1);
 				return;
 			}else if(_isCanSkill3 && _mainTarget->getGP()<5000  &&!_isBati){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				if(abs(sp.x)> 64  || abs(sp.y)> 16){
 					if(_isCanGear00){
 						this->useGear(gear00);
@@ -2546,7 +2546,7 @@ void Hero::AI_Deidara(){
 				this->attack(SKILL2);
 				return;
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isControled){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160 ){
 					this->stepBack();
 					return;
@@ -2569,7 +2569,7 @@ void Hero::AI_Deidara(){
 
 			}else if(abs(sp.x)<128){
 
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				if( (abs(sp.x)> 8  || abs(sp.y)> 8) && _isBati){
 					moveDirection =ccpNormalize(sp);
 					this->walk(moveDirection);
@@ -2592,7 +2592,7 @@ void Hero::AI_Deidara(){
 
 	}
 	
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(battleCondiction>=0){
 		_mainTarget=NULL;
 		if(!this->findEnemy2("Flog")){
@@ -2622,7 +2622,7 @@ void Hero::AI_Deidara(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(strcmp(_mainTarget->getRole()->getCString(),"Tower")==0 &&
 				_isCanOugis2 &&
 				!_isControled && _delegate->_isOugis2Game 
@@ -2680,7 +2680,7 @@ void Hero::AI_Ino(){
 		}
 	}
 
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear06);
@@ -2705,7 +2705,7 @@ void Hero::AI_Ino(){
 
 
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -2758,7 +2758,7 @@ void Hero::AI_Ino(){
 				return;
 			}else if( _mainTarget->getGP()<5000 
 				&& (_isCanSkill3 || _isCanSkill2) ){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 
 				if(abs(sp.x)> 96  || abs(sp.y)> 16){
 					moveDirection =ccpNormalize(sp);
@@ -2776,7 +2776,7 @@ void Hero::AI_Ino(){
 
 				return;
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isControled){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -2786,7 +2786,7 @@ void Hero::AI_Ino(){
 				}
 			}else if(abs(sp.x)<128){
 
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 			    if(abs(sp.x)> 32  || abs(sp.y)> 32 ){
 					moveDirection =ccpNormalize(sp);
 					this->walk(moveDirection);
@@ -2811,7 +2811,7 @@ void Hero::AI_Ino(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_mainTarget=NULL;
 		if(!this->findEnemy2("Flog")){
 			this->findEnemy2("Tower");
@@ -2836,7 +2836,7 @@ void Hero::AI_Ino(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(strcmp(_mainTarget->getRole()->getCString(),"Flog")==0 && _isCanSkill1 ){
 				this->changeSide(sp);
 				this->attack(SKILL1);
@@ -2872,7 +2872,7 @@ void Hero::AI_Sai(){
 		}
 	}
 
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear06);
@@ -2896,7 +2896,7 @@ void Hero::AI_Sai(){
 	};
 	
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -2946,7 +2946,7 @@ void Hero::AI_Sai(){
 				}
 				return;
 			}else if(_isCanSkill3 && _mainTarget->getGP()<5000  &&!_isBati){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 		
 				if(abs(sp.x)> 64  || abs(sp.y)> 16){
 					moveDirection =ccpNormalize(sp);
@@ -2971,7 +2971,7 @@ void Hero::AI_Sai(){
 				return;
 
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isControled){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -2993,7 +2993,7 @@ void Hero::AI_Sai(){
 				return;
 			}else if(abs(sp.x) <128){
 
-				//½»Õ½²ßÂÔ			
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½			
 				if( (abs(sp.x)> 8  || abs(sp.y)> 8) && _isBati){
 					moveDirection =ccpNormalize(sp);
 					this->walk(moveDirection);
@@ -3014,7 +3014,7 @@ void Hero::AI_Sai(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_mainTarget=NULL;
 		if(!this->findEnemy2("Flog")){
 			this->findEnemy2("Tower");
@@ -3039,7 +3039,7 @@ void Hero::AI_Sai(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(strcmp(_mainTarget->getRole()->getCString(),"Flog")==0 && _isCanSkill1 && !_isBati){
 				this->changeSide(sp);
 				this->attack(SKILL1);
@@ -3072,7 +3072,7 @@ void Hero::AI_Sakura(){
 	this->findEnemy2("Hero");
 
 	
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear00);
@@ -3142,7 +3142,7 @@ void Hero::AI_Sakura(){
 				this->attack(OUGIS1);
 				return;
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isControled){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160 ){
 					this->stepBack();
 					return;
@@ -3151,12 +3151,12 @@ void Hero::AI_Sakura(){
 					return;
 				}
 			}else if(this->getHpPercent()<0.9 && _isCanSkill1){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				this->attack(SKILL1);
 				return;
 			}else if(abs(sp.x) <128){
 
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				if((abs(sp.x)> 64 || abs(sp.y)> 32) && (!_isCanSkill2 ||  _mainTarget->getGP()<5000) ){
 					moveDirection =ccpNormalize(sp);
 					this->walk(moveDirection);
@@ -3183,7 +3183,7 @@ void Hero::AI_Sakura(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(battleCondiction>=0){
 		_mainTarget=NULL;
 		if(!this->findEnemy2("Flog")){
@@ -3337,7 +3337,7 @@ void Hero::AI_Tenten(){
 	_mainTarget=NULL;
 	this->findEnemy2("Hero");
 
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear00);
@@ -3365,7 +3365,7 @@ void Hero::AI_Tenten(){
 	};
 
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -3433,7 +3433,7 @@ void Hero::AI_Tenten(){
 				
 				return;
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_skillChangeBuffValue && !_isControled ){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160 ){
 					this->stepBack();
 					return;
@@ -3445,7 +3445,7 @@ void Hero::AI_Tenten(){
 				}
 			}else if(abs(sp.x) <128){
 
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 
 				if((abs(sp.x)> 96  || abs(sp.y)> 16) && !_skillChangeBuffValue  ) {
 					moveDirection =ccpNormalize(sp);
@@ -3478,7 +3478,7 @@ void Hero::AI_Tenten(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		_mainTarget=NULL;
 		if(!this->findEnemy2("Flog")){
 			this->findEnemy2("Tower");
@@ -3503,7 +3503,7 @@ void Hero::AI_Tenten(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(strcmp(_mainTarget->getRole()->getCString(),"Flog")==0 && _isCanSkill1){
 				this->changeSide(sp);
 				this->attack(SKILL1);
@@ -3548,7 +3548,7 @@ void Hero::AI_Itachi(){
 				this->useGear(gear06);
 		}
 	}
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear06);
@@ -3574,7 +3574,7 @@ void Hero::AI_Itachi(){
 		}
 	};
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -3631,7 +3631,7 @@ void Hero::AI_Itachi(){
 
 				return;
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isBati && !_isControled){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -3644,7 +3644,7 @@ void Hero::AI_Itachi(){
 
 			}else if(abs(sp.x)<128 || _isBati){
 
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				 if( abs(sp.x)> 196 || abs(sp.y)> 64){
 					moveDirection =ccpNormalize(sp);
 					this->walk(moveDirection);
@@ -3674,7 +3674,7 @@ void Hero::AI_Itachi(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_mainTarget=NULL;
 	if(!this->findEnemy2("Flog")){
 		this->findEnemy2("Tower");
@@ -3699,7 +3699,7 @@ void Hero::AI_Itachi(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(_isCanSkill3 && !_isBati 
 				&& strcmp(_mainTarget->getRole()->getCString(),"Flog")==0 && isBaseDanger){
 					this->changeSide(sp);
@@ -3748,7 +3748,7 @@ void Hero::AI_Jiraiya(){
 		}
 	}
 
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear06);
@@ -3772,7 +3772,7 @@ void Hero::AI_Jiraiya(){
 	};
 
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -3806,7 +3806,7 @@ void Hero::AI_Jiraiya(){
 			
 			
 			if(_isCanOugis2 && !_isControled && _delegate->_isOugis2Game ){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				this->changeSide(sp);
 			
 				this->attack(OUGIS2);
@@ -3816,7 +3816,7 @@ void Hero::AI_Jiraiya(){
 				this->attack(SKILL2);
 				return;
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isControled){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -3829,7 +3829,7 @@ void Hero::AI_Jiraiya(){
 
 			}else if(abs(sp.x)<128){
 
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				if(abs(sp.x)> 32 || abs(sp.y)>32){
 					moveDirection =ccpNormalize(sp);
 					this->walk(moveDirection);
@@ -3855,7 +3855,7 @@ void Hero::AI_Jiraiya(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_mainTarget=NULL;
 		if(!this->findEnemy2("Flog")){
 			this->findEnemy2("Tower");
@@ -3880,7 +3880,7 @@ void Hero::AI_Jiraiya(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(_isCanSkill3 && strcmp(_mainTarget->getRole()->getCString(),"Flog")==0 && isBaseDanger){
 				this->changeSide(sp);
 				this->attack(SKILL3);
@@ -3923,7 +3923,7 @@ void Hero::AI_SageJiraiya(){
 		}
 	}
 
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear06);
@@ -3947,7 +3947,7 @@ void Hero::AI_SageJiraiya(){
 	};
 
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -3985,7 +3985,7 @@ void Hero::AI_SageJiraiya(){
 				this->attack(SKILL2);
 				return;
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isControled){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -3994,7 +3994,7 @@ void Hero::AI_SageJiraiya(){
 					return;
 				}
 			}else if(abs(sp.x)<128){
-				//½»Õ½²ßÂÔ	
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½	
 				if(abs(sp.x)> 96 || abs(sp.y)> 32 ){
 					moveDirection =ccpNormalize(sp);
 					this->walk(moveDirection);
@@ -4007,7 +4007,7 @@ void Hero::AI_SageJiraiya(){
 				}
 
 				if(_isCanOugis2 && !_isControled && _delegate->_isOugis2Game  && _mainTarget->getGP()<5000){
-					//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+					//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 					this->changeSide(sp);	
 					this->attack(OUGIS2);
 					return;
@@ -4044,7 +4044,7 @@ void Hero::AI_SageJiraiya(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_mainTarget=NULL;
 		if(!this->findEnemy2("Flog")){
 			this->findEnemy2("Tower");
@@ -4068,7 +4068,7 @@ void Hero::AI_SageJiraiya(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(_isCanSkill3 && strcmp(_mainTarget->getRole()->getCString(),"Flog")==0 && isBaseDanger){
 				this->changeSide(sp);
 				this->attack(SKILL3);
@@ -4103,7 +4103,7 @@ void Hero::AI_Suigetsu(){
 
 
 
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear00);
@@ -4130,7 +4130,7 @@ void Hero::AI_Suigetsu(){
 	};
 
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -4201,12 +4201,12 @@ void Hero::AI_Suigetsu(){
 				return;
 
 			}else if(_isCanSkill3 && _mainTarget->getGP()<5000 && !_isBati && !_skillChangeBuffValue){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				this->changeSide(sp);
 				this->attack(SKILL3);
 				return;
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isControled){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -4219,7 +4219,7 @@ void Hero::AI_Suigetsu(){
 
 			}else if(abs(sp.x)<128){
 
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				if(abs(sp.x)> 96  || abs(sp.y)> 32){
 					moveDirection =ccpNormalize(sp);
 					this->walk(moveDirection);
@@ -4247,7 +4247,7 @@ void Hero::AI_Suigetsu(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_mainTarget=NULL;
 		if(!this->findEnemy2("Flog")){
 			this->findEnemy2("Tower");
@@ -4272,7 +4272,7 @@ void Hero::AI_Suigetsu(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(strcmp(_mainTarget->getRole()->getCString(),"Flog")==0 && _isCanSkill1 && !_isBati){
 				this->changeSide(sp);
 				this->attack(SKILL1);
@@ -4302,7 +4302,7 @@ void Hero::AI_Tsunade(){
 	_mainTarget=NULL;
 	this->findEnemy2("Hero");
 
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear03);
@@ -4327,7 +4327,7 @@ void Hero::AI_Tsunade(){
 	};
 
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -4358,7 +4358,7 @@ void Hero::AI_Tsunade(){
 			sp=ccpSub(_mainTarget->getPosition(),this->getPosition());
 		}
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK ){
-			//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 			if(_isCanOugis2 && !_isControled && _delegate->_isOugis2Game && _mainTarget->getGP()<5000  &&!_isBati){
 
 				if(abs(sp.x)> 64  || abs(sp.y)> 16){
@@ -4380,7 +4380,7 @@ void Hero::AI_Tsunade(){
 				return;
 
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isControled && !_isBati){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160 ){
 					this->stepBack();
 					return;
@@ -4394,7 +4394,7 @@ void Hero::AI_Tsunade(){
 			}else if(abs(sp.x)<128){
 
 
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 
 				if( abs(sp.x)> 64  || abs(sp.y)> 32){
 					moveDirection =ccpNormalize(sp);
@@ -4429,7 +4429,7 @@ void Hero::AI_Tsunade(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_mainTarget=NULL;
 		if(!this->findEnemy2("Flog")){
 			this->findEnemy2("Tower");
@@ -4457,7 +4457,7 @@ void Hero::AI_Tsunade(){
 			if(_isCanGear03){
 				this->useGear(gear03);
 			}
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(strcmp(_mainTarget->getRole()->getCString(),"Flog")==0 && _isCanSkill1 && !_isBati && isBaseDanger ){
 				this->changeSide(sp);
 				this->attack(SKILL1);
@@ -4496,7 +4496,7 @@ void Hero::AI_Sasuke(){
 		}
 	}
 
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear06);
@@ -4522,7 +4522,7 @@ void Hero::AI_Sasuke(){
 		}
 	};
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -4559,7 +4559,7 @@ void Hero::AI_Sasuke(){
 				this->attack(OUGIS2);
 				return;
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isBati && !_isControled){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -4570,13 +4570,13 @@ void Hero::AI_Sasuke(){
 
 				}
 			}else if(_isCanSkill3 && !_isTaunt && !_isBati){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				this->changeSide(sp);
 				this->attack(SKILL3);
 				return;
 			}else if(abs(sp.x)<128){
 
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 
 				if(abs(sp.x)> 96 || abs(sp.y)> 32){
 					moveDirection =ccpNormalize(sp);
@@ -4615,7 +4615,7 @@ void Hero::AI_Sasuke(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_mainTarget=NULL;
 		if(!this->findEnemy2("Flog")){
 			this->findEnemy2("Tower");
@@ -4640,7 +4640,7 @@ void Hero::AI_Sasuke(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(_isCanSkill1  && !_isBati && strcmp(_mainTarget->getRole()->getCString(),"Flog")==0){
 				this->changeSide(sp);
 				this->attack(SKILL1);
@@ -4685,7 +4685,7 @@ void Hero::AI_ImmortalSasuke(){
 		}
 	}
 
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear06);
@@ -4711,7 +4711,7 @@ void Hero::AI_ImmortalSasuke(){
 		}
 	};
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -4744,7 +4744,7 @@ void Hero::AI_ImmortalSasuke(){
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
 
 			if(_isCanOugis1  && !_isControled  && _mainTarget->getGP()<5000 && !_isBati){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				this->changeSide(sp);
 				this->attack(OUGIS1);
 				return;
@@ -4761,7 +4761,7 @@ void Hero::AI_ImmortalSasuke(){
 				this->attack(OUGIS2);
 				return;
 			} else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isBati && !_isControled){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -4773,14 +4773,14 @@ void Hero::AI_ImmortalSasuke(){
 				}
 
 			}else if(_isCanSkill3 && !_isBati && !_isTaunt){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				this->changeSide(sp);
 				this->attack(SKILL3);
 				return;
 			}else if(abs(sp.x)<128 || _isBati){
 
 				
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				if( abs(sp.x)> 196 || abs(sp.y)> 64){
 					moveDirection =ccpNormalize(sp);
 					this->walk(moveDirection);
@@ -4813,7 +4813,7 @@ void Hero::AI_ImmortalSasuke(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_mainTarget=NULL;
 		if(!this->findEnemy2("Flog")){
 			this->findEnemy2("Tower");
@@ -4838,7 +4838,7 @@ void Hero::AI_ImmortalSasuke(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(_isCanSkill1   && !_isBati && strcmp(_mainTarget->getRole()->getCString(),"Flog")==0){
 				this->changeSide(sp);
 				this->attack(SKILL1);
@@ -4879,7 +4879,7 @@ void Hero::AI_Kankuro(){
 				this->useGear(gear06);
 		}
 	}
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear06);
@@ -4903,7 +4903,7 @@ void Hero::AI_Kankuro(){
 	};
 
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -4957,7 +4957,7 @@ void Hero::AI_Kankuro(){
 
 
 			if(_isCanSkill3){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				this->changeSide(sp);
 				this->attack(SKILL3);
 				return;
@@ -4973,7 +4973,7 @@ void Hero::AI_Kankuro(){
 				this->attack(OUGIS2);
 				return;
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>5000 && !_isHealling && !_isControled){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -4985,7 +4985,7 @@ void Hero::AI_Kankuro(){
 			}else if(abs(sp.x)<128){
 
 				
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 
 				if(abs(sp.x)> 32 || abs(sp.y)>32){
 					moveDirection =ccpNormalize(sp);
@@ -5002,7 +5002,7 @@ void Hero::AI_Kankuro(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_mainTarget=NULL;
 		if(!this->findEnemy2("Flog")){
 			this->findEnemy2("Tower");
@@ -5027,7 +5027,7 @@ void Hero::AI_Kankuro(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(_isCanOugis1  && !_isControled && !isFound2){
 				this->changeSide(sp);	
 				this->attack(OUGIS1);
@@ -5071,7 +5071,7 @@ void Hero::AI_Chiyo(){
 				this->useGear(gear06);
 		}
 	}
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear06);
@@ -5095,7 +5095,7 @@ void Hero::AI_Chiyo(){
 	};
 
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -5183,7 +5183,7 @@ void Hero::AI_Chiyo(){
 				this->attack(SKILL1);
 				return;
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>5000 && !_isHealling && !_isControled){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -5195,7 +5195,7 @@ void Hero::AI_Chiyo(){
 			}else if(abs(sp.x)<128){
 
 
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 
 				if(abs(sp.x)> 32 || abs(sp.y)>32){
 					moveDirection =ccpNormalize(sp);
@@ -5212,7 +5212,7 @@ void Hero::AI_Chiyo(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_mainTarget=NULL;
 	if(!this->findEnemy2("Flog")){
 		this->findEnemy2("Tower");
@@ -5237,7 +5237,7 @@ void Hero::AI_Chiyo(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(_isCanSkill1 && ! isFound1){
 				this->attack(SKILL1);
 			}else{
@@ -5325,7 +5325,7 @@ void Hero::AI_Kakuzu(){
 	this->findEnemy2("Hero");
 
 	
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear03);
@@ -5349,7 +5349,7 @@ void Hero::AI_Kakuzu(){
 	};
 
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -5389,7 +5389,7 @@ void Hero::AI_Kakuzu(){
 	
 
 			if(_isCanSkill3){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				this->changeSide(sp);
 				this->attack(SKILL3);
 				return;
@@ -5412,7 +5412,7 @@ void Hero::AI_Kakuzu(){
 				this->attack(SKILL2);		
 				return;
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>5000 && !_isHealling && !_isControled){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -5424,7 +5424,7 @@ void Hero::AI_Kakuzu(){
 			}else if(abs(sp.x)<128){
 
 				
-				//½»Õ½²ßÂÔ	
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½	
 				if(abs(sp.x)> 32 || abs(sp.y)> 32){
 					moveDirection =ccpNormalize(sp);
 					this->walk(moveDirection);
@@ -5441,7 +5441,7 @@ void Hero::AI_Kakuzu(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	
 	if(!this->findEnemy2("Flog")){
 		this->findEnemy2("Tower");
@@ -5466,7 +5466,7 @@ void Hero::AI_Kakuzu(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(_isCanOugis1  && !_isControled && !isSummonAble){
 				this->changeSide(sp);
 				this->attack(OUGIS1);
@@ -5497,7 +5497,7 @@ void Hero::AI_Shikamaru(){
 
 
 
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear00);
@@ -5525,7 +5525,7 @@ void Hero::AI_Shikamaru(){
 	};
 
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -5584,7 +5584,7 @@ void Hero::AI_Shikamaru(){
 				return;
 
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isControled){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -5596,7 +5596,7 @@ void Hero::AI_Shikamaru(){
 				}
 
 			}else if(this->getLV()>=2 && _isCanSkill1){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				this->changeSide(sp);
 				this->attack(SKILL1);
 				return;
@@ -5624,7 +5624,7 @@ void Hero::AI_Shikamaru(){
 			}else if(abs(sp.x)<128){
 
 
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				if(abs(sp.x)> 32 || abs(sp.y)>32 ){
 
 					moveDirection =ccpNormalize(sp);
@@ -5642,7 +5642,7 @@ void Hero::AI_Shikamaru(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_mainTarget=NULL;
 	if(!this->findEnemy2("Flog")){
 		this->findEnemy2("Tower");
@@ -5667,7 +5667,7 @@ void Hero::AI_Shikamaru(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(_isCanSkill2 && strcmp(_mainTarget->getRole()->getCString(),"Flog")==0 && isBaseDanger){
 				this->changeSide(sp);
 				this->attack(SKILL2);
@@ -5708,7 +5708,7 @@ void Hero::AI_Gaara(){
 		}
 	}
 
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear06);
@@ -5732,7 +5732,7 @@ void Hero::AI_Gaara(){
 	};
 
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -5774,7 +5774,7 @@ void Hero::AI_Gaara(){
 				this->attack(OUGIS1);
 				return;
 			}else if(_isCanSkill3 && _mainTarget->getGP()<5000  &&!_isBati){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				this->changeSide(sp);
 				this->attack(SKILL3);
 				return;
@@ -5783,7 +5783,7 @@ void Hero::AI_Gaara(){
 				this->attack(SKILL2);
 				return;
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isControled &&!_isBati){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -5793,7 +5793,7 @@ void Hero::AI_Gaara(){
 				}
 			}else if(abs(sp.x)< 128){ 
 
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				if(abs(sp.x)> 32 || abs(sp.y)> 32){
 					moveDirection =ccpNormalize(sp);
 					this->walk(moveDirection);
@@ -5812,7 +5812,7 @@ void Hero::AI_Gaara(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_mainTarget=NULL;
 		if(!this->findEnemy2("Flog")){
 			this->findEnemy2("Tower");
@@ -5837,7 +5837,7 @@ void Hero::AI_Gaara(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(strcmp(_mainTarget->getRole()->getCString(),"Flog")==0 && _isCanSkill1 && !_isBati){
 				this->changeSide(sp);
 				this->attack(SKILL1);
@@ -5871,7 +5871,7 @@ void Hero::AI_Tobirama(){
 				this->useGear(gear06);
 		}
 	}
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear06);
@@ -5895,7 +5895,7 @@ void Hero::AI_Tobirama(){
 	};
 
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -5929,7 +5929,7 @@ void Hero::AI_Tobirama(){
 			
 			if(_isCanOugis2 && !_isControled && _delegate->_isOugis2Game 
 				&& _mainTarget->getGP()<5000){
-					//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+					//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 					this->changeSide(sp);	
 					this->attack(OUGIS2);
 			}else if(_isCanSkill1 && !_mainTarget->_isBati &&(
@@ -5953,7 +5953,7 @@ void Hero::AI_Tobirama(){
 				return;
 
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isControled){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -5966,7 +5966,7 @@ void Hero::AI_Tobirama(){
 
 			}else if(abs(sp.x)<128){ 
 
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 
 				if(abs(sp.x)> 48 || abs(sp.y)> 32){
 					moveDirection =ccpNormalize(sp);
@@ -5991,7 +5991,7 @@ void Hero::AI_Tobirama(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		_mainTarget=NULL;
 		if(!this->findEnemy2("Flog")){
 			this->findEnemy2("Tower");
@@ -6016,7 +6016,7 @@ void Hero::AI_Tobirama(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(_isCanSkill3 && strcmp(_mainTarget->getRole()->getCString(),"Flog")==0 && isBaseDanger){
 				this->changeSide(sp);
 				this->attack(SKILL3);
@@ -6061,7 +6061,7 @@ void Hero::AI_Choji(){
 		}
 	}
 
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear06);
@@ -6086,7 +6086,7 @@ void Hero::AI_Choji(){
 	};
 
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -6119,7 +6119,7 @@ void Hero::AI_Choji(){
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK ){
 
 			if(_isCanSkill1 && !_isBati){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				this->changeSide(sp);
 				this->attack(SKILL1);
 				return;
@@ -6135,7 +6135,7 @@ void Hero::AI_Choji(){
 				return;
 
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isControled && !_isBati){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -6148,7 +6148,7 @@ void Hero::AI_Choji(){
 
 			}else if(abs(sp.x)<128){ 
 
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				if(abs(sp.x)> 32 || abs(sp.y)>32){				
 					moveDirection =ccpNormalize(sp);
 					this->walk(moveDirection);
@@ -6180,7 +6180,7 @@ void Hero::AI_Choji(){
 
 	}
 	
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(battleCondiction>=0){
 		_mainTarget=NULL;
 		if(!this->findEnemy2("Flog")){
@@ -6209,7 +6209,7 @@ void Hero::AI_Choji(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(_isCanSkill2 && !_isBati &&  strcmp(_mainTarget->getRole()->getCString(),"Flog")==0){
 				this->changeSide(sp);
 				this->attack(SKILL2);
@@ -6257,7 +6257,7 @@ void Hero::AI_Karin(){
 				this->useGear(gear06);
 		}
 	}
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear06);
@@ -6281,7 +6281,7 @@ void Hero::AI_Karin(){
 	};
 
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -6333,7 +6333,7 @@ void Hero::AI_Karin(){
 				this->attack(OUGIS1);
 				return;
 			}else if(_isCanSkill3 && _mainTarget->getGP()<5000){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				if((abs(sp.x)> 128 || abs(sp.y)> 16) ){
 					moveDirection =ccpNormalize(sp);
 					this->walk(moveDirection);
@@ -6345,7 +6345,7 @@ void Hero::AI_Karin(){
 				return;
 
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isControled){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160 ){
 					this->stepBack();
 					return;
@@ -6357,7 +6357,7 @@ void Hero::AI_Karin(){
 
 			}else if(abs(sp.x)<128){ 
 				
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 
 				if(abs(sp.x)> 96 || abs(sp.y)> 32){
 					moveDirection =ccpNormalize(sp);
@@ -6387,7 +6387,7 @@ void Hero::AI_Karin(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	
 	if(!this->findEnemy2("Flog")){
 		this->findEnemy2("Tower");
@@ -6412,7 +6412,7 @@ void Hero::AI_Karin(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(_isCanSkill1 && strcmp(_mainTarget->getRole()->getCString(),"Flog")==0 ){
 				this->changeSide(sp);
 				this->attack(SKILL1);
@@ -6453,7 +6453,7 @@ void Hero::AI_Lee(){
 				this->useGear(gear06);
 		}
 	}
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear06);
@@ -6477,7 +6477,7 @@ void Hero::AI_Lee(){
 	};
 
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -6509,12 +6509,12 @@ void Hero::AI_Lee(){
 		}
 		if((_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK ) && abs(sp.x)<128  ){
 			if(_isCanSkill1 && bamen<5){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				this->changeSide(sp);
 				this->attack(SKILL1);
 				return;
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isControled){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -6527,7 +6527,7 @@ void Hero::AI_Lee(){
 
 			}else if(abs(sp.x)<128){ 
 
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				if(abs(sp.x)> 48 || abs(sp.y)> 32 ){
 					moveDirection =ccpNormalize(sp);
 					this->walk(moveDirection);
@@ -6556,7 +6556,7 @@ void Hero::AI_Lee(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_mainTarget=NULL;
 		if(!this->findEnemy2("Flog")){
 			this->findEnemy2("Tower");
@@ -6581,7 +6581,7 @@ void Hero::AI_Lee(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(_isCanSkill2 && strcmp(_mainTarget->getRole()->getCString(),"Flog")==0 ){
 				this->changeSide(sp);
 				this->attack(SKILL2);
@@ -6619,7 +6619,7 @@ void Hero::AI_RockLee(){
 				this->useGear(gear06);
 		}
 	}
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear06);
@@ -6643,7 +6643,7 @@ void Hero::AI_RockLee(){
 	};
 
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -6675,7 +6675,7 @@ void Hero::AI_RockLee(){
 		}
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
 			if(_isCanSkill1 && bamen<5){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				this->changeSide(sp);
 				this->attack(SKILL1);
 				return;
@@ -6691,7 +6691,7 @@ void Hero::AI_RockLee(){
 					this->attack(OUGIS2);
 
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isControled){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -6705,7 +6705,7 @@ void Hero::AI_RockLee(){
 			}else if(abs(sp.x)<128 || bamen>=5){ 
 
 				
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 
 				if(abs(sp.x)> 46 || abs(sp.y)> 32){
 
@@ -6743,7 +6743,7 @@ void Hero::AI_RockLee(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_mainTarget=NULL;
 	if(!this->findEnemy2("Flog")){
 		this->findEnemy2("Tower");
@@ -6768,7 +6768,7 @@ void Hero::AI_RockLee(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(_isCanSkill2 && strcmp(_mainTarget->getRole()->getCString(),"Flog")==0 ){
 				this->changeSide(sp);
 				this->attack(SKILL2);
@@ -6813,7 +6813,7 @@ void Hero::AI_Jugo(){
 		}
 	}
 
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear06);
@@ -6837,7 +6837,7 @@ void Hero::AI_Jugo(){
 	};
 
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -6871,12 +6871,12 @@ void Hero::AI_Jugo(){
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
 
 			if(_isCanSkill3 && _mainTarget->getGP()<5000  && !_skillChangeBuffValue){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				this->changeSide(sp);
 				this->attack(SKILL3);
 				return;
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isControled){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -6888,7 +6888,7 @@ void Hero::AI_Jugo(){
 
 			}else if(abs(sp.x)<128){ 
 
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 
 				if(abs(sp.x)> 96  || abs(sp.y)> 32){
 					moveDirection =ccpNormalize(sp);
@@ -6951,7 +6951,7 @@ void Hero::AI_Jugo(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_mainTarget=NULL;
 		if(!this->findEnemy2("Flog")){
 			this->findEnemy2("Tower");
@@ -6976,7 +6976,7 @@ void Hero::AI_Jugo(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(strcmp(_mainTarget->getRole()->getCString(),"Flog")==0 && _isCanSkill1 && !_skillChangeBuffValue){
 				this->changeSide(sp);
 				this->attack(SKILL1);
@@ -7006,7 +7006,7 @@ void Hero::AI_Kisame(){
 
 
 
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear00);
@@ -7034,7 +7034,7 @@ void Hero::AI_Kisame(){
 	};
 
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -7100,7 +7100,7 @@ void Hero::AI_Kisame(){
 				return;
 
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isControled && !_skillChangeBuffValue){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -7117,7 +7117,7 @@ void Hero::AI_Kisame(){
 					this->walk(moveDirection);
 					return;
 				}
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				this->changeSide(sp);
 				this->attack(SKILL3);
 				return;
@@ -7136,7 +7136,7 @@ void Hero::AI_Kisame(){
 			}else if(abs(sp.x)<128){
 
 
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				if(abs(sp.x)> 64 || abs(sp.y)>32 ){
 
 					moveDirection =ccpNormalize(sp);
@@ -7157,7 +7157,7 @@ void Hero::AI_Kisame(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_mainTarget=NULL;
 	if(!this->findEnemy2("Flog")){
 		this->findEnemy2("Tower");
@@ -7182,7 +7182,7 @@ void Hero::AI_Kisame(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(_isCanSkill2 && strcmp(_mainTarget->getRole()->getCString(),"Flog")==0 && isBaseDanger){
 				this->changeSide(sp);
 				this->attack(SKILL2);
@@ -7281,7 +7281,7 @@ void Hero::AI_Hidan(){
 				this->useGear(gear06);
 		}
 	}
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear06);
@@ -7305,7 +7305,7 @@ void Hero::AI_Hidan(){
 	};
 
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled && !_isBati  && !_isFound){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -7352,7 +7352,7 @@ void Hero::AI_Hidan(){
 				this->attack(OUGIS2);
 				return;
 			}else if(_isCanSkill2 && _mainTarget->getGP()<5000 && !_isBati ){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				
 				if(abs(sp.x)> 56 || abs(sp.y)> 32){
 					moveDirection =ccpNormalize(sp);
@@ -7365,7 +7365,7 @@ void Hero::AI_Hidan(){
 				return;
 
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isControled && !_isBati && !_isFound){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -7378,7 +7378,7 @@ void Hero::AI_Hidan(){
 
 			}else if(abs(sp.x)<128){ 
 
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				if((abs(sp.x)> 48 || abs(sp.y)> 32) && !_isBati){
 					moveDirection =ccpNormalize(sp);
 					this->walk(moveDirection);
@@ -7408,7 +7408,7 @@ void Hero::AI_Hidan(){
 	
 
 
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(!_mainTarget && !_isFound && !_isBati){
 		if(!this->findEnemy2("Flog")){
 			this->findEnemy2("Tower");
@@ -7433,7 +7433,7 @@ void Hero::AI_Hidan(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(_isCanSkill3 && strcmp(_mainTarget->getRole()->getCString(),"Flog")==0 && isBaseDanger && !_isBati){
 				this->changeSide(sp);
 				this->attack(SKILL3);
@@ -7473,7 +7473,7 @@ void Hero::AI_Tobi(){
 
 
 
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear03);
@@ -7498,7 +7498,7 @@ void Hero::AI_Tobi(){
 	};
 
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -7551,12 +7551,12 @@ void Hero::AI_Tobi(){
 				this->attack(OUGIS1);
 				return;
 			}else if(_isCanSkill3 && !_skillChangeBuffValue){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				this->changeSide(sp);
 				this->attack(SKILL3);
 				return;
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isControled && !_skillChangeBuffValue){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -7568,7 +7568,7 @@ void Hero::AI_Tobi(){
 				}
 
 			}else if(abs(sp.x)<128){ 
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 
 				if(abs(sp.x)> 64 || abs(sp.y)> 32 ){
 					
@@ -7610,7 +7610,7 @@ void Hero::AI_Tobi(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_mainTarget=NULL;
 		if(!this->findEnemy2("Flog")){
 			this->findEnemy2("Tower");
@@ -7635,7 +7635,7 @@ void Hero::AI_Tobi(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(_isCanSkill2 && strcmp(_mainTarget->getRole()->getCString(),"Flog")==0 && isBaseDanger){
 				this->changeSide(sp);
 				this->attack(SKILL2);
@@ -7673,7 +7673,7 @@ void Hero::AI_Shino(){
 	_mainTarget=NULL;
 	this->findEnemy2("Hero");
 
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear00);
@@ -7701,7 +7701,7 @@ void Hero::AI_Shino(){
 	};
 
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -7771,7 +7771,7 @@ void Hero::AI_Shino(){
 				this->attack(OUGIS1);
 
 			}else if(_isCanSkill2 && _mainTarget->getGP()<5000){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				this->changeSide(sp);
 				this->attack(SKILL2);
 				return;
@@ -7793,7 +7793,7 @@ void Hero::AI_Shino(){
 				} 
 				return;
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isControled){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -7819,7 +7819,7 @@ void Hero::AI_Shino(){
 						this->setItem(Item1);					
 				}
 
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				if( (abs(sp.x)> 32 || abs(sp.y)>32 ) && !_skillChangeBuffValue){	
 					moveDirection =ccpNormalize(sp);
 					this->walk(moveDirection);
@@ -7834,7 +7834,7 @@ void Hero::AI_Shino(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_mainTarget=NULL;
 		if(!this->findEnemy2("Flog")){
 			this->findEnemy2("Tower");
@@ -7859,7 +7859,7 @@ void Hero::AI_Shino(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(_isCanSkill3 && strcmp(_mainTarget->getRole()->getCString(),"Flog")==0 && isBaseDanger){
 				this->changeSide(sp);
 				this->attack(SKILL3);
@@ -7900,7 +7900,7 @@ void Hero::AI_Hiruzen(){
 	this->findEnemy2("Hero");
 
 	
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear00);
@@ -7927,7 +7927,7 @@ void Hero::AI_Hiruzen(){
 	};
 
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -7998,12 +7998,12 @@ void Hero::AI_Hiruzen(){
 				return;
 
 			}else if(_isCanSkill3 && _mainTarget->getGP()<5000 && !_isBati && !_skillChangeBuffValue){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				this->changeSide(sp);
 				this->attack(SKILL3);
 				return;
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isControled){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -8014,7 +8014,7 @@ void Hero::AI_Hiruzen(){
 				}
 			}else if(abs(sp.x)<128){ 
 
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				if(abs(sp.x)> 96  || abs(sp.y)> 32){		
 					moveDirection =ccpNormalize(sp);
 					this->walk(moveDirection);
@@ -8055,7 +8055,7 @@ void Hero::AI_Hiruzen(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_mainTarget=NULL;
 		if(!this->findEnemy2("Flog")){
 			this->findEnemy2("Tower");
@@ -8080,7 +8080,7 @@ void Hero::AI_Hiruzen(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(strcmp(_mainTarget->getRole()->getCString(),"Flog")==0 && _isCanSkill1 && !_isBati){
 				this->changeSide(sp);
 				this->attack(SKILL1);
@@ -8114,7 +8114,7 @@ void Hero::AI_Kiba(){
 	this->findEnemy2("Hero");
 
 
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear00);
@@ -8176,11 +8176,11 @@ void Hero::AI_Kiba(){
 				this->attack(OUGIS1);
 				return;
 			}else if(_isCanSkill1 && _isBati){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				this->attack(SKILL1);
 				return;
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isControled){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160 ){
 					this->stepBack();
 					return;
@@ -8192,7 +8192,7 @@ void Hero::AI_Kiba(){
 
 			}else if(abs(sp.x)<128){ 
 
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 
 				if(abs(sp.x)> 32 || abs(sp.y)>32){
 					if(_isCanGear00){
@@ -8220,7 +8220,7 @@ void Hero::AI_Kiba(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(battleCondiction>=0){
 		_mainTarget=NULL;
 		if(!this->findEnemy2("Flog")){
@@ -8297,7 +8297,7 @@ void Hero::AI_Minato(){
 				this->useGear(gear06);
 		}
 	}
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear06);
@@ -8351,7 +8351,7 @@ void Hero::AI_Minato(){
 	};
 
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -8422,7 +8422,7 @@ void Hero::AI_Minato(){
 				this->attack(OUGIS1);
 				return;
 			}else if(_isCanSkill2 && _mainTarget->getGP()<5000){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				if(abs(sp.y)> 16){
 					moveDirection =ccpNormalize(sp);
 					this->walk(moveDirection);
@@ -8432,7 +8432,7 @@ void Hero::AI_Minato(){
 				this->attack(SKILL2);
 				return;
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isControled && !_skillChangeBuffValue){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -8444,13 +8444,13 @@ void Hero::AI_Minato(){
 				}
 
 			}else if(_isCanSkill3){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				this->changeSide(sp);
 				this->attack(SKILL3);
 				return;
 			}else{ 
 
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				if(abs(sp.x)> 352  || abs(sp.y)> 128){
 					moveDirection =ccpNormalize(sp);
 					this->walk(moveDirection);
@@ -8471,7 +8471,7 @@ void Hero::AI_Minato(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_mainTarget=NULL;
 		if(!this->findEnemy2("Flog")){
 			this->findEnemy2("Tower");
@@ -8496,7 +8496,7 @@ void Hero::AI_Minato(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(_isCanSkill3 && strcmp(_mainTarget->getRole()->getCString(),"Flog")==0 ){
 				this->changeSide(sp);
 				this->attack(SKILL3);
@@ -8555,7 +8555,7 @@ void Hero::AI_Hinata(){
 
 	
 
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear00);
@@ -8584,7 +8584,7 @@ void Hero::AI_Hinata(){
 	};
 
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -8651,7 +8651,7 @@ void Hero::AI_Hinata(){
 				this->attack(OUGIS1);
 				return;
 			}else if(_isCanSkill1){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				this->changeSide(sp);
 				this->attack(SKILL1);
 				return;
@@ -8678,7 +8678,7 @@ void Hero::AI_Hinata(){
 	
 
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isControled){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -8693,7 +8693,7 @@ void Hero::AI_Hinata(){
 
 				
 
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				if(abs(sp.x)> 32 || abs(sp.y)>32 ){
 					moveDirection =ccpNormalize(sp);
 					this->walk(moveDirection);
@@ -8708,7 +8708,7 @@ void Hero::AI_Hinata(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_mainTarget=NULL;
 		if(!this->findEnemy2("Flog")){
 			this->findEnemy2("Tower");
@@ -8733,7 +8733,7 @@ void Hero::AI_Hinata(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(_isCanSkill2 && strcmp(_mainTarget->getRole()->getCString(),"Flog")==0 && isBaseDanger){
 				this->changeSide(sp);
 				this->attack(SKILL2);
@@ -8771,7 +8771,7 @@ void Hero::AI_Neji(){
 
 
 	
-	//ÈÌ¾ß¹ºÂò
+	//ï¿½Ì¾ß¹ï¿½ï¿½ï¿½
 	if(atoi(this->getCoin()->getCString())>=500 && !_isControled && _delegate->_isHardCoreGame){
 		if(this->getGearArray()->count()==0){
 			this->setGear(gear00);
@@ -8799,7 +8799,7 @@ void Hero::AI_Neji(){
 	};
 
 
-	// ¼ì²â»ùµØ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(isBaseDanger && this->checkBase() && !_isControled){
 		bool needBack=false;
 		if(strcmp("Akatsuki",this->getGroup()->getCString())==0){
@@ -8865,7 +8865,7 @@ void Hero::AI_Neji(){
 				return;
 
 			}else if(enemyCombatPoint>friendCombatPoint && abs(enemyCombatPoint-friendCombatPoint)>3000 && !_isHealling && !_isControled){
-				//±£³Ö¾àÀë
+				//ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½
 				if(abs(sp.x)<160){
 					this->stepBack();
 					return;
@@ -8877,7 +8877,7 @@ void Hero::AI_Neji(){
 				}
 
 			}else if(_isCanSkill1){
-				//ÏÈÊÖÎÞÊÓÕ½¶·Á¦
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				this->changeSide(sp);
 				this->attack(SKILL1);
 				return;
@@ -8899,7 +8899,7 @@ void Hero::AI_Neji(){
 			}else if(abs(sp.x)<128){
 
 				
-				//½»Õ½²ßÂÔ
+				//ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½
 				if(abs(sp.x)> 32 || abs(sp.y)>32 ){
 					
 					moveDirection =ccpNormalize(sp);
@@ -8920,7 +8920,7 @@ void Hero::AI_Neji(){
 		}
 
 	}
-	//ÎÞÍæ¼ÒÇé¿ö
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_mainTarget=NULL;
 		if(!this->findEnemy2("Flog")){
 			this->findEnemy2("Tower");
@@ -8945,7 +8945,7 @@ void Hero::AI_Neji(){
 		}
 
 		if(_actionState==ACTION_STATE_IDLE || _actionState==ACTION_STATE_WALK || _actionState==ACTION_STATE_ATTACK){
-			//¼¼ÄÜÇå±ø
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(_isCanSkill2 && strcmp(_mainTarget->getRole()->getCString(),"Flog")==0 && isBaseDanger){
 				this->changeSide(sp);
 				this->attack(SKILL2);
@@ -8976,6 +8976,7 @@ void Hero::AI_Neji(){
 }
 
 void Hero::AI_Pain(){
+	
 }
 
 

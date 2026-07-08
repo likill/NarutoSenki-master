@@ -6701,7 +6701,12 @@ void ActionManager::attack(abType type){
 	//防止普通攻击刷新 技能类型导致可以攻击塔
 
 	if(strcmp(_role->getCString(),"Player")==0 && type==NAttack){
-		if(!_delegate->getSkillFinish() && !_isOnlySkillLocked){
+		bool canAttack=_delegate->getSkillFinish();
+		if(_delegate && _delegate->_isLocalPvP){
+			HudLayer* ownerHud=_delegate->getHudLayerForAction(this);
+			canAttack=ownerHud ? ownerHud->getSkillFinish() : canAttack;
+		}
+		if(!canAttack && !_isOnlySkillLocked){
 			return;
 		};
 	}
