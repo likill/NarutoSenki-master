@@ -4,6 +4,7 @@
 #include "HudLayer.h"
 #include "StartMenu.h"
 #include "LocalPvPResolution.h"
+#include "KeyConfigManager.h"
 
 int CError=0;
 
@@ -1151,24 +1152,29 @@ bool GameLayer::handleKeyboard(unsigned int keyCode,bool isPressed){
 		this->activatePlayerControl(player1,_p1HudLayer);
 	}
 
-	switch(keyCode){
-	case 'W':
+	KeyConfigManager* kcm = KeyConfigManager::getInstance();
+
+	if(keyCode == kcm->getKeyCode(1, KeyAction_MoveUp)){
 		_keyMoveUp=isPressed;
 		this->updateKeyboardMove();
 		return true;
-	case 'S':
+	}
+	if(keyCode == kcm->getKeyCode(1, KeyAction_MoveDown)){
 		_keyMoveDown=isPressed;
 		this->updateKeyboardMove();
 		return true;
-	case 'A':
+	}
+	if(keyCode == kcm->getKeyCode(1, KeyAction_MoveLeft)){
 		_keyMoveLeft=isPressed;
 		this->updateKeyboardMove();
 		return true;
-	case 'D':
+	}
+	if(keyCode == kcm->getKeyCode(1, KeyAction_MoveRight)){
 		_keyMoveRight=isPressed;
 		this->updateKeyboardMove();
 		return true;
-	case 'J':
+	}
+	if(keyCode == kcm->getKeyCode(1, KeyAction_Attack)){
 		if(isPressed){
 			if(!_keyAttack){
 				_keyAttack=true;
@@ -1179,7 +1185,8 @@ bool GameLayer::handleKeyboard(unsigned int keyCode,bool isPressed){
 			this->attackButtonRelease();
 		}
 		return true;
-	case 'K':
+	}
+	if(keyCode == kcm->getKeyCode(1, KeyAction_Skill1)){
 		if(isPressed){
 			if(!_keySkill1){
 				_keySkill1=true;
@@ -1189,7 +1196,8 @@ bool GameLayer::handleKeyboard(unsigned int keyCode,bool isPressed){
 			_keySkill1=false;
 		}
 		return true;
-	case 'L':
+	}
+	if(keyCode == kcm->getKeyCode(1, KeyAction_Skill2)){
 		if(isPressed){
 			if(!_keySkill2){
 				_keySkill2=true;
@@ -1199,7 +1207,8 @@ bool GameLayer::handleKeyboard(unsigned int keyCode,bool isPressed){
 			_keySkill2=false;
 		}
 		return true;
-	case 'U':
+	}
+	if(keyCode == kcm->getKeyCode(1, KeyAction_Skill3)){
 		if(isPressed){
 			if(!_keySkill3){
 				_keySkill3=true;
@@ -1209,7 +1218,8 @@ bool GameLayer::handleKeyboard(unsigned int keyCode,bool isPressed){
 			_keySkill3=false;
 		}
 		return true;
-	case 'I':
+	}
+	if(keyCode == kcm->getKeyCode(1, KeyAction_Skill4)){
 		if(isPressed){
 			if(!_keySkill4){
 				_keySkill4=true;
@@ -1219,7 +1229,8 @@ bool GameLayer::handleKeyboard(unsigned int keyCode,bool isPressed){
 			_keySkill4=false;
 		}
 		return true;
-	case 'O':
+	}
+	if(keyCode == kcm->getKeyCode(1, KeyAction_Skill5)){
 		if(isPressed){
 			if(!_keySkill5){
 				_keySkill5=true;
@@ -1229,7 +1240,8 @@ bool GameLayer::handleKeyboard(unsigned int keyCode,bool isPressed){
 			_keySkill5=false;
 		}
 		return true;
-	case 'E':
+	}
+	if(keyCode == kcm->getKeyCode(1, KeyAction_Item1)){
 		if(isPressed){
 			if(!_keyItem1){
 				_keyItem1=true;
@@ -1239,7 +1251,8 @@ bool GameLayer::handleKeyboard(unsigned int keyCode,bool isPressed){
 			_keyItem1=false;
 		}
 		return true;
-	case 'F':
+	}
+	if(keyCode == kcm->getKeyCode(1, KeyAction_Gear06)){
 		if(isPressed){
 			if(!_keyGear06){
 				_keyGear06=true;
@@ -1249,7 +1262,8 @@ bool GameLayer::handleKeyboard(unsigned int keyCode,bool isPressed){
 			_keyGear06=false;
 		}
 		return true;
-	case 'R':
+	}
+	if(keyCode == kcm->getKeyCode(1, KeyAction_Gear00)){
 		if(isPressed){
 			if(!_keyGear00){
 				_keyGear00=true;
@@ -1259,7 +1273,8 @@ bool GameLayer::handleKeyboard(unsigned int keyCode,bool isPressed){
 			_keyGear00=false;
 		}
 		return true;
-	case 'T':
+	}
+	if(keyCode == kcm->getKeyCode(1, KeyAction_Gear03)){
 		if(isPressed){
 			if(!_keyGear03){
 				_keyGear03=true;
@@ -1269,19 +1284,21 @@ bool GameLayer::handleKeyboard(unsigned int keyCode,bool isPressed){
 			_keyGear03=false;
 		}
 		return true;
-	case 'G':
+	}
+	// Gear shop and Pause are not configurable
+	if(keyCode == 'G'){
 		if(isPressed && _hudLayer && !_hudLayer->_isAllButtonLocked){
 			this->onGear();
 		}
 		return true;
-	case 'P':
+	}
+	if(keyCode == 'P'){
 		if(isPressed){
 			this->onPause();
 		}
 		return true;
-	default:
-		return false;
 	}
+	return false;
 }
 
 void GameLayer::resetKeyboardControl(){
@@ -1364,25 +1381,30 @@ bool GameLayer::handleKeyboardP2(unsigned int keyCode,bool isPressed){
 		return false;
 	}
 
-	switch(keyCode){
-	case P2_VK_UP:
+	KeyConfigManager* kcm = KeyConfigManager::getInstance();
+
+	// Check configured primary key AND numpad fallback for each action.
+	if(keyCode == kcm->getKeyCode(2, KeyAction_MoveUp)){
 		_p2_keyMoveUp=isPressed;
 		this->updateKeyboardMoveP2();
 		return true;
-	case P2_VK_DOWN:
+	}
+	if(keyCode == kcm->getKeyCode(2, KeyAction_MoveDown)){
 		_p2_keyMoveDown=isPressed;
 		this->updateKeyboardMoveP2();
 		return true;
-	case P2_VK_LEFT:
+	}
+	if(keyCode == kcm->getKeyCode(2, KeyAction_MoveLeft)){
 		_p2_keyMoveLeft=isPressed;
 		this->updateKeyboardMoveP2();
 		return true;
-	case P2_VK_RIGHT:
+	}
+	if(keyCode == kcm->getKeyCode(2, KeyAction_MoveRight)){
 		_p2_keyMoveRight=isPressed;
 		this->updateKeyboardMoveP2();
 		return true;
-	case '0':
-	case P2_VK_NUMPAD0:
+	}
+	if(keyCode == kcm->getKeyCode(2, KeyAction_Attack)){
 		if(isPressed){
 			if(!_p2_keyAttack){
 				_p2_keyAttack=true;
@@ -1394,8 +1416,8 @@ bool GameLayer::handleKeyboardP2(unsigned int keyCode,bool isPressed){
 			this->attackButtonRelease();
 		}
 		return true;
-	case '1':
-	case P2_VK_NUMPAD1:
+	}
+	if(keyCode == kcm->getKeyCode(2, KeyAction_Skill1)){
 		if(isPressed && !_p2_keySkill1){
 			_p2_keySkill1=true;
 			this->clickKeyboardButtonP2(_p2HudLayer ? _p2HudLayer->skill1Button : NULL);
@@ -1403,8 +1425,8 @@ bool GameLayer::handleKeyboardP2(unsigned int keyCode,bool isPressed){
 			_p2_keySkill1=false;
 		}
 		return true;
-	case '2':
-	case P2_VK_NUMPAD2:
+	}
+	if(keyCode == kcm->getKeyCode(2, KeyAction_Skill2)){
 		if(isPressed && !_p2_keySkill2){
 			_p2_keySkill2=true;
 			this->clickKeyboardButtonP2(_p2HudLayer ? _p2HudLayer->skill2Button : NULL);
@@ -1412,8 +1434,8 @@ bool GameLayer::handleKeyboardP2(unsigned int keyCode,bool isPressed){
 			_p2_keySkill2=false;
 		}
 		return true;
-	case '3':
-	case P2_VK_NUMPAD3:
+	}
+	if(keyCode == kcm->getKeyCode(2, KeyAction_Skill3)){
 		if(isPressed && !_p2_keySkill3){
 			_p2_keySkill3=true;
 			this->clickKeyboardButtonP2(_p2HudLayer ? _p2HudLayer->skill3Button : NULL);
@@ -1421,8 +1443,8 @@ bool GameLayer::handleKeyboardP2(unsigned int keyCode,bool isPressed){
 			_p2_keySkill3=false;
 		}
 		return true;
-	case '4':
-	case P2_VK_NUMPAD4:
+	}
+	if(keyCode == kcm->getKeyCode(2, KeyAction_Skill4)){
 		if(isPressed && !_p2_keySkill4){
 			_p2_keySkill4=true;
 			this->clickKeyboardButtonP2(_p2HudLayer ? _p2HudLayer->skill4Button : NULL);
@@ -1430,8 +1452,8 @@ bool GameLayer::handleKeyboardP2(unsigned int keyCode,bool isPressed){
 			_p2_keySkill4=false;
 		}
 		return true;
-	case '5':
-	case P2_VK_NUMPAD5:
+	}
+	if(keyCode == kcm->getKeyCode(2, KeyAction_Skill5)){
 		if(isPressed && !_p2_keySkill5){
 			_p2_keySkill5=true;
 			this->clickKeyboardButtonP2(_p2HudLayer ? _p2HudLayer->skill5Button : NULL);
@@ -1439,8 +1461,8 @@ bool GameLayer::handleKeyboardP2(unsigned int keyCode,bool isPressed){
 			_p2_keySkill5=false;
 		}
 		return true;
-	case '6':
-	case P2_VK_NUMPAD6:
+	}
+	if(keyCode == kcm->getKeyCode(2, KeyAction_Item1)){
 		if(isPressed && !_p2_keyItem1){
 			_p2_keyItem1=true;
 			this->clickKeyboardButtonP2(_p2HudLayer ? _p2HudLayer->item1Button : NULL);
@@ -1448,8 +1470,8 @@ bool GameLayer::handleKeyboardP2(unsigned int keyCode,bool isPressed){
 			_p2_keyItem1=false;
 		}
 		return true;
-	case '7':
-	case P2_VK_NUMPAD7:
+	}
+	if(keyCode == kcm->getKeyCode(2, KeyAction_Gear06)){
 		if(isPressed && !_p2_keyGear06){
 			_p2_keyGear06=true;
 			this->clickKeyboardButtonP2(_p2HudLayer ? _p2HudLayer->getItem2Button() : NULL);
@@ -1457,8 +1479,8 @@ bool GameLayer::handleKeyboardP2(unsigned int keyCode,bool isPressed){
 			_p2_keyGear06=false;
 		}
 		return true;
-	case '8':
-	case P2_VK_NUMPAD8:
+	}
+	if(keyCode == kcm->getKeyCode(2, KeyAction_Gear00)){
 		if(isPressed && !_p2_keyGear00){
 			_p2_keyGear00=true;
 			this->clickKeyboardButtonP2(_p2HudLayer ? _p2HudLayer->getItem3Button() : NULL);
@@ -1466,8 +1488,8 @@ bool GameLayer::handleKeyboardP2(unsigned int keyCode,bool isPressed){
 			_p2_keyGear00=false;
 		}
 		return true;
-	case '9':
-	case P2_VK_NUMPAD9:
+	}
+	if(keyCode == kcm->getKeyCode(2, KeyAction_Gear03)){
 		if(isPressed && !_p2_keyGear03){
 			_p2_keyGear03=true;
 			this->clickKeyboardButtonP2(_p2HudLayer ? _p2HudLayer->getItem4Button() : NULL);
@@ -1475,8 +1497,9 @@ bool GameLayer::handleKeyboardP2(unsigned int keyCode,bool isPressed){
 			_p2_keyGear03=false;
 		}
 		return true;
-	case P2_VK_ADD:
-	case P2_VK_OEM_PLUS:
+	}
+	// Gear shop hotkey (not configurable)
+	if(keyCode == P2_VK_ADD || keyCode == P2_VK_OEM_PLUS){
 		if(isPressed && _p2HudLayer && !_p2HudLayer->_isAllButtonLocked){
 			this->activatePlayerControl(player2,_p2HudLayer);
 			this->onGear();
@@ -1485,9 +1508,8 @@ bool GameLayer::handleKeyboardP2(unsigned int keyCode,bool isPressed){
 			}
 		}
 		return true;
-	default:
-		return false;
 	}
+	return false;
 }
 
 void GameLayer::resetKeyboardControlP2(){

@@ -1,6 +1,7 @@
 #include "StartMenu.h"
 #include "DualSelectLayer.h"
 #include "LocalPvPResolution.h"
+#include "KeyConfigLayer.h"
 using namespace CocosDenshion;
 USING_NS_CC_EXT;
 
@@ -166,6 +167,10 @@ void MenuButton::ccTouchEnded(CCTouch* touch,CCEvent* event){
 		case LocalCoop:
 			SimpleAudioEngine::sharedEngine()->playEffect("Audio/Menu/confirm.ogg");
 			_delegate->onLocalCoopCallBack();
+			break;
+		case KeyConfig:
+			SimpleAudioEngine::sharedEngine()->playEffect("Audio/Menu/confirm.ogg");
+			_delegate->onKeyConfigCallBack();
 			break;
 		case HardCore:
 			/*SimpleAudioEngine::sharedEngine()->playEffect(SELECT_SOUND);
@@ -423,6 +428,18 @@ bool StartMenu::init()
 		CCLabelTTF* localCoopLabel=CCLabelTTF::create("合作模式",FONT_TYPE,18);
 		localCoopLabel->setPosition(ccp(localCoop_btn->getContentSize().width/2,localCoop_btn->getContentSize().height/2));
 		localCoop_btn->addChild(localCoopLabel,10);
+
+		MenuButton* keyConfig_btn=MenuButton::create("menu02.png");
+		keyConfig_btn->setDelegate(this);
+		keyConfig_btn->setBtnType(KeyConfig);
+		keyConfig_btn->_isTop=true;
+		keyConfig_btn->setScale(0.45f);
+		keyConfig_btn->setPosition(ccp(winSize.width-78,166));
+		this->addChild(keyConfig_btn,6);
+
+		CCLabelTTF* keyConfigLabel=CCLabelTTF::create("Key Settings",FONT_TYPE,18);
+		keyConfigLabel->setPosition(ccp(keyConfig_btn->getContentSize().width/2,keyConfig_btn->getContentSize().height/2));
+		keyConfig_btn->addChild(keyConfigLabel,10);
 		MenuButton* exit_btn=MenuButton::create("menu03.png");
 		exit_btn->setDelegate(this);
 		exit_btn->setBtnType(Exit);
@@ -3751,6 +3768,15 @@ void StartMenu::onLocalCoopCallBack(){
 	selectLayer->setLocalCoop(true);
 	selectScene->addChild(selectLayer);
 	CCDirector::sharedDirector()->replaceScene(CCTransitionFade::create(1.5f,selectScene));
+}
+
+void StartMenu::onKeyConfigCallBack(){
+	if(input_layer || profile_layer || group_layer) {
+		return;
+	}
+
+	KeyConfigLayer* layer = KeyConfigLayer::create();
+	this->addChild(layer, 100);
 }
 void StartMenu::onCreditsCallBack(){
 

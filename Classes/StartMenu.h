@@ -24,7 +24,8 @@ enum btnType{
 	Credits,
 	HardCore,
 	LocalPvP,
-	LocalCoop
+	LocalCoop,
+	KeyConfig
 };
 
 class StartMenu;
@@ -89,6 +90,7 @@ public:
 	void				onTrainingCallBack();
 	void				onLocalPvPCallBack();
 	void				onLocalCoopCallBack();
+	void				onKeyConfigCallBack();
 	void				onHardCoreOn(CCObject* sender);
 	void				onHardCoreOff(CCObject* sender);
 	void				onHardLayerCallBack();

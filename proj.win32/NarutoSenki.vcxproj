@@ -153,6 +153,8 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClCompile Include="..\Classes\GearLayer.cpp" />
     <ClCompile Include="..\Classes\HPBar.cpp" />
     <ClCompile Include="..\Classes\HudLayer.cpp" />
+    <ClCompile Include="..\Classes\KeyConfigLayer.cpp" />
+    <ClCompile Include="..\Classes\KeyConfigManager.cpp" />
     <ClCompile Include="..\Classes\JoyStick.cpp" />
     <ClCompile Include="..\Classes\LoadLayer.cpp" />
     <ClCompile Include="..\Classes\LocalPvPResolution.cpp" />
@@ -188,6 +190,8 @@ xcopy /Y /Q "$(ProjectDir)..\..\..\external\libwebsockets\win32\lib\*.*" "$(OutD
     <ClInclude Include="..\Classes\GearLayer.h" />
     <ClInclude Include="..\Classes\HPBar.h" />
     <ClInclude Include="..\Classes\HudLayer.h" />
+    <ClInclude Include="..\Classes\KeyConfigLayer.h" />
+    <ClInclude Include="..\Classes\KeyConfigManager.h" />
     <ClInclude Include="..\Classes\JoyStick.h" />
     <ClInclude Include="..\Classes\LoadLayer.h" />
     <ClInclude Include="..\Classes\LocalPvPResolution.h" />

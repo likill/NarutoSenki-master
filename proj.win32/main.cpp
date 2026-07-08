@@ -6,6 +6,8 @@
 #include "GearLayer.h"
 #include "PauseLayer.h"
 #include "LocalPvPResolution.h"
+#include "KeyConfigManager.h"
+#include "KeyConfigLayer.h"
 #include <windows.h>
 
 USING_NS_CC;
@@ -153,20 +155,21 @@ static void syncMovementKeys(GameLayer* gameLayer)
     gameLayer->resetKeyboardControl();
     gameLayer->resetKeyboardControlP2();
 
-    const unsigned int moveKeys[] = { 'W', 'S', 'A', 'D' };
+    KeyConfigManager* kcm = KeyConfigManager::getInstance();
+
+    KeyAction moveActions[] = { KeyAction_MoveUp, KeyAction_MoveDown, KeyAction_MoveLeft, KeyAction_MoveRight };
     for (int i = 0; i < 4; ++i)
     {
-        unsigned int keyCode = moveKeys[i];
+        unsigned int keyCode = kcm->getKeyCode(1, moveActions[i]);
         if (s_keyDown[keyCode])
         {
             gameLayer->handleKeyboard(keyCode, true);
         }
     }
 
-    const unsigned int p2MoveKeys[] = { P2_VK_UP, P2_VK_DOWN, P2_VK_LEFT, P2_VK_RIGHT };
     for (int i = 0; i < 4; ++i)
     {
-        unsigned int keyCode = p2MoveKeys[i];
+        unsigned int keyCode = kcm->getKeyCode(2, moveActions[i]);
         if (s_keyDown[keyCode])
         {
             gameLayer->handleKeyboardP2(keyCode, true);
@@ -265,6 +268,18 @@ static LRESULT gameWindowProc(UINT message, WPARAM wParam, LPARAM lParam, BOOL* 
         {
             wasDown = s_keyDown[keyCode];
             s_keyDown[keyCode] = isPressed;
+        }
+
+        // If KeyConfigLayer is listening for a key, capture it there.
+        if (isPressed)
+        {
+            KeyConfigLayer* kcl = KeyConfigLayer::getActiveInstance();
+            if (kcl && kcl->isListening())
+            {
+                kcl->onKeyCaptured(keyCode);
+                *pProcessed = TRUE;
+                return 0;
+            }
         }
 
         if (isPressed)
