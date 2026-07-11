@@ -32,13 +32,13 @@ void KeyConfigManager::initDefaults()
     _p1Keys[KeyAction_Attack]    = 'J';
     _p1Keys[KeyAction_Skill1]    = 'K';
     _p1Keys[KeyAction_Skill2]    = 'L';
-    _p1Keys[KeyAction_Skill3]    = 'U';
-    _p1Keys[KeyAction_Skill4]    = 'I';
-    _p1Keys[KeyAction_Skill5]    = 'O';
+    _p1Keys[KeyAction_Skill3]    = ';';
+    _p1Keys[KeyAction_Skill4]    = 'U';
+    _p1Keys[KeyAction_Skill5]    = 'I';
     _p1Keys[KeyAction_Item1]     = 'E';
-    _p1Keys[KeyAction_Gear06]    = 'F';
+    _p1Keys[KeyAction_Gear06]    = 'Q';
     _p1Keys[KeyAction_Gear00]    = 'R';
-    _p1Keys[KeyAction_Gear03]    = 'T';
+    _p1Keys[KeyAction_Gear03]    = 'F';
 
     // Player 2 defaults: Arrow keys + Numpad 0-9
     _p2Keys[KeyAction_MoveUp]    = P2_VK_UP;
@@ -52,7 +52,7 @@ void KeyConfigManager::initDefaults()
     _p2Keys[KeyAction_Skill4]    = P2_VK_NUMPAD4;
     _p2Keys[KeyAction_Skill5]    = P2_VK_NUMPAD5;
     _p2Keys[KeyAction_Item1]     = P2_VK_NUMPAD6;
-    _p2Keys[KeyAction_Gear06]    = P2_VK_NUMPAD7;
+    _p2Keys[KeyAction_Gear06]    = P2_VK_NUMPAD7; 
     _p2Keys[KeyAction_Gear00]    = P2_VK_NUMPAD8;
     _p2Keys[KeyAction_Gear03]    = P2_VK_NUMPAD9;
 }

@@ -7,46 +7,7 @@ cocos2dx 2.2.2
 
 vs2010
 
-Farewell,Good Luck.
+## 直接开玩
 
-## 编译
+[点击下载游戏](https://github.com/likill/NarutoSenki-master/releases/tag/game)
 
-我用的是 VS2010 的 MSBuild.exe，命令如下：
-& 'C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe' proj.win32\NarutoSenki.sln /p:Configuration=Debug /p:Platform=Win32 /m
-这个是完整构建解决方案，会一起编译 cocos2d、CocosDenshion、extensions 等依赖，最后生成：
-proj.win32\Debug.win32\NarutoSenki.exe
-如果只是检查 C++ 源码能不能编过、不生成 exe，我用的是：
-& 'C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe' proj.win32\NarutoSenki.vcxproj /t:ClCompile /p:Configuration=Debug /p:Platform=Win32 /p:BuildProjectReferences=false /m
-你要真正拿到新 exe，就用第一条 NarutoSenki.sln 的完整构建命令。
-
-
-## 最简单运行方式：
-NarutoSenki.exe路径在\cocos2d-x-2.2.2\projects\NarutoSenki-master\proj.win32\Debug.win32\NarutoSenki.exe
-
-右键 NarutoSenki.exe，创建快捷方式
-右键快捷方式 -> 属性
-目标 保持：
-D:\gampalace\narokuto\cocos2d-x-2.2.2\projects\NarutoSenki-master\proj.win32\Debug.win32\NarutoSenki.exe
-起始位置 改成：
-D:\gampalace\narokuto\cocos2d-x-2.2.2\projects\NarutoSenki-master\Resources
-双击这个快捷方式运行
-
-也可以用命令行测试：
-cd /d D:\gampalace\narokuto\cocos2d-x-2.2.2\projects\NarutoSenki-master\Resources
-..\proj.win32\Debug.win32\NarutoSenki.exe
-
-
-W/A/S/D = 移动
-J       = 普攻
-K       = 技能1
-L       = 技能2
-U       = 技能3
-I       = OUGIS1，要求等级 >= 2 且 CKR 足够
-O       = OUGIS2，要求等级 >= 4 且 CKR2 足够
-
-E       = 拉面回血，原 item1Button，金币/冷却不足不会生效
-F       = 替身木，gear06，没购买不会生效
-R       = gear00，隐身/加速类装备，没购买不会生效
-T       = gear03，陷阱装备，没购买不会生效
-G       = 打开装备界面，沿用原 onGear 逻辑
-P       = 暂停
